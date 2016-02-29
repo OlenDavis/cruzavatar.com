@@ -1,0 +1,86 @@
+//////////////////////// CONDITIONALLY ADDED STATE-RELATED CLASSES TO INDICATE THE TYPE OF ELEMENT OR BROWSER
+$class-ff               : "ff" !global; // will be added to <html> when the browser is Firefox
+$class-ie               : "ie" !global; // will be added to <html> when the browser is Internet Explorer
+$class-tablet           : "tablet" !global; // will be added to <html> when the browser is tablet
+$class-mobile           : "mobile" !global; // will be added to <html> when the browser is mobile
+$class-retina           : "retina" !global; // will be added to <html> when the browser's device supports a resolution of at least 1.5x pixel density
+$class-first            : "first" !global; // can be used as a fallback class added to elements that would match the :first-child pseudo-class
+$class-last             : "last" !global; // can be used as a fallback class added to elements that would match the :last-child pseudo-class
+$class-target           : "target" !global; // used with styles like target-(.*)(-when-.*)? on an ancestor element to indicate that the element with target is the element to receive the style corresponding to the first regex group when the optional second group's corresponding state applies to that ancestor element; i.e. if an ancestor has the class target-opaque-when-hovered then a descendant element with the classes .transparent.target will go from transparent to opaque whenever that ancestor is hovered.
+$class-active           : "active" !global; // used as a fallback class added to elements that would match the :active pseudo-class with styles like (.*)-when-active where the style corresponding to that regex group will be applied when the element also has this active class on it; for instance, an element with the classes .mostly-opaque.opaque-when-active will become opaque whenever you add the class active to it and will be mostly-opaque when active isn't applied; this is useful for having logic-driven modification of one or many styles such as .mostly-transparent.light.opaque-when-active.bold-when-active.bordered-when-active where the element will go from mostly-transparent to opaque as well as from the light font weight to the bold font weight when the active class is added.
+$class-hover            : "hover" !global; // used as a fallback or javascript override for the :hover pseudo-class in conjunction with styles such as .*-when-hovered
+$class-focus            : "focus" !global; // used as a fallback or javascript override for the :focus pseudo-class in conjunction with styles such as .*-when-focused
+//////////////////////// REUSABLE COMPONENTS OF OTHER CLASS NAMES
+$class-when-active      : "when-active" !global; // can be used to create optionally applied styles such as .opaque-when-active where the element will be opaque when the element is active (whether by the :active pseudo-class or the fallback .active class)
+$class-when-at          : "when-at" !global; // can be used to create optionally applied styles such as .opaque-when-at where the element will be opaque when the element is either active or hovered
+$class-when-ff          : "when-ff" !global; // can be used to create optionally applied styles such as .gone-when-ff where the element will be gone when the browser is Firefox
+$class-when-first       : "when-first" !global; // can be used to create optionally applied styles such as .gone-when-first where the element will be gone when the element is the first child of its parent (whether by :first-child or the fallback .first class)
+$class-children-only    : "children-only" !global; // can be used to create optionally applied styles such as .text-center-children-only where only the immediate children of the element will be text-center
+$class-when-hovered     : "when-hovered" !global; // can be used to create optionally applied styles such as .opaque-when-hovered where the element will be opaque when the element is hovered (whether by :hover or the fallback .hover class)
+$class-when-animating     : "when-animating" !global; // can be used to create optionally applied styles such as .opaque-when-animating where the element will be opaque when the element is hovered (whether by :hover or the fallback .hover class)
+$class-when-ie          : "when-ie" !global; // can be used to create optionally applied styles such as .gone-when-ie where the element will be gone when the browser is Internet Explorer
+$class-when-last        : "when-last" !global; // can be used to create optionally applied styles such as .gone-when-last where the element will be gone when the element is the last child of its parent (whether by :last-child or the fallback .last class)
+$class-when-tablet      : "when-tablet" !global; // can be used to create optionally applied styles such as .whole-width-when-tablet where the element will be whole-width when the browser is a mobile browser
+$class-when-mobile      : "when-mobile" !global; // can be used to create optionally applied styles such as .whole-width-when-mobile where the element will be whole-width when the browser is a mobile browser
+$class-when-retina      : "when-retina" !global; // can be used to create optionally applied styles such as .gone-when-retina where the element will be gone when the browser is retina resolution (at least 1.5x)
+$class-when-touching    : "when-touching" !global; // can be used to create optionally applied styles such as .opaque-when-touching where the element will be opaque when the element is touching (whether by the :focus pseudo-class or the fallback .touching class)
+//////////////////////// OPTIONALLY ADDED STYLE-MODIFYING CLASSES
+$class-less             : "less" !global; // used with margin, padded, lr-margin, tb-padded, etc
+$class-more             : "more" !global; // used with margin, padded, lr-margin, tb-padded, etc
+$class-way-more         : "way-more" !global; // used with margin, padded, lr-margin, tb-padded, etc
+$class-way-way-more     : "way-way-more" !global; // used with margin, padded, lr-margin, tb-padded, etc
+$class-disabled         : "disabled" !global; // used in combination of styles like text-input and select to indicate the disabled version of the text-input or select as a fallback for when the style is used on an element other than input, which can also use the actual disabled="true" element attribute to also indicate this disabled variant of the text-input or select style
+$class-darker           : "darker" !global; // used with coloring, sheer-coloring to make color and background-color darker
+$class-low-contrast     : "low-contrast" !global; // used with coloring, sheer-coloring to bring color closer to the respective background-color
+$class-fast             : "fast" !global; // used with .transitions and any style that uses it to make the transition happen more quickly (e.g. .fast.transitions.transparent.opaque-when-hovered)
+$class-slow             : "slow" !global; // used with .transitions and any style that uses it to make the transition happen more slowly (e.g. .slow.transitions.transparent.opaque-when-hovered)
+$class-very-slow        : "very-slow" !global; // used with .transitions and any style that uses it to make the transition happen very slowly (e.g. .very-slow.transitions.transparent.opaque-when-hovered)
+$class-inverse          : "inverse" !global; // indicates to use the inverse version of the theme's styles on this and all descendant elements with theme styles that have an inverse version
+$class-inverse-this     : "inverse-this" !global; // indicates to use the inverse version of the theme's styles on only this and not all descendant elements with theme styles that have an inverse version
+$class-secondary        : "secondary" !global; // indicates to use the secondary version of the theme's styles on this and all descendant elements with theme styles that have an secondary version
+$class-secondary-this   : "secondary-this" !global; // indicates to use the secondary version of the theme's styles on only this and not all descendant elements with theme styles that have an secondary version
+//////////////////////// VISIBILITY-RELATED STYLES
+$class-hovered          : "hovered" !global; // .hovered: when applied to a descendant of an ancestor with the hoverable class, this element will be transparent when the hoverable is not hovered, and opaque when the hoverable is hovered
+$class-not-hovered      : "not-hovered" !global; // when applied to a descendant of an ancestor with the hoverable class, this element will be transparent when the hoverable is hovered, and opaque when the hoverable is not hovered
+//////////////////////// TABLE-RELATED STYLES
+$class-fixed-layout     : "fixed-layout" !global; // only applicable to tables; makes a table's layout fixed
+$class-auto-layout      : "auto-layout" !global; // only applicable to tables; makes a table's layout auto (for cell sizing)
+//////////////////////// BORDER-RELATED STYLES
+$class-heavy            : "heavy" !global; // indicates that the bordering will be heavy
+$class-thick            : "thick" !global; // indicates that the bordering will be thick
+//////////////////////// TEXT-RELATED STYLES
+$class-line-height-sized: "line-height-sized" !global;
+//////////////////////// CONSTRUCTED -when- STYLES
+@function get-when-active-class-name(   $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-active }";   }
+@function get-when-at-class-name(       $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-at }";       }
+@function get-when-ff-class-name(       $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-ff }";       }
+@function get-when-first-class-name(    $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-first }";    }
+@function get-children-only-class-name( $class-name: $current-class-name ) { @return $class-name + "-#{ $class-children-only }"; }
+@function get-when-animating-class-name(  $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-animating }";  }
+@function get-when-hovered-class-name(  $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-hovered }";  }
+@function get-when-focused-class-name(  $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-focused }";  }
+@function get-when-ie-class-name(       $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-ie }";       }
+@function get-when-last-class-name(     $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-last }";     }
+@function get-when-tablet-class-name(   $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-tablet }";   }
+@function get-when-mobile-class-name(   $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-mobile }";   }
+@function get-when-retina-class-name(   $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-retina }";   }
+@function get-when-touching-class-name( $class-name: $current-class-name ) { @return $class-name + "-#{ $class-when-touching }"; }
+//////////////////////// OTHER CONSTRUCTED STYLES
+@function get-hoverable-class-name(                  $nesting-id: null ) { @return if( not $nesting-id, 'hoverable',                  "hoverable-#{                  $nesting-id }" ); }
+@function get-hovered-class-name(                    $nesting-id: null ) { @return if( not $nesting-id, 'hovered',                    "hovered-#{                    $nesting-id }" ); }
+@function get-not-hovered-class-name(                $nesting-id: null ) { @return if( not $nesting-id, 'not-hovered',                "not-hovered-#{                $nesting-id }" ); }
+@function get-hovered-mostly-transparent-class-name( $nesting-id: null ) { @return if( not $nesting-id, 'hovered-mostly-transparent', "hovered-mostly-transparent-#{ $nesting-id }" ); }
+@function get-target-class-name(                     $nesting-id: null ) { @return if( not $nesting-id, 'target',                     "target-#{                     $nesting-id }" ); }
+
+@function get-ratio-size-class-name(                $property, $numerator, $denominator ) { @return "#{ $property }-ratio-#{ $numerator }-#{ $denominator }"; }
+@function get-specific-value-class-name(            $name, $property                    ) { @return "#{ $name }-#{ $property }"; }
+@function get-target-opaque-class-name(             $nesting-id                         ) { @return "#{ get-target-class-name( $nesting-id ) }-opaque"; }
+@function get-target-mostly-transparent-class-name( $nesting-id                         ) { @return "#{ get-target-class-name( $nesting-id ) }-mostly-transparent"; }
+@function get-target-mostly-opaque-class-name(      $nesting-id                         ) { @return "#{ get-target-class-name( $nesting-id ) }-mostly-opaque"; }
+@function get-target-barely-opaque-class-name(      $nesting-id                         ) { @return "#{ get-target-class-name( $nesting-id ) }-barely-opaque"; }
+@function get-target-specific-value-class-name(     $nesting-id, $name, $property       ) { @return "#{ get-target-class-name( $nesting-id ) }-#{ $name }-#{ $property }"; }
+@function get-whole-size-class-name(                $property                           ) { @return "whole-#{ $property }"; }
+@function get-no-size-class-name(                   $property                           ) { @return "no-#{ $property }"; }
+@function get-target-above-class-name(              $nesting-id                         ) { @return "#{ get-target-class-name( $nesting-id ) }-above"; }
+@function get-target-way-above-class-name(          $nesting-id                         ) { @return "#{ get-target-class-name( $nesting-id ) }-way-above"; }
+@function get-target-way-way-above-class-name(      $nesting-id                         ) { @return "#{ get-target-class-name( $nesting-id ) }-way-way-above"; }

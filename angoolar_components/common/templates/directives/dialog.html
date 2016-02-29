@@ -1,0 +1,197 @@
+<div>
+
+	<div
+		ng-if ="shown && ! neverShown"
+		class ="fixed tl whole-width whole-height way-way-above c-animate slow mostly-opaque grey-coloring"
+	></div>
+
+	<div
+		ng-if ="shown && ! neverShown"
+		class ="fixed tl whole-height whole-width way-way-above scroll-overflow c-animate slow opaque with-scale"
+		c-dialog-scroll-target
+	>
+		<div
+			c-centered-div
+			class    ="absolute whole-width whole-height"
+			mode     ="{{ mode }}"
+			ng-click ="DialogController.hideDialog()"
+		>
+			<div
+				class    ="relative whole-max-width lr-auto-margin"
+				ng-style ="{
+					width      : width,
+					'max-width': maxWidth,
+					'min-width': minWidth
+				}"
+			>
+
+				<div
+					ng-if    ="backgroundImage"
+					class    ="absolute bl"
+					ng-style ="{
+						width          : '125%',
+						'margin-left'  : '-12%',
+						'margin-bottom': '-12%'
+					}"
+				>
+					<img
+						c-src ="{{ backgroundImage }}"
+						alt   ="Background image"
+						class ="block relative whole-width"
+					/>
+				</div>
+
+				<div
+					class    ="absolute above tr h6 padded line-height-sized text-center whole-rounded inline-block p-when-tablet less-padded-when-tablet"
+					ng-class ="{ 'deep-shadow': ! backgroundImage }"
+				>
+					<span
+						class    ="fa"
+						ng-class ="{
+							'fa-times'       : ! DialogController.$doingAction,
+							'fa-gear fa-spin': DialogController.$doingAction
+						}"
+					></span>
+				</div>
+
+				<div class="padded more-t-padded-when-tablet more-r-padded-when-tablet">
+					<div
+						class    ="relative above rounded text-left floatfix"
+						ng-class ="{
+							'deep-shadow'                  : ! ( backgroundImage || version == 'clear' ),
+							'default-barely-sheer-coloring': version != 'clear'
+						}"
+						ng-click ="DialogController.dontHide()"
+					>
+
+						<div
+							ng-if        ="dialogTitle"
+							class        ="light-grey-coloring c-rounded padded way-more-r-padded h3 light-weight break-word-wrap"
+							ng-bind-html ="dialogTitle"
+						></div>
+
+						<div
+							class        ="padded more-r-padded red text-coloring"
+							ng-if        ="DialogController.$closeRejection"
+							ng-bind-html ="DialogController.$closeRejection"
+						></div>
+
+						<div
+							ng-class ="{ 'more-padded less-padded-when-tablet': ! noForm }"
+							ng-if    ="! DialogController.hasAction || noForm"
+						>
+
+							<div ng-class="{ 'more-padded less-padded-when-tablet': noForm }">
+								<div
+									class             ="relative"
+									c-transclude-with ="DialogController.$transclude"
+								></div>
+							</div>
+
+							<div
+								ng-if ="noForm"
+								class ="light-grey-coloring padded b-rounded text-right"
+							>
+
+								<button
+									ng-if        ="DialogController.hasSecondaryAction"
+									class        ="inline-block h5 less-tb-padded lr-padded minor-negative-button"
+									ng-click     ="DialogController.doSecondaryAction()"
+									type         ="button"
+									ng-bind-html ="secondaryAction"
+								></button>
+
+								<button
+									ng-if        ="DialogController.hasPrimaryAction"
+									class        ="inline-block h5 less-tb-padded lr-padded positive-button"
+									ng-click     ="DialogController.doPrimaryAction()"
+									type         ="button"
+									ng-disabled  ="DialogController.$doingAction"
+								>
+									<span
+										class        ="inline-block"
+										ng-bind-html ="primaryAction"
+									></span> <span
+										class ="fa fa-gear fa-spin"
+										ng-if ="DialogController.$doingAction"
+									></span>
+								</button>
+
+							</div>
+
+						</div>
+
+						<form
+							name      ="dialogForm"
+							ng-submit ="DialogController.doPrimaryAction()"
+							ng-if     ="! ( ! DialogController.hasAction || noForm )"
+						>
+
+							<div class="more-padded less-padded-when-tablet">
+								<div
+									class             ="relative"
+									c-transclude-with ="DialogController.$transclude"
+									and-locals        ="{ dialogForm: dialogForm }"
+								></div>
+							</div>
+
+							<div class="light-grey-coloring padded b-rounded text-right text-left-children-only">
+
+								<div
+									ng-if         ="withFormErrors"
+									c-form-errors ="dialogForm"
+								></div>
+
+								<button
+									ng-if        ="DialogController.hasSecondaryAction"
+									class        ="inline-block h5 less-tb-padded lr-padded minor-negative-button"
+									ng-click     ="DialogController.doSecondaryAction()"
+									type         ="button"
+									ng-bind-html ="secondaryAction"
+								></button>
+
+								<button
+									ng-if        ="DialogController.hasPrimaryAction"
+									class        ="inline-block h5 less-tb-padded lr-padded positive-button"
+									ng-click     ="DialogController.doPrimaryAction()"
+									type         ="button"
+									ng-disabled  ="DialogController.$doingAction || ! dialogForm.$valid"
+								>
+									<span
+										class        ="inline-block"
+										ng-bind-html ="primaryAction"
+									></span> <span
+										class ="fa fa-gear fa-spin"
+										ng-if ="DialogController.$doingAction"
+									></span>
+								</button>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+
+				<div
+					class    ="link absolute above tr h6 padded line-height-sized text-center whole-rounded inline-block grey-text-coloring red-flat-button p-when-tablet less-padded-when-tablet"
+					ng-click ="DialogController.hideDialog()"
+					ng-class="{
+						'light-grey-coloring': dialogTitle.length,
+						'default-coloring'   : ! dialogTitle.length
+					}"
+				>
+					<span
+						class    ="fa"
+						ng-class ="{
+							'fa-times'       : ! DialogController.$doingAction,
+							'fa-gear fa-spin': DialogController.$doingAction
+						}"
+					></span>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>

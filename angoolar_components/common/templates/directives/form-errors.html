@@ -1,0 +1,35 @@
+<div>
+	<div
+		ng-repeat ="(errorToken, invalidFields) in form.$error"
+		ng-show   ="filteredInvalidFields.length"
+		class     ="c-animate wipe-max-height p"
+		ng-class  ="{
+			'red-text-coloring' : ! form.$pristine,
+			'blue-text-coloring': form.$pristine,
+			'wipe-max-height'            : ! FormErrorsController.$attrs.horizontal,
+			'wipe-max-width inline-block': FormErrorsController.$attrs.horizontal
+		}"
+	>
+		<div
+			class    ="{{ FormErrorsController.$attrs.horizontal ? 'inline-block' : '' }}"
+			ng-class ="FormErrorsController.class"
+		>
+
+			{{ ( invalidFields.length != 1 ? FormErrorsController.pluralErrorLabelByToken : FormErrorsController.errorLabelByToken )[ errorToken ] || errorToken }}:
+
+			<ul class="bullet-list more-l-padded">
+				<li
+					ng-repeat ="invalidField in filteredInvalidFields = ( invalidFields | filter:FormErrorsController.filterField )"
+					class     ="c-animate wipe-max-height"
+					ng-class  ="{
+						'red text-coloring' : ! invalidField.$pristine,
+						'blue text-coloring': invalidField.$pristine
+					}"
+				>
+					{{ getFieldLabel({ field: invalidField }) || invalidField.$name }}
+				</li>
+			</ul>
+
+		</div>
+	</div>
+</div>

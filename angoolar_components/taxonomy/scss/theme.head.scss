@@ -1,0 +1,97 @@
+@import "partials/common";
+
+@import "partials/structure";
+
+h1, h2, h3, h4, h5, h6, p, li {
+	line-height: 1.2em;
+	.h1 &, .h2 &, .h3 &, .h4 &, .h5 &, .h6 &, .p &, .li & {
+		line-height: inherit;
+	}
+}
+
+@include declare-themes((
+	$default-theme,
+	$blue-theme,
+	$red-theme,
+));
+
+$current-theme: $default-theme !global;
+
+.typical-scaffold {
+	@extend %default-page-width;
+	.mobile-when-tablet & { @include when-tablet { width: 100%; } }
+	@extend %default-lr-auto-margin;
+}
+
+.whole-width-scaffold {
+	@extend %default-whole-width;
+	@extend %default-page-min-width;
+	.mobile-when-tablet & { @include when-tablet { min-width: 0%; } }
+}
+
+a { @extend %default-link; }
+table { @extend %default-table; }
+
+.dialog-shelf {
+	.container {
+		.csstransforms3d & {
+			@include create-transform( $trans-x: 0%, $rotate-y: 0deg, $perspective: $default-perspective );
+		}
+		.no-csstransforms3d.csstransforms & {
+			@include translateX( 0% );
+		}
+		.no-csstransforms & {
+			left: 0%;
+		}
+
+		$horizontal-shift: 80%;
+		$horizontal-rotation: 25deg;
+
+		&.to-left {
+			// @extend %default-less-blurred;
+			.csstransforms3d & {
+				@include create-transform( $trans-x: -$horizontal-shift, $rotate-y: -$horizontal-rotation, $perspective: $default-perspective );
+			}
+			.no-csstransforms3d.csstransforms & {
+				@include translateX( -$horizontal-shift );
+			}
+			.no-csstransforms & {
+				left: -$horizontal-shift;
+			}
+		}
+
+		&.to-right {
+			// @extend %default-less-blurred;
+			.csstransforms3d & {
+				@include create-transform( $trans-x: $horizontal-shift, $rotate-y: $horizontal-rotation, $perspective: $default-perspective );
+			}
+			.no-csstransforms3d.csstransforms & {
+				@include translateX( $horizontal-shift );
+			}
+			.no-csstransforms & {
+				left: $horizontal-shift;
+			}
+		}
+	}
+}
+
+@import "partials/animations";
+
+body[ng-cloak] {
+	display: block !important;
+	> * { display: none !important;; }
+}
+
+.video-cover {
+	@extend %default-relative;
+	@extend %default-block;
+	@extend %default-whole-min-width;
+	@extend %default-whole-min-height;
+	@extend %default-top-ratio-1-2;
+	@extend %default-left-ratio-1-2;
+	@include simple-transform( $trans-x: -50%, $trans-y: -50% );
+}
+
+.canvas-bg {
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC");
+}

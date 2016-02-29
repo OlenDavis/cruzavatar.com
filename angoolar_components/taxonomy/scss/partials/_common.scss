@@ -1,0 +1,250 @@
+@import "compass";
+
+@import "class_names";
+
+// For turning off (for all themes) certain unused styles
+$default-style-spec-select         : false !global;
+$default-style-spec-hybrid-button  : false !global;
+$default-style-spec-button         : false !global;
+$default-style-spec-t-gradient     : false !global;
+$default-style-spec-r-gradient     : false !global;
+$default-style-spec-l-gradient     : false !global;
+$default-style-spec-hardware-render: false !global;
+$default-style-spec-not-tb-bordered: false !global;
+$default-style-spec-not-l-bordered: false !global;
+$default-style-spec-not-r-bordered: false !global;
+$default-style-spec-not-t-bordered: false !global;
+$default-style-spec-not-b-bordered: false !global;
+$default-style-spec-not-rounded   : false !global;
+$default-style-spec-not-t-rounded : false !global;
+$default-style-spec-not-tl-rounded: false !global;
+$default-style-spec-not-tr-rounded: false !global;
+$default-style-spec-not-bl-rounded: false !global;
+$default-style-spec-not-br-rounded: false !global;
+
+$default-style-spec-target-mostly-opaque: false !global;
+
+$default-ratio-to: 4 !global;
+
+$default-spacing-factors: ( less: .5, more: 2, way-more: 4, way-way-more: 8 ) !global;
+
+$default-shadow-primary-depth       : 2px !global;
+$default-shadow-shallow-depth-factor: .5 !global;
+$default-shadow-deep-depth-factor   : 4 !global;
+
+@import "common_theming_utilities";
+
+$legacy-support-for-ie: false !global;
+
+$default-style-spec-no-size: map-merge( $default-style-spec-no-size, ( line-height: make-style-spec() ) );
+
+//////////////////////// COLOR DEFAULTS
+$blue: #005B94 !global;
+$dark-blue: #007AB5 !global;
+$green: #34A322 !global;
+$red: #EB002C !global;
+$dark-grey: #2C2C2C !global;
+$grey: #CCCCCC !global;
+$light-grey: #ECECEC !global;
+$light-blue: #EEF7FC !global;
+$twilight: #172E45 !global;
+$facebook: #435EAB !global;
+$twitter: #00ACEE !global;
+$tumblr: #36465D !global;
+$linkedin: #1A85BC !global;
+$pinterest: #CB2027 !global;
+$yellow: #FEF200 !global;
+
+$black-secondary-colors     : make-colors(( light:       black, dark: white, lightening: $default-lightening * 2 )) !global;
+$light-grey-secondary-colors: make-colors(( light: $light-grey, dark: $light-grey )) !global;
+$light-blue-secondary-colors: make-colors(( light: $light-blue, dark: $light-blue )) !global;
+$grey-secondary-colors      : make-colors(( light:       $grey, dark: $grey )) !global;
+$dark-grey-secondary-colors : make-colors(( light:  $dark-grey, dark: $dark-grey )) !global;
+$blue-secondary-colors      : make-colors(( light:       $blue, dark: $dark-blue )) !global;
+$red-secondary-colors       : make-colors(( light:        $red, dark: $red )) !global;
+$green-secondary-colors     : make-colors(( light:      $green, dark: $green )) !global;
+$twilight-secondary-colors  : make-colors(( light:   $twilight, dark: $twilight )) !global;
+$facebook-secondary-colors  : make-colors(( light:   $facebook, dark: $facebook )) !global;
+$twitter-secondary-colors   : make-colors(( light:    $twitter, dark: $twitter )) !global;
+$tumblr-secondary-colors    : make-colors(( light:     $tumblr, dark: $tumblr )) !global;
+$linkedin-secondary-colors  : make-colors(( light:   $linkedin, dark: $linkedin )) !global;
+$pinterest-secondary-colors : make-colors(( light:  $pinterest, dark: $pinterest )) !global;
+$yellow-secondary-colors: make-colors(( light: $yellow, dark: shade( $yellow, 0% ) )) !global;
+
+//////////////////////// BORDER DEFAULTS
+$default-border-radius: 3px !global;
+
+//////////////////////// TEXT DEFAULTS
+$default-base-font-size  : 14px !global;
+$default-base-line-height: 16px !global;
+$default-base-font-family: 'Open Sans', sans-serif !global;
+
+$round-to-nearest-half-line: true !global; // this is specific to the internals of Compass Vertical Rhythm
+
+$h1-font-size: 36px !global;
+$h2-font-size: 32px !global;
+$h3-font-size: 24px !global;
+$h4-font-size: 20px !global;
+$h5-font-size: 18px !global;
+$h6-font-size: 16px !global;
+$p-font-size : 14px !global;
+
+$h1-lines: $h1-font-size * 1.25 / ( 2 + $default-base-line-height ) !global; // this is the hacky way of getting to 1.2em; the point is, we should be using vertical rhythm explicitly, and just let all of these be true
+$h2-lines: $h2-font-size * 1.25 / ( 2 + $default-base-line-height ) !global; // this is the hacky way of getting to 1.2em; the point is, we should be using vertical rhythm explicitly, and just let all of these be true
+$h3-lines: $h3-font-size * 1.25 / ( 2 + $default-base-line-height ) !global; // this is the hacky way of getting to 1.2em; the point is, we should be using vertical rhythm explicitly, and just let all of these be true
+$h4-lines: $h4-font-size * 1.25 / ( 2 + $default-base-line-height ) !global; // this is the hacky way of getting to 1.2em; the point is, we should be using vertical rhythm explicitly, and just let all of these be true
+$h5-lines: $h5-font-size * 1.25 / ( 2 + $default-base-line-height ) !global; // this is the hacky way of getting to 1.2em; the point is, we should be using vertical rhythm explicitly, and just let all of these be true
+$h6-lines: $h6-font-size * 1.25 / ( 2 + $default-base-line-height ) !global; // this is the hacky way of getting to 1.2em; the point is, we should be using vertical rhythm explicitly, and just let all of these be true
+$p-lines : true;
+
+$default-style-spec-vertical-rhythm-text-styles: (
+	make-vertical-rhythm-text-style-spec(( class-name: 'h1', font-size: $h1-font-size, lines: $h1-lines, line-height-sized: true, with-when-tablet: true, with-when-mobile: true )),
+	make-vertical-rhythm-text-style-spec(( class-name: 'h2', font-size: $h2-font-size, lines: $h2-lines, line-height-sized: true, with-when-tablet: true, with-when-mobile: true )),
+	make-vertical-rhythm-text-style-spec(( class-name: 'h3', font-size: $h3-font-size, lines: $h3-lines, line-height-sized: true, with-when-tablet: true, with-when-mobile: true )),
+	make-vertical-rhythm-text-style-spec(( class-name: 'h4', font-size: $h4-font-size, lines: $h4-lines, line-height-sized: true, with-when-tablet: true, with-when-mobile: true )),
+	make-vertical-rhythm-text-style-spec(( class-name: 'h5', font-size: $h5-font-size, lines: $h5-lines, line-height-sized: true, line-height-factors: ( double-lined: 1.5 ), with-when-tablet: true, with-when-mobile: true )),
+	make-vertical-rhythm-text-style-spec(( class-name: 'h6', font-size: $h6-font-size, lines: $h6-lines, line-height-sized: true, with-when-tablet: true, with-when-mobile: true )),
+	make-vertical-rhythm-text-style-spec(( class-name:  'p', font-size:  $p-font-size, lines:  $p-lines, line-height-sized: true, with-fully-qualified: true, line-height-factors: ( triple-lined: 3, double-lined: 1.5 ), with-text-height: true, with-text-min-height: true, with-when-tablet: true, with-when-mobile: true )),
+) !global;
+
+$default-style-spec-coloring     : map-merge( $default-style-spec-coloring,      ( with-when-hovered: true, with-when-tablet: true, with-modifier-class-fallbacks: true ) );
+$default-style-spec-text-coloring: map-merge( $default-style-spec-text-coloring, ( with-when-hovered: true ) );
+
+//////////////////////// THEME DECLARATIONS
+$default-theme: make-default-theme((
+	name       : 'default',
+	extends    : 'body',
+	borders    : make-borders(( styles: ( dashed ), color: black )),
+	style-specs: make-default-style-specs((
+		specific-value: (
+			width: (
+				( class-name: 'page', value: 850px ),
+				( class-name: 'avatar', value: 400px ),
+			),
+			min-width : (
+				( class-name: 'page', value: 850px ),
+			),
+			max-width : (
+				( class-name: 'page', value: 850px ),
+			),
+			word-wrap: ( class-name: 'break', value: break-word, with-when-mobile: true ),
+		),
+		filter: (
+			not-blurred : ( class-name: 'not-blurred',  values: ( blur: 0px, grayscale: 0% ), with-when-hovered: true ),
+			blurred     : ( class-name: 'blurred',      values: ( blur: 5px, grayscale: 0% ), with-when-hovered: true ),
+			less-blurred: ( class-name: 'less-blurred', values: ( blur: 2px, grayscale: 0% ), with-when-hovered: true ),
+			greyed      : ( class-name: 'greyed',       values: ( blur: 0px, grayscale: 100% ), with-when-hovered: true ),
+			not-greyed  : ( class-name: 'not-greyed',   values: ( blur: 0px, grayscale: 0%   ), with-when-hovered: true ),
+		),
+		ratio-size: (
+			width     : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to, with-when-tablet: true, with-when-mobile: true )),
+			height    : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+			max-width : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to, with-when-tablet: true )),
+			max-height: make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+			min-width : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+			min-height: make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+			top       : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+			right     : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+			bottom    : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+			left      : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+		),
+		whole-size: (
+			width     : make-style-spec(( with-when-tablet: true, with-when-mobile: true )),
+			height    : make-style-spec(),
+			max-width : make-style-spec(( with-when-tablet: true )),
+			max-height: make-style-spec(),
+			min-width : make-style-spec(),
+			min-height: make-style-spec(),
+			top       : make-style-spec(),
+			right     : make-style-spec(),
+			bottom    : make-style-spec(),
+			left      : make-style-spec(),
+		),
+		no-size: (
+			width     : make-style-spec(),
+			height    : make-style-spec(),
+			max-width : make-style-spec(( unit: 1em )),
+			max-height: make-style-spec(),
+			min-width : make-style-spec(),
+			min-height: make-style-spec(),
+			top       : make-style-spec(),
+			right     : make-style-spec(),
+			bottom    : make-style-spec(),
+			left      : make-style-spec(),
+
+			line-height: make-style-spec(( unit: 1em )),
+		),
+	)),
+	shadow: map-merge( $default-style-spec-shadow, ( with-when-hovered: true ) ),
+	bordered: $default-style-spec-bordered,
+)) !global;
+
+$blue-theme: make-theme((
+	name            : 'blue',
+	secondary-colors: $blue-secondary-colors,
+	theme-spec      : make-theme-spec(( with-when-hovered: true )),
+	style-specs     : (
+		text-coloring: $default-style-spec-text-coloring,
+		coloring: $default-style-spec-coloring,
+		sheer-coloring: $default-style-spec-sheer-coloring,
+		flat-button: $default-style-spec-flat-button,
+	),
+)) !global;
+		// text-input           : $default-style-spec-text-input,
+		// coloring             : $default-style-spec-coloring,
+		// link-coloring        : $default-style-spec-link-coloring,
+		// text-coloring        : $default-style-spec-text-coloring,
+		// flat-button          : $default-style-spec-flat-button,
+		// raised-flat-button   : $default-style-spec-raised-flat-button,
+		// deep-flat-button     : $default-style-spec-deep-flat-button,
+		// mostly-sheer-coloring: map-merge( $default-style-spec-mostly-sheer-coloring, ( with-when-hovered: true ) ),
+		// bordered             : $default-style-spec-bordered,
+		// t-bordered           : $default-style-spec-t-bordered,
+		// lr-bordered          : $default-style-spec-lr-bordered,
+		// b-bordered           : $default-style-spec-b-bordered,
+		// ltr-bordered: $default-style-spec-ltr-bordered,
+
+		// sheer-coloring       : $default-style-spec-sheer-coloring,
+		// barely-sheer-coloring: $default-style-spec-barely-sheer-coloring,
+
+$red-theme: make-theme((
+	name            : 'red',
+	secondary-colors: $red-secondary-colors,
+	theme-spec      : make-theme-spec(( with-when-hovered: true, with-when-active: true, with-modifier-class-fallbacks: true )),
+	style-specs     : (
+		text-coloring: $default-style-spec-text-coloring,
+		coloring: $default-style-spec-coloring,
+		sheer-coloring: $default-style-spec-sheer-coloring,
+		flat-button: $default-style-spec-flat-button,
+	),
+)) !global;
+		// coloring          : $default-style-spec-coloring,
+		// text-coloring     : map-merge( $default-style-spec-text-coloring, ( with-when-hovered: true ) ),
+		// link-coloring     : $default-style-spec-link-coloring,
+		// flat-button       : $default-style-spec-flat-button,
+		// raised-flat-button: $default-style-spec-raised-flat-button,
+		// deep-flat-button  : $default-style-spec-deep-flat-button,
+		// bordered          : $default-style-spec-bordered,
+		// t-bordered        : $default-style-spec-t-bordered,
+		// lr-bordered       : $default-style-spec-lr-bordered,
+		// b-bordered        : $default-style-spec-b-bordered,
+		// ltr-bordered: $default-style-spec-ltr-bordered,
+
+		// mostly-sheer-coloring: $default-style-spec-mostly-sheer-coloring,
+		// sheer-coloring       : $default-style-spec-sheer-coloring,
+		// barely-sheer-coloring: $default-style-spec-barely-sheer-coloring,
+
+//////////////////////// ANIMATION DEFAULTS
+$default-transition-function: ease-in-out !global;
+
+$default-perspective       : 50em !global;
+$default-origin-y          : 0% !global;
+$default-animation-duration: $default-transition-duration !global;
+
+@import "common_theming_modifiers";
+
+@import "class_mixins";
+
+@import "common_theming";
+
+@import "common_animation";

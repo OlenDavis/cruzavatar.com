@@ -1,0 +1,17 @@
+{
+  "name": "cruzavatar",
+  "authors": [
+    "Olen Davis <spelledlikeitsounds@gmail.com>"
+  ],
+  "private": true,
+  "dependencies": {
+    "angoolar": "~0.11.0",
+    "angoolar-animate": "~0.11.0",
+    "angoolar-sanitize": "~0.11.0",
+    "angoolar-browser": "~0.4.1",
+    "angoolar-font-awesome": "~0.5.0"
+  },
+  "resolutions": {
+    "angoolar": "~0.11.0"
+  }
+}

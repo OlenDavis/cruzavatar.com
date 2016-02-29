@@ -1,0 +1,28 @@
+$default-animation-name :           false;
+$default-animation-duration:        $default-transition-duration;
+$default-animation-delay:           false;
+$default-animation-timing-function: ease-in-out;
+$default-animation-iteration-count: 1;
+$default-animation-direction:       false;
+$default-animation-fill-mode:       forwards;
+$default-animation-play-state:      false;
+
+@mixin my-animation( 
+	$name:            $default-animation-name, 
+	$duration:        $default-animation-duration,
+	$delay:           $default-animation-delay,
+	$timing-function: $default-animation-timing-function,
+	$iteration-count: $default-animation-iteration-count,
+	$direction:       $default-animation-direction,
+	$fill-mode:       $default-animation-fill-mode,
+	$play-state:      $default-animation-play-state
+) {
+	@if $name            != false { @include animation-name(   unquote( $name )          ); }
+	@if $duration        != false { @include animation-duration(        $duration        ); }
+	@if $delay           != false { @include animation-delay(           $delay           ); }
+	@if $timing-function != false { @include animation-timing-function( $timing-function ); }
+	@if $iteration-count != false { @include animation-iteration-count( $iteration-count ); }
+	@if $direction       != false { @include animation-direction(       $direction       ); }
+	@if $fill-mode       != false { @include animation-fill-mode(       $fill-mode       ); }
+	@if $play-state      != false { @include animation-play-state(      $play-state      ); }
+}

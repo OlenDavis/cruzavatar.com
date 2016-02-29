@@ -1,0 +1,1021 @@
+//////////////////////////////////////////////////////////////////////////////////////////
+// ALL UTILITY FUNCTIONS FOR CONFIGURING EACH THEME //////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+$default-theme-enable-inverse    : false !global !default;
+$default-theme-enable-secondary  : false !global !default;
+$default-theme-only-with-whens   : false !global !default;
+$default-theme-with-when-hovered : false !global !default;
+$default-theme-with-when-active  : false !global !default;
+$default-theme-with-when-touching: false !global !default;
+$default-theme-with-when-retina  : false !global !default;
+$default-theme-with-when-first   : false !global !default;
+$default-theme-with-when-last    : false !global !default;
+$default-theme-with-when-ff      : false !global !default;
+$default-theme-with-when-ie      : false !global !default;
+$default-theme-with-when-tablet  : false !global !default;
+$default-theme-with-when-mobile  : false !global !default;
+
+@function make-theme-spec( $args: () ) {
+	@return map-merge( (
+		enable-inverse    : $default-theme-enable-inverse,
+		enable-secondary  : $default-theme-enable-secondary,
+		only-with-whens   : $default-theme-only-with-whens,
+		with-when-hovered : $default-theme-with-when-hovered,
+		with-when-active  : $default-theme-with-when-active,
+		with-when-touching: $default-theme-with-when-touching,
+		with-when-retina  : $default-theme-with-when-retina,
+		with-when-first   : $default-theme-with-when-first,
+		with-when-last    : $default-theme-with-when-last,
+		with-when-ff      : $default-theme-with-when-ff,
+		with-when-ie      : $default-theme-with-when-ie,
+		with-when-tablet  : $default-theme-with-when-tablet,
+		with-when-mobile  : $default-theme-with-when-mobile,
+	), $args );
+}
+
+$default-only-with-whens     : false !global !default;
+$default-with-inverse        : false !global !default;
+$default-with-secondary      : false !global !default;
+$default-with-this           : false !global !default;
+$default-with-fully-qualified: false !global !default;
+$default-with-when-hovered   : false !global !default;
+$default-with-when-active    : false !global !default;
+$default-with-when-touching  : false !global !default;
+$default-with-when-retina    : false !global !default;
+$default-with-when-first     : false !global !default;
+$default-with-when-last      : false !global !default;
+$default-with-when-ff        : false !global !default;
+$default-with-when-ie        : false !global !default;
+$default-with-when-tablet    : false !global !default;
+$default-with-when-mobile    : false !global !default;
+
+@function make-style-spec( $args: () ) {
+	@return map-merge( (
+		only-with-whens     : $default-only-with-whens,
+		with-inverse        : $default-with-inverse,
+		with-secondary      : $default-with-secondary,
+		with-this           : $default-with-this,
+		with-fully-qualified: $default-with-fully-qualified,
+		with-when-hovered   : $default-with-when-hovered,
+		with-when-active    : $default-with-when-active,
+		with-when-touching  : $default-with-when-touching,
+		with-when-retina    : $default-with-when-retina,
+		with-when-first     : $default-with-when-first,
+		with-when-last      : $default-with-when-last,
+		with-when-ff        : $default-with-when-ff,
+		with-when-ie        : $default-with-when-ie,
+		with-when-tablet    : $default-with-when-tablet,
+		with-when-mobile    : $default-with-when-mobile,
+	), $args );
+}
+
+@function make-vertical-rhythm-text-style-spec( $args: () ) {
+	@return make-style-spec( map-merge( (
+		extends            : null, // a selector to extend with this text-style (e.g. for a class-name of 'h1' for instance, you could extend 'h1' and have it apply to h1 tags, or you could use this for more semantically taxonomical text-styles, for instance class-name: 'article-title' could also have extends: 'article h1' and then you could use it elsewhere in the site with .article-title)
+		font-family        : null,
+		font-size          : null, // must be in px
+		lines              : null, // can be false, true, or an integer; this is a number of lines relative to the vertical rhythm of the page, which is to say, the base-line-height, so if the base-line-height is 16px, then a lines of 2 would mean the text style would have a line-height of 32px (but in a relative em unit)
+		leader             : null, // can be null or an integer (calculated the same way as lines when it's an integer)
+		leader-property    : null, // can be padding or margin
+		trailer            : null, // can be null or an integer (calculated the same way as lines when it's an integer)
+		trailer-property   : null, // can be padding or margin
+		line-height-sized  : null, // if true, this indicates to also render a line-height-sized class for this text-style that when applied to an element will make the element's height and width that of the line-height of this text-style; e.g. if the text-style's class-name is 'h1' and line-height-sized is true, then the line-height-sized class name will be .h1-line-height-sized
+		bold               : null, // boolean
+		italic             : null, // boolean
+		spacing            : null, // the letter-spacing for this text-style
+		text-shadowed      : null, // boolean
+		line-height-factors: null, // a hash of factors, just like the spacing factors
+	), $args ) );
+}
+
+$default-ratio-from     : 2 !global !default;
+$default-ratio-to       : 3 !global !default;
+$default-spacing-factors: ( less: .5, more: 2 ) !global !default;
+
+$default-style-spec-vertical-rhythm-text-styles: make-style-spec() !global !default;
+$default-style-spec-appearance-none            : make-style-spec() !global !default;//make-style-spec(( class-name: $class-appearance-none             )) !global !default;
+$default-style-spec-hardware-render            : make-style-spec() !global !default;//make-style-spec(( class-name: $class-hardware-render             )) !global !default;
+$default-style-spec-no-transform               : make-style-spec() !global !default;//make-style-spec(( class-name: $class-no-transform                )) !global !default;
+$default-style-spec-transitions                : make-style-spec() !global !default;
+$default-style-spec-no-transitions             : make-style-spec() !global !default;
+$default-style-spec-definitely-no-transitions  : make-style-spec() !global !default;
+$default-style-spec-not-selectable             : make-style-spec() !global !default;
+$default-style-spec-selectable                 : make-style-spec() !global !default;
+$default-style-spec-hoverable                  : make-style-spec() !global !default; // extra spec fields: max-nesting-id
+$default-style-spec-gone                       : make-style-spec() !global !default;
+$default-style-spec-visible                    : make-style-spec() !global !default;
+$default-style-spec-invisible                  : make-style-spec() !global !default;
+$default-style-spec-transparent                : make-style-spec() !global !default;
+$default-style-spec-mostly-transparent         : make-style-spec() !global !default;
+$default-style-spec-target-mostly-transparent  : make-style-spec() !global !default;
+$default-style-spec-target-mostly-opaque       : make-style-spec() !global !default;
+$default-style-spec-target-barely-opaque       : make-style-spec() !global !default;
+$default-style-spec-barely-transparent         : make-style-spec() !global !default;
+$default-style-spec-opaque                     : make-style-spec(( with-modifier-class-fallbacks: true )) !global !default;
+$default-style-spec-mostly-opaque              : make-style-spec() !global !default;
+$default-style-spec-barely-opaque              : make-style-spec() !global !default;
+$default-style-spec-target-opaque              : make-style-spec() !global !default;
+$default-style-spec-definitely-opaque          : make-style-spec() !global !default;
+$default-style-spec-inline                     : make-style-spec() !global !default;
+$default-style-spec-inline-block               : make-style-spec() !global !default;
+$default-style-spec-block                      : make-style-spec() !global !default;
+$default-style-spec-floatfix                   : make-style-spec() !global !default;
+$default-style-spec-no-overflow                : make-style-spec() !global !default;
+$default-style-spec-show-overflow              : make-style-spec() !global !default;
+$default-style-spec-scroll-overflow            : make-style-spec() !global !default;
+$default-style-spec-ellipsis-overflow          : make-style-spec() !global !default;
+$default-style-spec-left                       : make-style-spec() !global !default;
+$default-style-spec-right                      : make-style-spec() !global !default;
+$default-style-spec-clear-left                 : make-style-spec() !global !default;
+$default-style-spec-clear-right                : make-style-spec() !global !default;
+$default-style-spec-clear-both                 : make-style-spec() !global !default;
+$default-style-spec-link                       : make-style-spec() !global !default;
+$default-style-spec-non-link                   : make-style-spec() !global !default;
+$default-style-spec-text-left                  : make-style-spec() !global !default;
+$default-style-spec-text-right                 : make-style-spec() !global !default;
+$default-style-spec-text-center                : make-style-spec() !global !default;
+$default-style-spec-text-justify               : make-style-spec() !global !default;
+$default-style-spec-uppercase                  : make-style-spec() !global !default;
+$default-style-spec-lowercase                  : make-style-spec() !global !default;
+$default-style-spec-capitalize                 : make-style-spec() !global !default;
+$default-style-spec-no-wrap                    : make-style-spec() !global !default;
+$default-style-spec-break-word                 : make-style-spec() !global !default;
+$default-style-spec-wrap                       : make-style-spec() !global !default;
+$default-style-spec-small-text                 : make-style-spec() !global !default;
+$default-style-spec-very-small-text            : make-style-spec() !global !default;
+$default-style-spec-large-text                 : make-style-spec() !global !default;
+$default-style-spec-very-large-text            : make-style-spec() !global !default;
+$default-style-spec-light-weight               : make-style-spec() !global !default;
+$default-style-spec-normal-weight              : make-style-spec() !global !default;
+$default-style-spec-bold                       : make-style-spec() !global !default;
+$default-style-spec-italic                     : make-style-spec() !global !default;
+$default-style-spec-underline                  : make-style-spec() !global !default;
+$default-style-spec-less-wide                  : make-style-spec() !global !default;
+$default-style-spec-wide                       : make-style-spec() !global !default;
+$default-style-spec-more-wide                  : make-style-spec() !global !default;
+$default-style-spec-way-more-wide              : make-style-spec() !global !default;
+$default-style-spec-table                      : make-style-spec() !global !default;
+$default-style-spec-table-row                  : make-style-spec() !global !default;
+$default-style-spec-table-cell                 : make-style-spec() !global !default;
+$default-style-spec-fixed-layout               : make-style-spec() !global !default;
+$default-style-spec-auto-layout                : make-style-spec() !global !default;
+$default-style-spec-valign-center              : make-style-spec() !global !default;
+$default-style-spec-valign-bottom              : make-style-spec() !global !default;
+$default-style-spec-valign-top                 : make-style-spec() !global !default;
+$default-style-spec-valign-super               : make-style-spec() !global !default;
+$default-style-spec-valign-sub                 : make-style-spec() !global !default;
+$default-style-spec-relative                   : make-style-spec() !global !default;
+$default-style-spec-absolute                   : make-style-spec() !global !default;
+$default-style-spec-fixed                      : make-style-spec() !global !default;
+$default-style-spec-above                      : make-style-spec(( with-modifier-class-fallbacks: true )) !global !default;
+$default-style-spec-way-above                  : make-style-spec(( with-modifier-class-fallbacks: true )) !global !default;
+$default-style-spec-way-way-above              : make-style-spec(( with-modifier-class-fallbacks: true )) !global !default;
+$default-style-spec-target-above               : make-style-spec(( with-modifier-class-fallbacks: true )) !global !default;
+$default-style-spec-below                      : make-style-spec() !global !default;
+$default-style-spec-tl                         : make-style-spec() !global !default;
+$default-style-spec-tr                         : make-style-spec() !global !default;
+$default-style-spec-br                         : make-style-spec() !global !default;
+$default-style-spec-bl                         : make-style-spec() !global !default;
+$default-style-spec-ratio-size                 : (
+	width     : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+	height    : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+	max-width : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+	max-height: make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+	min-width : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+	min-height: make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+	top       : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+	right     : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+	bottom    : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+	left      : make-style-spec(( from: $default-ratio-from, to: $default-ratio-to )),
+) !global !default; // should be a hash of properties to a spec // extra spec fields: from, to
+$default-style-spec-whole-size                 : (
+	width     : make-style-spec(),
+	height    : make-style-spec(),
+	max-width : make-style-spec(),
+	max-height: make-style-spec(),
+	min-width : make-style-spec(),
+	min-height: make-style-spec(),
+	top       : make-style-spec(),
+	right     : make-style-spec(),
+	bottom    : make-style-spec(),
+	left      : make-style-spec(),
+) !global !default; // should be a hash of properties to a spec
+$default-style-spec-no-size                    : (
+	width     : make-style-spec(),
+	height    : make-style-spec(),
+	max-width : make-style-spec(( unit: 1em )),
+	max-height: make-style-spec(),
+	min-width : make-style-spec(),
+	min-height: make-style-spec(),
+	top       : make-style-spec(( with-when-hovered: true )),
+	right     : make-style-spec(),
+	bottom    : make-style-spec(),
+	left      : make-style-spec(( with-when-hovered: true )),
+) !global !default; // should be a hash of properties to a spec // extra spec fields: unit
+$default-style-spec-specific-value             : () !global !default; // should be a hash of properties to a spec, or to an array of specs for several different specific values on the same property // extra spec fields: value, e.g. ( width: ( class-name: 'something', value: 25em ) ) or ( width: ( ( class-name: 'this', value: 1em ), ( class-name: 'that', value: 2em ) ), height: ( class-name: 'something-else', value: 3em ) )
+$default-style-spec-target-specific-value      : () !global !default; // should be a hash of properties to a spec, or to an array of specs for several different specific values on the same property // extra spec fields: value, max-nesting-id, e.g. ( width: ( class-name: 'something', value: 25em ) ) or ( width: ( ( class-name: 'this', value: 1em ), ( class-name: 'that', value: 2em, max-nesting-id: 3 ) ), height: ( class-name: 'something-else', value: 3em ) )
+$default-style-spec-table-padded               : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default;
+$default-style-spec-no-background              : make-style-spec() !global !default;
+$default-style-spec-no-rounding                : make-style-spec() !global !default;
+$default-style-spec-whole-rounded              : make-style-spec() !global !default;
+$default-style-spec-whole-t-rounded            : make-style-spec() !global !default;
+$default-style-spec-whole-r-rounded            : make-style-spec() !global !default;
+$default-style-spec-whole-b-rounded            : make-style-spec() !global !default;
+$default-style-spec-whole-l-rounded            : make-style-spec() !global !default;
+$default-style-spec-border-box                 : make-style-spec() !global !default;
+$default-style-spec-not-bordered               : make-style-spec() !global !default;
+$default-style-spec-not-lr-bordered            : make-style-spec() !global !default;
+$default-style-spec-not-tb-bordered            : make-style-spec() !global !default;
+$default-style-spec-not-l-bordered             : make-style-spec() !global !default;
+$default-style-spec-not-r-bordered             : make-style-spec() !global !default;
+$default-style-spec-not-t-bordered             : make-style-spec() !global !default;
+$default-style-spec-not-b-bordered             : make-style-spec() !global !default;
+$default-style-spec-tl-triangle                : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default;
+$default-style-spec-no-padding                 : make-style-spec() !global !default;
+$default-style-spec-no-margin                  : make-style-spec() !global !default;
+$default-style-spec-lr-auto-margin             : make-style-spec() !global !default;
+$default-style-spec-rounded                    : make-style-spec() !global !default;
+$default-style-spec-t-rounded                  : make-style-spec() !global !default;
+$default-style-spec-r-rounded                  : make-style-spec() !global !default;
+$default-style-spec-b-rounded                  : make-style-spec() !global !default;
+$default-style-spec-l-rounded                  : make-style-spec() !global !default;
+$default-style-spec-tl-rounded                 : make-style-spec() !global !default;
+$default-style-spec-tr-rounded                 : make-style-spec() !global !default;
+$default-style-spec-bl-rounded                 : make-style-spec() !global !default;
+$default-style-spec-br-rounded                 : make-style-spec() !global !default;
+$default-style-spec-not-rounded                : make-style-spec() !global !default;
+$default-style-spec-not-t-rounded              : make-style-spec() !global !default;
+$default-style-spec-not-r-rounded              : make-style-spec() !global !default;
+$default-style-spec-not-b-rounded              : make-style-spec() !global !default;
+$default-style-spec-not-l-rounded              : make-style-spec() !global !default;
+$default-style-spec-not-tl-rounded             : make-style-spec() !global !default;
+$default-style-spec-not-tr-rounded             : make-style-spec() !global !default;
+$default-style-spec-not-bl-rounded             : make-style-spec() !global !default;
+$default-style-spec-not-br-rounded             : make-style-spec() !global !default;
+$default-style-spec-padded                     : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.padded but also .less-padded), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.padded; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-t-padded                   : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.t-padded but also .less-t-padded), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.t-padded; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-r-padded                   : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.r-padded but also .less-r-padded), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.r-padded; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-b-padded                   : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.b-padded but also .less-b-padded), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.b-padded; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-l-padded                   : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.l-padded but also .less-l-padded), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.l-padded; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-lr-padded                  : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.lr-padded but also .less-lr-padded), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.lr-padded; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-tb-padded                  : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.tb-padded but also .less-tb-padded), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.tb-padded; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-margin                     : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.margin but also .less-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-t-margin                   : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.t-margin but also .less-t-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.t-margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-r-margin                   : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.r-margin but also .less-r-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.r-margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-b-margin                   : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.b-margin but also .less-b-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.b-margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-l-margin                   : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.l-margin but also .less-l-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.l-margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-lr-margin                  : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.lr-margin but also .less-lr-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.lr-margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-tb-margin                  : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.tb-margin but also .less-tb-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.tb-margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-negative-t-margin          : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.negative-t-margin but also .less-negative-t-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.negative-t-margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-negative-r-margin          : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.negative-r-margin but also .less-negative-r-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.negative-r-margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-negative-b-margin          : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.negative-b-margin but also .less-negative-b-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.negative-b-margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-negative-l-margin          : make-style-spec(( factors: $default-spacing-factors, with-factors-concatenated: true )) !global !default; // extra spec fields: spacing-factors (a hash of names to factors to be multiplied by the theme's spacing), with-factors-concatenated (a boolean indicating whether or not to also render the spacing's factors as a concatenated class, e.g. not just .less.negative-l-margin but also .less-negative-l-margin), without-factors-separated (a boolean indicating not to render the spacing factor classes as separated classes, e.g. no .less.negative-l-margin; so to still be able to use the spacing factor classes, you'd have to set with-factors-concatenated to true)
+$default-style-spec-inset-shadow               : make-style-spec() !global !default;
+$default-style-spec-deep-inset-shadow          : make-style-spec() !global !default;
+$default-style-spec-shallow-inset-shadow       : make-style-spec() !global !default;
+$default-style-spec-shadow                     : make-style-spec() !global !default;
+$default-style-spec-deep-shadow                : make-style-spec() !global !default;
+$default-style-spec-shallow-shadow             : make-style-spec() !global !default;
+$default-style-spec-no-shadow                  : make-style-spec() !global !default;
+$default-style-spec-text-shadowed              : make-style-spec() !global !default;
+$default-style-spec-no-text-shadow             : make-style-spec() !global !default;
+$default-style-spec-bordered                   : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-t-bordered                 : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-r-bordered                 : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-b-bordered                 : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-l-bordered                 : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-lr-bordered                : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-tb-bordered                : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-ltr-bordered               : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-lbr-bordered               : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-trb-bordered               : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-blt-bordered               : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default; // extra spec fields: with-thick-concatenated (a boolean), with-heavy-concatenated (a boolean), without-thick-separated (a boolean), without-heavy-separated (a boolean)
+$default-style-spec-transparent-border         : make-style-spec() !global !default;
+$default-style-spec-text-input                 : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-select                     : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-button                     : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-shallow-button             : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-flat-button                : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true, with-modifier-class-fallbacks: true )) !global !default;
+$default-style-spec-raised-flat-button         : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true, with-modifier-class-fallbacks: true )) !global !default;
+$default-style-spec-deep-flat-button           : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true, with-modifier-class-fallbacks: true )) !global !default;
+$default-style-spec-hybrid-button              : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-button-shading             : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-button-shadow              : make-style-spec() !global !default;
+$default-style-spec-shadow-button              : make-style-spec(( with-modifier-class-fallbacks: true )) !global !default;
+$default-style-spec-text-coloring              : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-link-coloring              : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-coloring                   : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-darker-coloring            : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-sheer-coloring             : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-barely-sheer-coloring      : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-mostly-sheer-coloring      : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-t-gradient                 : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-r-gradient                 : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-b-gradient                 : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+$default-style-spec-l-gradient                 : make-style-spec(( with-fully-qualified: true, with-inverse: true, with-secondary: true )) !global !default;
+
+@function make-default-style-specs( $args: () ) {
+	$style-specs: (
+		vertical-rhythm-text-styles: $default-style-spec-vertical-rhythm-text-styles,
+		appearance-none            : $default-style-spec-appearance-none,
+		hardware-render            : $default-style-spec-hardware-render,
+		no-transform               : $default-style-spec-no-transform,
+		transitions                : $default-style-spec-transitions,
+		no-transitions             : $default-style-spec-no-transitions,
+		definitely-no-transitions  : $default-style-spec-definitely-no-transitions,
+		not-selectable             : $default-style-spec-not-selectable,
+		selectable                 : $default-style-spec-selectable,
+		hoverable                  : $default-style-spec-hoverable,
+		gone                       : $default-style-spec-gone,
+		visible                    : $default-style-spec-visible,
+		invisible                  : $default-style-spec-invisible,
+		target-opaque              : $default-style-spec-target-opaque,
+		definitely-opaque          : $default-style-spec-definitely-opaque,
+		target-mostly-transparent  : $default-style-spec-target-mostly-transparent,
+		target-mostly-opaque       : $default-style-spec-target-mostly-opaque,
+		target-barely-opaque       : $default-style-spec-target-barely-opaque,
+		'transparent'              : $default-style-spec-transparent,
+		mostly-transparent         : $default-style-spec-mostly-transparent,
+		barely-transparent         : $default-style-spec-barely-transparent,
+		opaque                     : $default-style-spec-opaque,
+		mostly-opaque              : $default-style-spec-mostly-opaque,
+		barely-opaque              : $default-style-spec-barely-opaque,
+		inline                     : $default-style-spec-inline,
+		inline-block               : $default-style-spec-inline-block,
+		block                      : $default-style-spec-block,
+		floatfix                   : $default-style-spec-floatfix,
+		no-overflow                : $default-style-spec-no-overflow,
+		show-overflow              : $default-style-spec-show-overflow,
+		scroll-overflow            : $default-style-spec-scroll-overflow,
+		ellipsis-overflow          : $default-style-spec-ellipsis-overflow,
+		left                       : $default-style-spec-left,
+		right                      : $default-style-spec-right,
+		clear-left                 : $default-style-spec-clear-left,
+		clear-right                : $default-style-spec-clear-right,
+		clear-both                 : $default-style-spec-clear-both,
+		link                       : $default-style-spec-link,
+		non-link                   : $default-style-spec-non-link,
+		text-left                  : $default-style-spec-text-left,
+		text-right                 : $default-style-spec-text-right,
+		text-center                : $default-style-spec-text-center,
+		text-justify               : $default-style-spec-text-justify,
+		uppercase                  : $default-style-spec-uppercase,
+		lowercase                  : $default-style-spec-lowercase,
+		capitalize                 : $default-style-spec-capitalize,
+		no-wrap                    : $default-style-spec-no-wrap,
+		break-word                 : $default-style-spec-break-word,
+		wrap                       : $default-style-spec-wrap,
+		small-text                 : $default-style-spec-small-text,
+		very-small-text            : $default-style-spec-very-small-text,
+		large-text                 : $default-style-spec-large-text,
+		very-large-text            : $default-style-spec-very-large-text,
+		light-weight               : $default-style-spec-light-weight,
+		normal-weight              : $default-style-spec-normal-weight,
+		bold                       : $default-style-spec-bold,
+		italic                     : $default-style-spec-italic,
+		underline                  : $default-style-spec-underline,
+		less-wide                  : $default-style-spec-less-wide,
+		wide                       : $default-style-spec-wide,
+		more-wide                  : $default-style-spec-more-wide,
+		way-more-wide              : $default-style-spec-way-more-wide,
+		table                      : $default-style-spec-table,
+		table-row                  : $default-style-spec-table-row,
+		table-cell                 : $default-style-spec-table-cell,
+		fixed-layout               : $default-style-spec-fixed-layout,
+		auto-layout                : $default-style-spec-auto-layout,
+		valign-center              : $default-style-spec-valign-center,
+		valign-bottom              : $default-style-spec-valign-bottom,
+		valign-top                 : $default-style-spec-valign-top,
+		valign-super               : $default-style-spec-valign-super,
+		valign-sub                 : $default-style-spec-valign-sub,
+		relative                   : $default-style-spec-relative,
+		absolute                   : $default-style-spec-absolute,
+		fixed                      : $default-style-spec-fixed,
+		target-above               : $default-style-spec-target-above,
+		above                      : $default-style-spec-above,
+		way-above                  : $default-style-spec-way-above,
+		way-way-above              : $default-style-spec-way-way-above,
+		below                      : $default-style-spec-below,
+		tl                         : $default-style-spec-tl,
+		tr                         : $default-style-spec-tr,
+		br                         : $default-style-spec-br,
+		bl                         : $default-style-spec-bl,
+		ratio-size                 : $default-style-spec-ratio-size,
+		whole-size                 : $default-style-spec-whole-size,
+		no-size                    : $default-style-spec-no-size,
+		specific-value             : $default-style-spec-specific-value,
+		target-specific-value      : $default-style-spec-target-specific-value,
+		table-padded               : $default-style-spec-table-padded,
+		no-background              : $default-style-spec-no-background,
+		no-rounding                : $default-style-spec-no-rounding,
+		whole-rounded              : $default-style-spec-whole-rounded,
+		whole-t-rounded            : $default-style-spec-whole-t-rounded,
+		whole-r-rounded            : $default-style-spec-whole-r-rounded,
+		whole-b-rounded            : $default-style-spec-whole-b-rounded,
+		whole-l-rounded            : $default-style-spec-whole-l-rounded,
+		border-box                 : $default-style-spec-border-box,
+		not-bordered               : $default-style-spec-not-bordered,
+		not-lr-bordered            : $default-style-spec-not-lr-bordered,
+		not-tb-bordered            : $default-style-spec-not-tb-bordered,
+		not-l-bordered             : $default-style-spec-not-l-bordered,
+		not-r-bordered             : $default-style-spec-not-r-bordered,
+		not-t-bordered             : $default-style-spec-not-t-bordered,
+		not-b-bordered             : $default-style-spec-not-b-bordered,
+		tl-triangle                : $default-style-spec-tl-triangle,
+		no-padding                 : $default-style-spec-no-padding,
+		no-margin                  : $default-style-spec-no-margin,
+		lr-auto-margin             : $default-style-spec-lr-auto-margin,
+		rounded                    : $default-style-spec-rounded,
+		t-rounded                  : $default-style-spec-t-rounded,
+		r-rounded                  : $default-style-spec-r-rounded,
+		b-rounded                  : $default-style-spec-b-rounded,
+		l-rounded                  : $default-style-spec-l-rounded,
+		tl-rounded                 : $default-style-spec-tl-rounded,
+		tr-rounded                 : $default-style-spec-tr-rounded,
+		bl-rounded                 : $default-style-spec-bl-rounded,
+		br-rounded                 : $default-style-spec-br-rounded,
+		not-rounded                : $default-style-spec-not-rounded,
+		not-t-rounded              : $default-style-spec-not-t-rounded,
+		not-r-rounded              : $default-style-spec-not-r-rounded,
+		not-b-rounded              : $default-style-spec-not-b-rounded,
+		not-l-rounded              : $default-style-spec-not-l-rounded,
+		not-tl-rounded             : $default-style-spec-not-tl-rounded,
+		not-tr-rounded             : $default-style-spec-not-tr-rounded,
+		not-bl-rounded             : $default-style-spec-not-bl-rounded,
+		not-br-rounded             : $default-style-spec-not-br-rounded,
+		padded                     : $default-style-spec-padded,
+		t-padded                   : $default-style-spec-t-padded,
+		r-padded                   : $default-style-spec-r-padded,
+		b-padded                   : $default-style-spec-b-padded,
+		l-padded                   : $default-style-spec-l-padded,
+		lr-padded                  : $default-style-spec-lr-padded,
+		tb-padded                  : $default-style-spec-tb-padded,
+		margin                     : $default-style-spec-margin,
+		t-margin                   : $default-style-spec-t-margin,
+		r-margin                   : $default-style-spec-r-margin,
+		b-margin                   : $default-style-spec-b-margin,
+		l-margin                   : $default-style-spec-l-margin,
+		lr-margin                  : $default-style-spec-lr-margin,
+		tb-margin                  : $default-style-spec-tb-margin,
+		negative-t-margin          : $default-style-spec-negative-t-margin,
+		negative-r-margin          : $default-style-spec-negative-r-margin,
+		negative-b-margin          : $default-style-spec-negative-b-margin,
+		negative-l-margin          : $default-style-spec-negative-l-margin,
+		inset-shadow               : $default-style-spec-inset-shadow,
+		deep-inset-shadow          : $default-style-spec-deep-inset-shadow,
+		shallow-inset-shadow       : $default-style-spec-shallow-inset-shadow,
+		shadow                     : $default-style-spec-shadow,
+		deep-shadow                : $default-style-spec-deep-shadow,
+		shallow-shadow             : $default-style-spec-shallow-shadow,
+		no-shadow                  : $default-style-spec-no-shadow,
+		text-shadowed              : $default-style-spec-text-shadowed,
+		no-text-shadow             : $default-style-spec-no-text-shadow,
+		bordered                   : $default-style-spec-bordered,
+		t-bordered                 : $default-style-spec-t-bordered,
+		r-bordered                 : $default-style-spec-r-bordered,
+		b-bordered                 : $default-style-spec-b-bordered,
+		l-bordered                 : $default-style-spec-l-bordered,
+		lr-bordered                : $default-style-spec-lr-bordered,
+		tb-bordered                : $default-style-spec-tb-bordered,
+		ltr-bordered               : $default-style-spec-ltr-bordered,
+		lbr-bordered               : $default-style-spec-lbr-bordered,
+		trb-bordered               : $default-style-spec-trb-bordered,
+		blt-bordered               : $default-style-spec-blt-bordered,
+		transparent-border         : $default-style-spec-transparent-border,
+		text-input                 : $default-style-spec-text-input,
+		select                     : $default-style-spec-select,
+		button                     : $default-style-spec-button,
+		shallow-button             : $default-style-spec-shallow-button,
+		flat-button                : $default-style-spec-flat-button,
+		raised-flat-button         : $default-style-spec-raised-flat-button,
+		deep-flat-button           : $default-style-spec-deep-flat-button,
+		hybrid-button              : $default-style-spec-hybrid-button,
+		button-shading             : $default-style-spec-button-shading,
+		button-shadow              : $default-style-spec-button-shadow,
+		shadow-button              : $default-style-spec-shadow-button,
+		text-coloring              : $default-style-spec-text-coloring,
+		link-coloring              : $default-style-spec-link-coloring,
+		coloring                   : $default-style-spec-coloring,
+		darker-coloring            : $default-style-spec-darker-coloring,
+		sheer-coloring             : $default-style-spec-sheer-coloring,
+		barely-sheer-coloring      : $default-style-spec-barely-sheer-coloring,
+		mostly-sheer-coloring      : $default-style-spec-mostly-sheer-coloring,
+		t-gradient                 : $default-style-spec-t-gradient,
+		r-gradient                 : $default-style-spec-r-gradient,
+		b-gradient                 : $default-style-spec-b-gradient,
+		l-gradient                 : $default-style-spec-l-gradient,
+	);
+	@if $args {
+		$style-specs: map-merge( $style-specs, $args );
+	}
+	@return $style-specs;
+}
+
+/*
+Classifications:
+
+Basicness:
+
+0 = fundamental: this style means the same thing to everyone (so long as they know what
+it represents)
+
+1 = basic: this style requires merely a modicum of theming, but would really be a part of any CSS
+taxonomy that is even remotely "themed"
+
+2 = advanced: this may require explanation and is for someone who wants to make heavy use of the CSS
+taxonomy to save time and effort
+
+
+Customizability:
+
+0 = not at all; would be the same on any site (structural)
+
+1 = yep; these certainly are, but you probably wouldn't think of them as changing from theme to
+theme because though custom, they're used consistently everywhere; therefore these styles would
+likely only be included in the default theme or mobile theme for a site; semi-transparencies and
+text sizes and the like
+
+2 = purely; these would (ought to be) different in any theme they're included in; if they aren't, or
+if you don't know where specifically you're actually using each and every one of these, they
+probably shouldn't be included; these are things like colors, text-sizing
+
+*/
+$style-spec-classifications: (
+	vertical-rhythm-text-styles: ( id: 001, basicness: 2, customizability: 2, description: "todo: document" ),
+	appearance-none            : ( id: 002, basicness: 0, customizability: 0, description: "removes the element's default browser-provided appearance (such as a <select>)" ),
+	hardware-render            : ( id: 003, basicness: 0, customizability: 0, description: "gives the element an identity transform that causes the element to be processed by the browsers graphics processor more effectively; this helps with images in a scroll-overflow container or when changing opacity through CSS causes elements to shudder" ),
+	no-transform               : ( id: 004, basicness: 0, customizability: 0, description: "removes the element's transform" ),
+	transitions                : ( id: 005, basicness: 0, customizability: 1, description: "causes all transitionable styles to be transitioned from one to another whenever they change" ),
+	no-transitions             : ( id: 006, basicness: 0, customizability: 0, description: "prevents any transitionable styles from being transitioned from one to another whenever they change" ),
+	definitely-no-transitions  : ( id: 007, basicness: 0, customizability: 0, description: "absolutely prevents any transitionable styles from being transitioned from one to another whenever they change" ),
+	not-selectable             : ( id: 008, basicness: 0, customizability: 0, description: "when applied, prevents the text from being able to be selected with the cursor" ),
+	selectable                 : ( id: 009, basicness: 0, customizability: 0, description: "when applied, makes the text able to be selected with the cursor" ),
+	hoverable                  : ( id: 010, basicness: 2, customizability: 0, description: "when applied, all descendant elements with the hovered class will be opaque only when the hoverable element is hovered, and all descendant elements with the not-hovered class will be opaque only when the hoverable element is not hovered." ),
+	gone                       : ( id: 011, basicness: 0, customizability: 0, description: "makes the element completely gone (e.g. display:none)" ),
+	visible                    : ( id: 012, basicness: 0, customizability: 0, description: "makes the element visible (e.g. visibility:visible)" ),
+	invisible                  : ( id: 013, basicness: 0, customizability: 0, description: "makes the element invisible (e.g. visibility:hidden)" ),
+	target-opaque              : ( id: 014, basicness: 2, customizability: 1, description: "applies opaque to a descendant with the .target class" ),
+	definitely-opaque          : ( id: 015, basicness: 2, customizability: 0, description: "applies opaque with !important" ),
+	target-mostly-transparent  : ( id: 016, basicness: 2, customizability: 1, description: "" ),
+	target-mostly-opaque       : ( id: 016, basicness: 2, customizability: 1, description: "" ),
+	target-barely-opaque       : ( id: 017, basicness: 2, customizability: 1, description: "" ),
+	'transparent'              : ( id: 018, basicness: 0, customizability: 0, description: "makes the element transparent" ),
+	mostly-transparent         : ( id: 019, basicness: 1, customizability: 1, description: "makes the element mostly transparent (e.g. opacity: .4)" ),
+	barely-transparent         : ( id: 020, basicness: 1, customizability: 1, description: "makes the element barely transparent (e.g. opacity: .9)" ),
+	opaque                     : ( id: 021, basicness: 0, customizability: 0, description: "makes the element opaque" ),
+	mostly-opaque              : ( id: 022, basicness: 1, customizability: 1, description: "makes the element mostly opaque (e.g. opacity: .6)" ),
+	barely-opaque              : ( id: 023, basicness: 1, customizability: 1, description: "makes the element barely opaque (e.g. opacity: .1)" ),
+	inline                     : ( id: 024, basicness: 0, customizability: 0, description: "makes the element an inline element (e.g. display:inline)" ),
+	inline-block               : ( id: 025, basicness: 0, customizability: 0, description: "makes the element an inline-block element (e.g. display:inline-block with cross-browser fallback)" ),
+	block                      : ( id: 026, basicness: 0, customizability: 0, description: "makes the element a block element (e.g. display:block)" ),
+	floatfix                   : ( id: 027, basicness: 0, customizability: 0, description: "this is a real clearfix that works on ALL browsers (not just the typical clearfix that works by muddying the :after pseudo-element)" ),
+	no-overflow                : ( id: 028, basicness: 0, customizability: 0, description: "this indicates that the element should hide all overflowing content" ),
+	show-overflow              : ( id: 029, basicness: 0, customizability: 0, description: "this indicates that the element should show all overflowing content" ),
+	scroll-overflow            : ( id: 030, basicness: 0, customizability: 0, description: "this indicates that the element should scroll all overflowing content (with touch scroll for mobile webkit)" ),
+	ellipsis-overflow          : ( id: 031, basicness: 0, customizability: 0, description: "this indicates that the element should truncate any overflowing text with ellipses (this applies no-wrap and no-overflow for you)" ),
+	left                       : ( id: 032, basicness: 0, customizability: 0, description: "floats the element to the left" ),
+	right                      : ( id: 033, basicness: 0, customizability: 0, description: "floats the element to the right" ),
+	clear-left                 : ( id: 034, basicness: 0, customizability: 0, description: "clears float to the left" ),
+	clear-right                : ( id: 035, basicness: 0, customizability: 0, description: "clears float to the right" ),
+	clear-both                 : ( id: 036, basicness: 0, customizability: 0, description: "clears float to the left and right" ),
+	link                       : ( id: 037, basicness: 0, customizability: 0, description: "treats element as an anchor tag, even if it's not an anchor tag" ),
+	non-link                   : ( id: 038, basicness: 0, customizability: 0, description: "treats element as a non-anchor tag, even if it's an anchor tag" ),
+	text-left                  : ( id: 039, basicness: 0, customizability: 0, description: "aligns text to the left" ),
+	text-right                 : ( id: 040, basicness: 0, customizability: 0, description: "aligns text to the right" ),
+	text-center                : ( id: 041, basicness: 0, customizability: 0, description: "aligns text to center" ),
+	text-justify               : ( id: 042, basicness: 0, customizability: 0, description: "justifies text alignment" ),
+	uppercase                  : ( id: 043, basicness: 0, customizability: 0, description: "makes text uppercase" ),
+	lowercase                  : ( id: 044, basicness: 0, customizability: 0, description: "makes text lowercase" ),
+	capitalize                 : ( id: 045, basicness: 0, customizability: 0, description: "capitalizes the first letter of each word of the text" ),
+	no-wrap                    : ( id: 046, basicness: 0, customizability: 0, description: "prevents text from wrapping" ),
+	break-word                 : ( id: 047, basicness: 0, customizability: 0, description: "ensures words break (useful in tables)" ),
+	wrap                       : ( id: 048, basicness: 0, customizability: 0, description: "ensures that text wraps" ),
+	small-text                 : ( id: 049, basicness: 1, customizability: 1, description: "makes font size smaller" ),
+	very-small-text            : ( id: 050, basicness: 1, customizability: 1, description: "makes font size much smaller" ),
+	large-text                 : ( id: 051, basicness: 1, customizability: 1, description: "makes font size larger" ),
+	very-large-text            : ( id: 052, basicness: 1, customizability: 1, description: "makes font size much larger" ),
+	light-weight               : ( id: 053, basicness: 1, customizability: 0, description: "makes font weight light" ),
+	normal-weight              : ( id: 054, basicness: 1, customizability: 0, description: "makes font weight normal" ),
+	bold                       : ( id: 055, basicness: 0, customizability: 0, description: "makes font weight bold" ),
+	italic                     : ( id: 056, basicness: 0, customizability: 0, description: "makes font italic" ),
+	underline                  : ( id: 057, basicness: 0, customizability: 0, description: "makes font underlined" ),
+	less-wide                  : ( id: 058, basicness: 2, customizability: 1, description: "makes font spacing less wide" ),
+	wide                       : ( id: 059, basicness: 2, customizability: 1, description: "makes font spacing wide" ),
+	more-wide                  : ( id: 060, basicness: 2, customizability: 1, description: "makes font spacing more wide" ),
+	way-more-wide              : ( id: 061, basicness: 2, customizability: 1, description: "makes font spacing way more wide" ),
+	table                      : ( id: 062, basicness: 0, customizability: 0, description: "makes the element a table even if it's not actually (e.g. a div or span)" ),
+	table-row                  : ( id: 063, basicness: 0, customizability: 0, description: "makes the element a tr even if it's not actually (e.g. a div or span)" ),
+	table-cell                 : ( id: 064, basicness: 0, customizability: 0, description: "makes the element a td even if it's not actually (e.g. a div or span)" ),
+	fixed-layout               : ( id: 065, basicness: 0, customizability: 0, description: "gives a table-styled element a fixed layout" ),
+	auto-layout                : ( id: 066, basicness: 0, customizability: 0, description: "gives a table-styled element an auto layout" ),
+	valign-center              : ( id: 067, basicness: 0, customizability: 0, description: "vertically aligns text or cell contents to the bottom of the center" ),
+	valign-bottom              : ( id: 068, basicness: 0, customizability: 0, description: "vertically aligns text or cell contents to the bottom of the container" ),
+	valign-top                 : ( id: 069, basicness: 0, customizability: 0, description: "vertically aligns text or cell contents to the bottom of the top" ),
+	valign-super               : ( id: 070, basicness: 0, customizability: 0, description: "vertically aligns text to be superscript" ),
+	valign-sub                 : ( id: 071, basicness: 0, customizability: 0, description: "vertically aligns text to be subscript" ),
+	relative                   : ( id: 072, basicness: 0, customizability: 0, description: "gives the element relative positioning" ),
+	absolute                   : ( id: 073, basicness: 0, customizability: 0, description: "gives the element absolute positioning" ),
+	fixed                      : ( id: 074, basicness: 0, customizability: 0, description: "gives the element fixed positioning" ),
+	target-above               : ( id: 075, basicness: 2, customizability: 1, description: "makes the z-index of any descendant element with the .target class be above any element without a z-index-related class" ),
+	above                      : ( id: 076, basicness: 1, customizability: 1, description: "makes the z-index be above an element without a z-index-related class" ),
+	way-above                  : ( id: 077, basicness: 2, customizability: 1, description: "makes the element's z-index be above an element with the above class" ),
+	way-way-above              : ( id: 078, basicness: 2, customizability: 1, description: "makes the element's z-index be above an element with the way-above class" ),
+	below                      : ( id: 079, basicness: 1, customizability: 0, description: "makes the z-index be below an element without a z-index-related class" ),
+	tl                         : ( id: 080, basicness: 0, customizability: 0, description: "positions the element at top:0;left:0" ),
+	tr                         : ( id: 081, basicness: 0, customizability: 0, description: "positions the element at top:0;right:0" ),
+	br                         : ( id: 082, basicness: 0, customizability: 0, description: "positions the element at bottom:0;right:0" ),
+	bl                         : ( id: 083, basicness: 0, customizability: 0, description: "positions the element at bottom:0;left:0" ),
+	ratio-size                 : ( id: 084, basicness: 1, customizability: 0, description: "sizes the element with the ratio given by the last two numbers in the class-name; e.g. width-ratio-1-2 is width: 50% and bottom-ratio-4-5 is bottom: 80%" ),
+	whole-size                 : ( id: 085, basicness: 1, customizability: 0, description: "sizes the element at 100% of the property given by the first term in the class-name; e.g. whole-width is width: 100% and whole-top is top: 100%" ),
+	no-size                    : ( id: 086, basicness: 1, customizability: 0, description: "sizes the element at 0% (by default, or 0em/0px/etc depending on the unit property of the no-size spec in the theme's style-specs) of the property given by the first term in the class-name; e.g. no-top is top:0%, no-width is width: 0%" ),
+	specific-value             : ( id: 087, basicness: 2, customizability: 2, description: "gives the element a specific size on the property given by the key with the specific size spec in the specific-size property of the theme's style-specs" ),
+	target-specific-value      : ( id: 088, basicness: 2, customizability: 2, description: "gives the descendant target element the specific size on the property given by the key with the specific size spec in the target-specific-size property of the theme's style-specs" ),
+	table-padded               : ( id: 089, basicness: 1, customizability: 1, description: "makes the table padded between cells (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	no-background              : ( id: 090, basicness: 1, customizability: 0, description: "ensures the element has no background (color, image, whatever)" ),
+	no-rounding                : ( id: 091, basicness: 1, customizability: 0, description: "gives the element squared corners" ),
+	whole-rounded              : ( id: 092, basicness: 1, customizability: 0, description: "gives the element completely rounded corners (i.e. the element will be an ellipse)" ),
+	whole-t-rounded            : ( id: 093, basicness: 1, customizability: 0, description: "gives the element completely rounded corners on the top (i.e. the element will be an ellipse)" ),
+	whole-r-rounded            : ( id: 094, basicness: 1, customizability: 0, description: "gives the element completely rounded corners on the right (i.e. the element will be an ellipse)" ),
+	whole-b-rounded            : ( id: 095, basicness: 1, customizability: 0, description: "gives the element completely rounded corners on the bottom (i.e. the element will be an ellipse)" ),
+	whole-l-rounded            : ( id: 096, basicness: 1, customizability: 0, description: "gives the element completely rounded corners on the left (i.e. the element will be an ellipse)" ),
+	border-box                 : ( id: 097, basicness: 0, customizability: 0, description: "makes the element's box model border-box" ),
+	not-bordered               : ( id: 098, basicness: 0, customizability: 0, description: "takes away the element's border" ),
+	no-padding                 : ( id: 099, basicness: 0, customizability: 0, description: "removes the element's padding (if any)" ),
+	no-margin                  : ( id: 100, basicness: 0, customizability: 0, description: "removes the element's padding (if any)" ),
+	lr-auto-margin             : ( id: 101, basicness: 0, customizability: 0, description: "this makes the element's left and right margin auto, so if the element has a defined width, it will be centered in its container." ),
+	rounded                    : ( id: 102, basicness: 1, customizability: 1, description: "gives the element rounded corners" ),
+	t-rounded                  : ( id: 103, basicness: 1, customizability: 1, description: "gives the element rounded corners on the top two corners" ),
+	r-rounded                  : ( id: 104, basicness: 1, customizability: 1, description: "gives the element rounded corners on the right two corners" ),
+	b-rounded                  : ( id: 105, basicness: 1, customizability: 1, description: "gives the element rounded corners on the bottom two corners" ),
+	l-rounded                  : ( id: 106, basicness: 1, customizability: 1, description: "gives the element rounded corners on the left two corners" ),
+	tl-rounded                 : ( id: 107, basicness: 1, customizability: 1, description: "gives the element a rounded top-left corner" ),
+	tr-rounded                 : ( id: 108, basicness: 1, customizability: 1, description: "gives the element a rounded top-right corner" ),
+	bl-rounded                 : ( id: 109, basicness: 1, customizability: 1, description: "gives the element a rounded bottom-left corner" ),
+	br-rounded                 : ( id: 110, basicness: 1, customizability: 1, description: "gives the element a rounded bottom-right corner" ),
+	padded                     : ( id: 111, basicness: 1, customizability: 1, description: "makes the element padded (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	t-padded                   : ( id: 112, basicness: 1, customizability: 1, description: "makes the element padded on top (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	r-padded                   : ( id: 113, basicness: 1, customizability: 1, description: "makes the element padded on the right (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	b-padded                   : ( id: 114, basicness: 1, customizability: 1, description: "makes the element padded on the bottom (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	l-padded                   : ( id: 115, basicness: 1, customizability: 1, description: "makes the element padded on the left (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	lr-padded                  : ( id: 116, basicness: 1, customizability: 1, description: "makes the element padded on the left and right (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	tb-padded                  : ( id: 117, basicness: 1, customizability: 1, description: "makes the element padded on the top and bottom (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	margin                     : ( id: 118, basicness: 1, customizability: 1, description: "gives the element a margin (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	t-margin                   : ( id: 119, basicness: 1, customizability: 1, description: "gives the element a margin on top (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	r-margin                   : ( id: 120, basicness: 1, customizability: 1, description: "gives the element a margin on the right (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	b-margin                   : ( id: 121, basicness: 1, customizability: 1, description: "gives the element a margin on the bottom (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	l-margin                   : ( id: 122, basicness: 1, customizability: 1, description: "gives the element a margin on the left (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	lr-margin                  : ( id: 123, basicness: 1, customizability: 1, description: "gives the element a margin on the left and right (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	tb-margin                  : ( id: 124, basicness: 1, customizability: 1, description: "gives the element a margin on the top and bottom (or less or more or way more or way, way more depending on the modifier classes also present on the element)" ),
+	negative-t-margin          : ( id: 125, basicness: 1, customizability: 1, description: "gives the element a margin on top (or less or more or way more or way, way more depending on the modifier classes also present on the element) negative" ),
+	negative-r-margin          : ( id: 126, basicness: 1, customizability: 1, description: "gives the element a margin on the right (or less or more or way more or way, way more depending on the modifier classes also present on the element) negative" ),
+	negative-b-margin          : ( id: 127, basicness: 1, customizability: 1, description: "gives the element a margin on the bottom (or less or more or way more or way, way more depending on the modifier classes also present on the element) negative" ),
+	negative-l-margin          : ( id: 128, basicness: 1, customizability: 1, description: "gives the element a margin on the left (or less or more or way more or way, way more depending on the modifier classes also present on the element) negative" ),
+	inset-shadow               : ( id: 129, basicness: 1, customizability: 1, description: "gives the element an inset shadow" ),
+	deep-inset-shadow          : ( id: 130, basicness: 1, customizability: 1, description: "gives the element a deep inset shadow" ),
+	shadow                     : ( id: 131, basicness: 1, customizability: 1, description: "gives the element a shadow" ),
+	deep-shadow                : ( id: 132, basicness: 1, customizability: 1, description: "gives the element a deep shadow" ),
+	shallow-shadow             : ( id: 133, basicness: 1, customizability: 1, description: "gives the element a shallow shadow" ),
+	no-shadow                  : ( id: 134, basicness: 1, customizability: 1, description: "removes the element's shadow" ),
+	text-shadowed              : ( id: 135, basicness: 1, customizability: 1, description: "makes the element's text shadowed" ),
+	no-text-shadow             : ( id: 136, basicness: 1, customizability: 1, description: "takes away the element's text shadow (also prepares the element for being able to CSS transition to having a text shadow; i.e. if you want your element's text to transition to having a shadow, you would apply .no-text-shadow.text-shadow-when-hovered)" ),
+	bordered                   : ( id: 137, basicness: 1, customizability: 2, description: "makes the element bordered" ),
+	t-bordered                 : ( id: 138, basicness: 1, customizability: 2, description: "makes the element bordered on top" ),
+	r-bordered                 : ( id: 139, basicness: 1, customizability: 2, description: "makes the element bordered on the right" ),
+	b-bordered                 : ( id: 140, basicness: 1, customizability: 2, description: "makes the element bordered on the bottom" ),
+	l-bordered                 : ( id: 141, basicness: 1, customizability: 2, description: "makes the element bordered on the left" ),
+	lr-bordered                : ( id: 142, basicness: 1, customizability: 2, description: "makes the element bordered on the left and right" ),
+	tb-bordered                : ( id: 143, basicness: 1, customizability: 2, description: "makes the element bordered on the top and bottom" ),
+	ltr-bordered               : ( id: 144, basicness: 1, customizability: 2, description: "makes the element bordered on top, left, and right" ),
+	lbr-bordered               : ( id: 145, basicness: 1, customizability: 2, description: "makes the element bordered on left, bottom, and right" ),
+	trb-bordered               : ( id: 146, basicness: 1, customizability: 2, description: "makes the element bordered on top, right, and bottom" ),
+	blt-bordered               : ( id: 147, basicness: 1, customizability: 2, description: "makes the element bordered on bottom, left, and top" ),
+	transparent-border         : ( id: 148, basicness: 1, customizability: 0, description: "makes the element's border transparent (if it is bordered)" ),
+	text-input                 : ( id: 149, basicness: 1, customizability: 2, description: "makes the element appear as a text-input" ),
+	select                     : ( id: 150, basicness: 1, customizability: 2, description: "makes the element appear as a select" ),
+	button                     : ( id: 151, basicness: 1, customizability: 2, description: "this is the convex, shaded button featuring the theme's light secondary color that's no longer deemed hip in the current fad of "flat design"" ),
+	shallow-button             : ( id: 152, basicness: 1, customizability: 2, description: "is the shallower cousin to the convex, shaded button featuring the theme's light secondary color that's no longer deemed hip in the current fad of "flat design"" ),
+	flat-button                : ( id: 153, basicness: 1, customizability: 2, description: "this is like button and shallow-button, but without any of the shading that would make the button feel convex" ),
+	raised-flat-button         : ( id: 154, basicness: 1, customizability: 2, description: "this is a raised variant of flat-button, where the element starts out a little raised off the page, and when hovered or focused is more shadowed than the flat-button when it is hovered or focused." ),
+	deep-flat-button           : ( id: 155, basicness: 1, customizability: 2, description: "this is a deep variant of flat-button, where the element gets deep shadow and inset-shadow when hovered or active." ),
+	hybrid-button              : ( id: 156, basicness: 1, customizability: 2, description: "is the combination of flat-button and button, where when not hovered or focused, it's a flat-button, but then when hovered, it's the convex button that's hovered" ),
+	button-shading             : ( id: 157, basicness: 1, customizability: 2, description: "this is just the shading behavior or the button (with convexness)" ),
+	button-shadow              : ( id: 158, basicness: 1, customizability: 2, description: "this is just the shadow behavior or the button (with convexness)" ),
+	text-coloring              : ( id: 159, basicness: 1, customizability: 2, description: "makes the element's color that of the theme's light secondary color (regardless of the element's background color - be careful)" ),
+	link-coloring              : ( id: 160, basicness: 1, customizability: 2, description: "makes the color of all anchor tags and elements with the .link class that of the theme's light secondary color (regardless of the element's background color - be careful)" ),
+	coloring                   : ( id: 161, basicness: 1, customizability: 2, description: "makes the element's background that of the theme's light secondary color, and makes the color whichever of the theme's light and dark primary colors that provides the highest contrast with the background" ),
+	darker-coloring            : ( id: 162, basicness: 1, customizability: 2, description: "makes the element's background that of a darker version of the theme's light secondary color, and makes the color whichever of the theme's light and dark primary colors that provides the highest contrast with the background" ),
+	sheer-coloring             : ( id: 163, basicness: 1, customizability: 2, description: "makes the element's background a mostly opaque version of the theme's light secondary color, and makes the color whichever of the theme's light and dark primary colors that provides the highest contrast with the background" ),
+	barely-sheer-coloring      : ( id: 164, basicness: 1, customizability: 2, description: "makes the element's background a barely transparent version of the theme's light secondary color, and makes the color whichever of the theme's light and dark primary colors that provides the highest contrast with the background" ),
+	mostly-sheer-coloring      : ( id: 165, basicness: 1, customizability: 2, description: "makes the element's background a mostly transparent version of the theme's light secondary color, and makes the color whichever of the theme's light and dark primary colors that provides the highest contrast with the background" ),
+	t-gradient                 : ( id: 166, basicness: 1, customizability: 2, description: "makes the element's background a vertical gradient from transparent at the bottom to the coloring color at the top" ),
+	r-gradient                 : ( id: 167, basicness: 1, customizability: 2, description: "makes the element's background a vertical gradient from transparent at the left to the coloring color at the right" ),
+	b-gradient                 : ( id: 168, basicness: 1, customizability: 2, description: "makes the element's background a vertical gradient from transparent at the top to the coloring color at the bottom" ),
+	l-gradient                 : ( id: 169, basicness: 1, customizability: 2, description: "makes the element's background a vertical gradient from transparent at the right to the coloring color at the left" ),
+	not-lr-bordered            : ( id: 170, basicness: 0, customizability: 0, description: "takes away the element's left and right borders" ),
+	not-tb-bordered            : ( id: 171, basicness: 0, customizability: 0, description: "takes away the element's top and bottom borders" ),
+	not-l-bordered             : ( id: 172, basicness: 0, customizability: 0, description: "takes away the element's left border" ),
+	not-r-bordered             : ( id: 173, basicness: 0, customizability: 0, description: "takes away the element's right border" ),
+	not-t-bordered             : ( id: 174, basicness: 0, customizability: 0, description: "takes away the element's top border" ),
+	not-b-bordered             : ( id: 175, basicness: 0, customizability: 0, description: "takes away the element's bottom border" ),
+) !global;
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// CONFIGURATIONS SHARED AMONG STYLES IN A THEME /////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+// COLOR DEFAULTS
+$default-light          : white !global !default;
+$default-dark           : black !global !default;
+$default-primary-light  : white !global !default;
+$default-primary-dark   : black !global !default;
+$default-secondary-light: white !global !default;
+$default-secondary-dark : black !global !default;
+$default-lightening     : 10% !global !default;
+$default-darkening      : 5% !global !default;
+$default-desaturation   : 100% !global !default;
+
+// OPACITY DEFAULTS
+$default-barely: .1 !global !default;
+$default-mostly: .60 !global !default;
+
+// TEXT MODIFIERS DEFAULTS
+$default-establish-baseline: true !global !default;
+$default-base-font-size    : 14px !global !default;
+$default-base-line-height  : 18px !global !default;
+$default-base-font-family  : Arial, sans serif !global !default;
+$default-large-text        : 120% !global !default;
+$default-small-text        :  80% !global !default;
+$default-very-large-text   : 200% !global !default;
+$default-very-small-text   :  60% !global !default;
+$default-less-wide-text    : .2em !global !default;
+$default-wide-text         : .33em !global !default;
+$default-more-wide-text    : .5em !global !default;
+$default-way-more-wide-text: 1em !global !default;
+
+// SHADOW DEFAULTS
+$default-shadow-color               : black !global !default;
+$default-shadow-opacity             : .5 !global !default;
+$default-shadow-primary-depth       : 2px !global !default;
+$default-shadow-secondary-depth     : 1px !global !default;
+$default-shadow-shallow-depth-factor: .5 !global !default;
+$default-shadow-deep-depth-factor   : 2 !global !default;
+
+// COLORING DEFAULTS
+$default-link-colors     : null !global !default; // would be something like this: make-colors( ( light: #00ADEF, dark: shade( #00ADEF, 50% ) ) ) !global !default;
+$default-low-contrast-mix: 75% !global !default;
+
+// BUTTON DEFAULTS
+$default-button-highlight-opacity     : .2 !global !default;
+$default-button-lowlight-opacity      : .1 !global !default;
+$default-button-default-depth-factor  : 5 !global !default;
+$default-button-hovered-depth-factor  : 1.5 !global !default;
+$default-button-depressed-depth-factor: 1.5 !global !default;
+$default-button-disabled-depth-factor : 0 !global !default;
+$default-button-raised-depth-factor   : .5 !global !default;
+
+// BORDERING DEFAULTS
+$default-border-styles        : false !global !default; // would be a list of actual border styles such as 'solid', 'dotted' and leads to &.solid and &.dotted modifier classes
+$default-border-radius        : 3px !global !default;
+$default-border-width         : 1px !global !default;
+$default-border-opacity       : .2 !global !default;
+$default-border-thick-factor  : 2 !global !default;
+$default-border-heavy-factor  : 5 !global !default;
+
+$default-spacing: 10px !global !default;
+
+// TRANSITIONS DEFAULTS
+$default-standard-transitions : 300ms  !global !default;
+$default-very-slow-transitions: 1200ms !global !default;
+$default-slow-transitions     : 600ms  !global !default;
+$default-fast-transitions     : 150ms  !global !default;
+
+@function make-colors( $args: () ) {
+	@return map-merge( (
+		light       : $default-light,
+		dark        : $default-dark,
+		lightening  : $default-lightening,
+		darkening   : $default-darkening,
+		desaturation: $default-desaturation,
+	), $args );
+}
+
+@function make-opacity-modifiers( $args: () ) {
+	@return map-merge( (
+		barely: $default-barely,
+		mostly: $default-mostly,
+	), $args );
+}
+
+@function make-text-styles( $args: () ) {
+	@return map-merge( (
+		establish-baseline: $default-establish-baseline,
+		base-font-size    : $default-base-font-size,
+		base-line-height  : $default-base-line-height,
+		base-font-family  : $default-base-font-family,
+		large-text        : $default-large-text,
+		small-text        : $default-small-text,
+		very-large-text   : $default-very-large-text,
+		very-small-text   : $default-very-small-text,
+		less-wide         : $default-less-wide-text,
+		wide              : $default-wide-text,
+		more-wide         : $default-more-wide-text,
+		way-more-wide     : $default-way-more-wide-text,
+	), $args );
+}
+
+@function make-shadows( $args: () ) {
+	@return map-merge( (
+		color               : $default-shadow-color,
+		opacity             : $default-shadow-opacity,
+		primary-depth       : $default-shadow-primary-depth,
+		secondary-depth     : $default-shadow-secondary-depth,
+		shallow-depth-factor: $default-shadow-shallow-depth-factor,
+		deep-depth-factor   : $default-shadow-deep-depth-factor,
+	), $args );
+}
+
+@function make-colorings( $args: () ) {
+	@return map-merge( (
+		link-colors     : $default-link-colors,
+		low-contrast-mix: $default-low-contrast-mix,
+	), $args );
+}
+
+@function make-buttons( $args: () ) {
+	@return map-merge( (
+		highlight-opacity     : $default-button-highlight-opacity,
+		lowlight-opacity      : $default-button-lowlight-opacity,
+		default-depth-factor  : $default-button-default-depth-factor,
+		hovered-depth-factor  : $default-button-hovered-depth-factor,
+		depressed-depth-factor: $default-button-depressed-depth-factor,
+		disabled-depth-factor : $default-button-disabled-depth-factor,
+		raised-depth-factor   : $default-button-raised-depth-factor,
+	), $args );
+}
+
+@function make-borders( $args: () ) {
+	@return map-merge( (
+		styles      : $default-border-styles,
+		radius      : $default-border-radius,
+		opacity     : $default-border-opacity,
+		width       : $default-border-width,
+		heavy-factor: $default-border-heavy-factor,
+		thick-factor: $default-border-thick-factor,
+	), $args );
+}
+
+@function make-transitions( $args: () ) {
+	@return map-merge( (
+		standard : $default-standard-transitions,
+		slow     : $default-slow-transitions,
+		very-slow: $default-very-slow-transitions,
+		fast     : $default-fast-transitions,
+	), $args );
+}
+
+@function make-theme( $args: () ) {
+	@return map-merge( (
+		theme-spec       : make-theme-spec(),
+		style-specs      : (),
+		name             : null,
+		extends          : null, // could be any CSS rule, such as body for a default theme, or article, for a theme that should apply to all article tags
+		primary-colors   : make-colors(( light: $default-primary-light,   dark: $default-primary-dark   )),
+		secondary-colors : make-colors(( light: $default-secondary-light, dark: $default-secondary-dark )),
+		error-colors     : make-colors(( light: red,                      dark: shade( red, 50% )       )),
+		opacity-modifiers: make-opacity-modifiers(),
+		text-styles      : make-text-styles(),
+		shadows          : make-shadows(),
+		colorings        : make-colorings(),
+		buttons          : make-buttons(),
+		borders          : make-borders(),
+		spacing          : $default-spacing,
+		transitions      : make-transitions(),
+	), $args );
+}
+
+@function make-default-theme( $args: () ) {
+	@return map-merge(
+		make-theme( $args ),
+		( style-specs: make-default-style-specs( map-get( $args, style-specs ) ) )
+	);
+}
+
+$default-theme: make-default-theme() !global !default;
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// NAMING UTILITY FUNCTIONS //////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+@function get-theme-selector( $theme: $current-theme ) {
+	$theme-name   : map-get( $theme, name );
+	$theme-extends: map-get( $theme, extends );
+
+	$theme-selector: "";
+	@if $theme-name    { $theme-selector: ".#{ $theme-name }"; }
+	@if $theme-extends { $theme-selector: "#{ $theme-selector }#{ if( $theme-selector != "", ", ", "" ) }#{ $theme-extends }"; }
+
+	@return $theme-selector;
+}
+
+@mixin extend-style(
+	$style     : null,
+	$class-name: null,
+	$theme     : $current-theme,
+	$inverse   : $current-inverse,
+	$secondary : $current-secondary
+) {
+	@if not $class-name {
+		// @debug "Extending...#{ $style }";
+		$class-name: map-get( map-get( map-get( $theme, style-specs ), $style ), class-name );
+		@if $class-name {
+			$class-name: $class-name;
+		} @else {
+			$class-name: $style;
+		}
+	} @else {
+		// @debug "Extending...#{ $class-name }";
+	}
+
+	@extend %#{ get-fully-qualified-style-name(
+		$class-name: $class-name,
+		$theme     : $theme,
+		$inverse   : $inverse,
+		$secondary : $secondary
+	) } !optional;
+}
+
+@function get-fully-qualified-style-name(
+	$class-name: $current-class-name,
+	$theme     : $current-theme,
+	$inverse   : $current-inverse,
+	$secondary : $current-secondary
+) {
+	$style-name: "";
+	$theme-name: map-get( $theme, name );
+
+	@if $theme-name and str-length( $theme-name ) > 0 { $style-name: "#{ $style-name }#{ if( str-length( $style-name ) > 0, '-', '' ) }#{ $theme-name      }"; }
+	@if $inverse   != false                           { $style-name: "#{ $style-name }#{ if( str-length( $style-name ) > 0, '-', '' ) }#{ $class-inverse   }"; }
+	@if $secondary != false                           { $style-name: "#{ $style-name }#{ if( str-length( $style-name ) > 0, '-', '' ) }#{ $class-secondary }"; }
+	@if $class-name and str-length( $class-name ) > 0 { $style-name: "#{ $style-name }#{ if( str-length( $style-name ) > 0, '-', '' ) }#{ $class-name      }"; }
+
+	@return $style-name;
+}
+
+@function get-current-style-spec-class-name() {
+	$class-name: map-get( $current-style-spec, original-class-name );
+	@if not $class-name { $class-name: map-get( $current-style-spec, class-name ); }
+	@if not $class-name { $class-name: $current-style; }
+	@return $class-name;
+}
+
+@function set-current-style-spec-class-name( $class-name ) {
+	$current-style-spec: map-merge( $current-style-spec, ( original-class-name: get-current-style-spec-class-name(), class-name: $class-name ) ) !global;
+	@return $current-style-spec;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// STYLE MIXIN UTILITY FUNCTIONS /////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+@function correctly-contrast-color( $color, $light, $dark ) {
+	$light-lightness: lightness( $light );
+	$dark-lightness: lightness( $dark );
+	$threshold: ( lightness( mix( $light, $dark ) ) + 300% ) / 4;
+	$lightness: lightness( $color );
+	@if $lightness < $threshold { // if the color is relatively dark
+		@return if( $light-lightness > $dark-lightness, $light, $dark );
+	} @else {
+		@return if( $light-lightness > $dark-lightness, $dark, $light );
+	}
+}
+
+@function get-color-set() { @return if( not $current-with-secondary, secondary-colors, if( $current-secondary, secondary-colors, primary-colors ) ); }
+
+@function get-opposite-color-set() { @return if( get-color-set() == secondary-colors, primary-colors, secondary-colors ); }
+
+@function get-color-type() { @return if( not $current-with-inverse, light, if( $current-inverse, dark, light ) ); }
+
+@function get-opposite-color-type() { @return if( get-color-type() == light, dark, light ); }
+
+@function get-colors()          { @return map-get( $current-theme, get-color-set()          ); }
+@function get-opposite-colors() { @return map-get( $current-theme, get-opposite-color-set() ); }
+
+@function get-color()          { @return map-get( get-colors(),          get-color-type() ); }
+@function get-opposite-color() { @return map-get( get-colors(), get-opposite-color-type() ); }
+
+@function get-contrasting-primary-color( $color: get-color() ) {
+	@return correctly-contrast-color(
+		$color,
+		map-get( map-get( $current-theme, primary-colors ), light ),
+		map-get( map-get( $current-theme, primary-colors ), dark  )
+	);
+}
+
+@function get-contrasting-secondary-color( $color: get-color() ) {
+	@return correctly-contrast-color(
+		$color,
+		map-get( map-get( $current-theme, secondary-colors ), light ),
+		map-get( map-get( $current-theme, secondary-colors ), dark  )
+	);
+}

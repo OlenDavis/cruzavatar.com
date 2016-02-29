@@ -1,0 +1,29 @@
+{
+	"name"             : "CruzAvatar",
+	"prefix"           : "c",
+	"environment"      : "development",
+	"liveReloadPort"   : "35729",
+	"buildDir"         : "build",
+	"builtDir"         : "built",
+	"htmlTarget"       : "*.html",
+	"taxonomyDir"      : "angoolar_components/taxonomy",
+	"postwatch"        : "./postwatch.sh",
+	"applicationConfig": {
+		"development"               : {
+			"type"               : "development",
+			"defaultScheme"      : "http://",
+			"apiDomain"          : "localhost",
+			"staticFileDomain"   : "localhost",
+			"staticFileDirectory": "",
+			"staticFileSuffix"   : ""
+		},
+		"production": {
+			"type"               : "production",
+			"defaultScheme"      : "http://",
+			"apiDomain"          : "cruzavatar.com",
+			"staticFileDomain"   : "cruzavatar.com",
+			"staticFileDirectory": "",
+			"staticFileSuffix"   : ""
+		}
+	}
+}

@@ -1,0 +1,154 @@
+<div>
+
+	<div
+		ng-if ="AvatarController.generatedDataUrl"
+		class ="c-animate wipe-max-height relative"
+	>
+
+		<div class="h1 light-weight text-center less-b-margin">
+			{{ AvatarController.messages[ AvatarController.messageIndex ] }}
+		</div>
+
+		<div class="h3 light-weight text-center">
+			Now {{ $root.isBrowser.Mobile ? 'Long' : 'Right' }}-click &amp; Save Away!
+		</div>
+
+		<img
+			class  ="block whole-max-width lr-auto-margin b-margin rounded deep-shadow shadow-when-hovered transitions"
+			ng-src ="{{ AvatarController.generatedDataUrl }}"
+		/>
+
+		<div class="h3 light-weight text-center">
+			Or Make Another!
+		</div>
+
+	</div>
+
+	<div
+		ng-if ="! AvatarController.selectedFileDataUrl"
+		class ="c-animate wipe-max-height h3 light-weight"
+	>
+		First, Pick a File:
+	</div>
+
+	<input
+		type           ="file"
+		accept         ="image/*"
+		c-avatar-input ="AvatarController.selectedFile = files[ 0 ]"
+		class          ="block whole-max-width p large-text no-line-height bold transitions break-word-wrap"
+	/>
+
+	<div
+		ng-if ="AvatarController.selectedFileDataUrl"
+		class ="c-animate wipe-max-height relative"
+	>
+
+		<a
+			class    ="block tb-margin text-center padded bold rounded red coloring flat-button"
+			ng-click ="AvatarController.generate()"
+		>
+			Generate It{{ AvatarController.ofSelectedFileDataUrl != AvatarController.selectedFileDataUrl ? '' : ' Again' }}!
+		</a>
+
+		({{ $root.isBrowser.Mobile ? 'tap' : 'click' }}-n-drag to move stuff around)
+
+		<div
+			c-fixed-proportion-div
+			ratio-height ="1"
+			ratio-width  ="1"
+		>
+			<div
+				class         ="absolute whole-width whole-height canvas-bg rounded inset-shadow border-box thick bordered no-overflow"
+				ng-mousedown  ="AvatarController.$scope.selected = { top: $event.pageY, left: $event.pageX }"
+				ng-mouseup    ="
+					( currentPosition = AvatarController.$scope[ AvatarController.movingOverlay ? 'overlay' : 'avatar' ] ).top = currentPosition.top + movement.top;
+					( currentPosition = AvatarController.$scope[ AvatarController.movingOverlay ? 'overlay' : 'avatar' ] ).left = currentPosition.left + movement.left;
+					AvatarController.$scope.selected = null;
+					AvatarController.$scope.movement = { top: 0, left: 0 };"
+				ng-mouseleave ="
+					( currentPosition = AvatarController.$scope[ AvatarController.movingOverlay ? 'overlay' : 'avatar' ] ).top = currentPosition.top + movement.top;
+					( currentPosition = AvatarController.$scope[ AvatarController.movingOverlay ? 'overlay' : 'avatar' ] ).left = currentPosition.left + movement.left;
+					AvatarController.$scope.selected = null;
+					AvatarController.$scope.movement = { top: 0, left: 0 };"
+				ng-mousemove  ="AvatarController.$scope.movement = selected ? { top: $event.pageY - selected.top, left: $event.pageX - selected.left } : { top: 0, left: 0 }"
+				c-on-resize   ="
+					container.width  = width;
+					container.height = height;
+					container.top    = top;
+					container.left   = left;"
+			>
+
+				<img
+					c-avatar-image
+					class    ="block absolute"
+					ng-src   ="{{ AvatarController.selectedFileDataUrl }}"
+					ng-style ="{
+						top : avatar.top + ( ! AvatarController.movingOverlay ? movement.top : 0 ),
+						left: avatar.left + ( ! AvatarController.movingOverlay ? movement.left : 0 ),
+					}"
+					ng-class="{
+						'whole-width': avatar.width < avatar.height,
+						'whole-height': avatar.width >= avatar.height,
+					}"
+					c-on-resize ="
+						avatar.width  = width;
+						avatar.height = height;
+						avatar.top    = (container.height - avatar.height) / 2;
+						avatar.left   = (container.width - avatar.width) / 2;
+					"
+					on-load="
+						avatar.top = (container.height - avatar.height) / 2;
+						avatar.left = (container.width - avatar.width) / 2;
+					"
+				/>
+
+				<img
+					c-avatar-overlay
+					class    ="block absolute"
+					ng-src   ="{{ overlayUrl }}"
+					ng-style ="{
+						top : overlay.top + ( AvatarController.movingOverlay ? movement.top : 0 ),
+						left: overlay.left + ( AvatarController.movingOverlay ? movement.left : 0 ),
+					}"
+					ng-class="{
+						'whole-width': overlay.width < overlay.height,
+						'whole-height': overlay.width >= overlay.height,
+					}"
+					c-on-resize ="
+						overlay.width  = width;
+						overlay.height = height;
+						overlay.top    = (container.height - overlay.height) / 2;
+						overlay.left   = (container.width - overlay.width) / 2;
+					"
+					on-load ="
+						overlay.top = (container.height - overlay.height) / 2;
+						overlay.left = (container.width - overlay.width) / 2;
+					"
+				/>
+
+				<div class="absolute tl whole-width whole-height"></div>
+
+			</div>
+		</div>
+
+		<div class="t-margin text-center">
+
+			<a
+				ng-click ="AvatarController.movingOverlay = false"
+				class    ="inline-block width-ratio-1-2 border-box less-padded bold l-rounded blue coloring flat-button"
+				ng-class ="{ active: ! AvatarController.movingOverlay }"
+			>
+				Mov{{ ! AvatarController.movingOverlay ? 'ing' : 'e' }} Avatar
+			</a><a
+				ng-click ="AvatarController.movingOverlay = true"
+				class    ="inline-block width-ratio-1-2 border-box less-padded bold r-rounded blue coloring flat-button"
+				ng-class ="{ active: AvatarController.movingOverlay }"
+			>
+				Mov{{ AvatarController.movingOverlay ? 'ing' : 'e' }} Overlay
+			</a>
+
+		</div>
+
+	</div>
+
+</div>

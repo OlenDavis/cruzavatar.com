@@ -1,0 +1,124 @@
+<div>
+
+	<div
+		class    ="relative no-wrap hardware-render"
+		ng-class ="{
+			'to-left'                 : SliderController.$lastIndex < currentIndex,
+			'to-right'                : SliderController.$lastIndex > currentIndex,
+			'whole-width whole-height': ( mode || '' ).indexOf( 'whole-size' ) != -1
+		}"
+	>
+
+		<div
+			ng-repeat ="$slideController in SliderController.$slideControllers"
+			ng-if     ="SliderController.$currentIndex == $index"
+			class     ="inline-block slow c-animate slide-h wrap {{ ( mode || '' ).indexOf( 'whole-size' ) != -1 && 'whole-width whole-height' || '' }}"
+		>
+			<div 
+				c-transclude-with ="$slideController.$transclude"
+				ng-class          ="{ 'whole-width whole-height': ( mode || '' ).indexOf( 'whole-size' ) != -1 }"
+			></div>
+		</div>
+
+		<div class="absolute tl bl">
+			<div
+				c-centered-div
+				class ="whole-height"
+				ng-if ="! hideControls"
+			>
+				<div
+					c-tooltip-target
+					ng-click ="SliderController.previousSlide()"
+				>
+					
+					<a ng-class ="{
+							'text-center h5 line-height-sized blue coloring flat-button margin whole-rounded fa fa-arrow-left': ! simpleStyle && ! largeArrows,
+							'fa fa-angle-left h2 line-height-sized'                                                           : simpleStyle && ! largeArrows,
+							'fa fa-chevron-left h2 line-height-sized'                                                         : largeArrows
+						}"
+					></a>
+
+					<div
+						c-typical-tooltip ="right"
+						never-shown       ="$root.isBrowser.Mobile"
+						ng-if             ="SliderController.getPreviousLabel()"
+					>
+						{{ SliderController.getPreviousLabel() }}
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="absolute tr br">
+			<div
+				c-centered-div
+				class ="whole-height"
+				ng-if ="! hideControls"
+			>
+				<div
+					c-tooltip-target
+					ng-click ="SliderController.nextSlide()"
+				>
+
+					<a
+						ng-class ="{
+							'text-center h5 line-height-sized blue coloring flat-button margin whole-rounded fa fa-arrow-right': ! simpleStyle && ! largeArrows,
+							'fa fa-angle-right h2 line-height-sized'                                                           : simpleStyle && ! largeArrows,
+							'fa fa-chevron-right h2 line-height-sized'                                                         : largeArrows
+						}"
+					></a>
+
+					<div
+						c-typical-tooltip ="left"
+						never-shown       ="$root.isBrowser.Mobile"
+						ng-if             ="SliderController.getNextLabel()"
+					>
+						{{ SliderController.getNextLabel() }}
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div 
+			ng-if ="! hideControls && ! simpleStyle"
+			class ="absolute whole-width text-center no-bottom b-margin"
+		>
+
+			<span
+				ng-click ="SliderController.$scope.paused = ! paused"
+				class    ="link inline-block r-margin p line-height-sized text-center whole-rounded blue-flat-button"
+				ng-class ="{
+					'blue-coloring': paused,
+					'grey-coloring': ! paused
+				}"
+			>
+				<span
+					class    ="fa"
+					ng-class ="{
+						'fa-play' : paused,
+						'fa-pause': ! paused
+					}"
+				></span>
+			</span>
+
+			<span
+				ng-repeat ="$slideController in SliderController.$slideControllers"
+				ng-if     ="! hideCircleControllers"
+				class     ="link inline-block fa fa-circle transitions opaque-when-hovered default-text-coloring text-shadowed"
+				ng-click  ="SliderController.goToSlide( $index )"
+				ng-class  ="{
+					'red-text-coloring'                            : currentIndex == $index,
+					'blue-text-coloring-when-hovered mostly-opaque': currentIndex != $index,
+					'less-r-margin'                                : ! $last
+				}"
+			></span>
+
+		</div>
+
+	</div>
+
+	<div ng-transclude></div>
+
+</div>

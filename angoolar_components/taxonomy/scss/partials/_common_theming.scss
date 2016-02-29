@@ -1,0 +1,464 @@
+$current-theme    : $default-theme !global;
+$current-inverse  : false !global;
+$current-secondary: false !global;
+
+$media-query-phase: false !global;
+
+@mixin declare-themes( $themes ) {
+	$media-query-phase: false !global;
+
+	@each $theme in $themes {
+		@include declare-theme( $theme );
+	}
+
+	$media-query-phase: 1 !global;
+
+	@each $theme in $themes {
+		@include declare-theme( $theme );
+	}
+
+	$media-query-phase: 2 !global;
+
+	@each $theme in $themes {
+		@include declare-theme( $theme );
+	}
+}
+
+@mixin declare-theme( $theme ) {
+	$current-theme: $theme !global;
+
+	$style-specs: map-get( $theme, style-specs );
+
+	@each $style, $style-spec in $style-specs {
+		$current-style     : $style !global;
+		$current-style-spec: $style-spec !global;
+		@include declare-style( $style );
+	}
+}
+
+@mixin declare-style( $style ) {
+	@if $current-style-spec {
+		@if $style == 'above'                       { @if mixin-exists( declare-#{ $style } ) { @include declare-above;                       } @else if mixin-exists( $style ) { @include declare-specified-style { @include above;                       } } }
+		@if $style == 'absolute'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-absolute;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include absolute;                    } } }
+		@if $style == 'appearance-none'             { @if mixin-exists( declare-#{ $style } ) { @include declare-appearance-none;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include appearance-none;             } } }
+		@if $style == 'auto-layout'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-auto-layout;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include auto-layout;                 } } }
+		@if $style == 'b-bordered'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-b-bordered;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include b-bordered;                  } } }
+		@if $style == 'b-gradient'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-b-gradient;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include b-gradient;                  } } }
+		@if $style == 'b-margin'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-b-margin;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include b-margin;                    } } }
+		@if $style == 'b-padded'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-b-padded;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include b-padded;                    } } }
+		@if $style == 'b-rounded'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-b-rounded;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include b-rounded;                   } } }
+		@if $style == 'barely-opaque'               { @if mixin-exists( declare-#{ $style } ) { @include declare-barely-opaque;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include barely-opaque;               } } }
+		@if $style == 'barely-sheer-coloring'       { @if mixin-exists( declare-#{ $style } ) { @include declare-barely-sheer-coloring;       } @else if mixin-exists( $style ) { @include declare-specified-style { @include barely-sheer-coloring;       } } }
+		@if $style == 'barely-transparent'          { @if mixin-exists( declare-#{ $style } ) { @include declare-barely-transparent;          } @else if mixin-exists( $style ) { @include declare-specified-style { @include barely-transparent;          } } }
+		@if $style == 'below'                       { @if mixin-exists( declare-#{ $style } ) { @include declare-below;                       } @else if mixin-exists( $style ) { @include declare-specified-style { @include below;                       } } }
+		@if $style == 'bl'                          { @if mixin-exists( declare-#{ $style } ) { @include declare-bl;                          } @else if mixin-exists( $style ) { @include declare-specified-style { @include bl;                          } } }
+		@if $style == 'bl-rounded'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-bl-rounded;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include bl-rounded;                  } } }
+		@if $style == 'block'                       { @if mixin-exists( declare-#{ $style } ) { @include declare-block;                       } @else if mixin-exists( $style ) { @include declare-specified-style { @include block;                       } } }
+		@if $style == 'blt-bordered'                { @if mixin-exists( declare-#{ $style } ) { @include declare-blt-bordered;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include blt-bordered;                } } }
+		@if $style == 'bold'                        { @if mixin-exists( declare-#{ $style } ) { @include declare-bold;                        } @else if mixin-exists( $style ) { @include declare-specified-style { @include bold;                        } } }
+		@if $style == 'border-box'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-border-box;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include border-box;                  } } }
+		@if $style == 'bordered'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-bordered;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include bordered;                    } } }
+		@if $style == 'br'                          { @if mixin-exists( declare-#{ $style } ) { @include declare-br;                          } @else if mixin-exists( $style ) { @include declare-specified-style { @include br;                          } } }
+		@if $style == 'br-rounded'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-br-rounded;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include br-rounded;                  } } }
+		@if $style == 'break-word'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-break-word;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include break-word;                  } } }
+		@if $style == 'button'                      { @if mixin-exists( declare-#{ $style } ) { @include declare-button;                      } @else if mixin-exists( $style ) { @include declare-specified-style { @include button;                      } } }
+		@if $style == 'button-shading'              { @if mixin-exists( declare-#{ $style } ) { @include declare-button-shading;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include button-shading;              } } }
+		@if $style == 'button-shadow'               { @if mixin-exists( declare-#{ $style } ) { @include declare-button-shadow;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include button-shadow;               } } }
+		@if $style == 'capitalize'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-capitalize;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include capitalize;                  } } }
+		@if $style == 'clear-both'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-clear-both;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include clear-both;                  } } }
+		@if $style == 'clear-left'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-clear-left;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include clear-left;                  } } }
+		@if $style == 'clear-right'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-clear-right;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include clear-right;                 } } }
+		@if $style == 'coloring'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-coloring;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include coloring;                    } } }
+		@if $style == 'darker-coloring'             { @if mixin-exists( declare-#{ $style } ) { @include declare-darker-coloring;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include darker-coloring;             } } }
+		@if $style == 'deep-flat-button'            { @if mixin-exists( declare-#{ $style } ) { @include declare-deep-flat-button;            } @else if mixin-exists( $style ) { @include declare-specified-style { @include deep-flat-button;            } } }
+		@if $style == 'deep-inset-shadow'           { @if mixin-exists( declare-#{ $style } ) { @include declare-deep-inset-shadow;           } @else if mixin-exists( $style ) { @include declare-specified-style { @include deep-inset-shadow;           } } }
+		@if $style == 'deep-shadow'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-deep-shadow;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include deep-shadow;                 } } }
+		@if $style == 'definitely-no-transitions'   { @if mixin-exists( declare-#{ $style } ) { @include declare-definitely-no-transitions;   } @else if mixin-exists( $style ) { @include declare-specified-style { @include definitely-no-transitions;   } } }
+		@if $style == 'definitely-opaque'           { @if mixin-exists( declare-#{ $style } ) { @include declare-definitely-opaque;           } @else if mixin-exists( $style ) { @include declare-specified-style { @include definitely-opaque;           } } }
+		@if $style == 'ellipsis-overflow'           { @if mixin-exists( declare-#{ $style } ) { @include declare-ellipsis-overflow;           } @else if mixin-exists( $style ) { @include declare-specified-style { @include ellipsis-overflow;           } } }
+		@if $style == 'filter'                      { @if mixin-exists( declare-#{ $style } ) { @include declare-filter;                      } @else if mixin-exists( $style ) { @include declare-specified-style { @include filter;                      } } }
+		@if $style == 'fixed'                       { @if mixin-exists( declare-#{ $style } ) { @include declare-fixed;                       } @else if mixin-exists( $style ) { @include declare-specified-style { @include fixed;                       } } }
+		@if $style == 'fixed-layout'                { @if mixin-exists( declare-#{ $style } ) { @include declare-fixed-layout;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include fixed-layout;                } } }
+		@if $style == 'flat-button'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-flat-button;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include flat-button;                 } } }
+		@if $style == 'floatfix'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-floatfix;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include floatfix;                    } } }
+		@if $style == 'gone'                        { @if mixin-exists( declare-#{ $style } ) { @include declare-gone;                        } @else if mixin-exists( $style ) { @include declare-specified-style { @include gone;                        } } }
+		@if $style == 'hardware-render'             { @if mixin-exists( declare-#{ $style } ) { @include declare-hardware-render;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include hardware-render;             } } }
+		@if $style == 'hoverable'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-hoverable;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include hoverable;                   } } }
+		@if $style == 'hybrid-button'               { @if mixin-exists( declare-#{ $style } ) { @include declare-hybrid-button;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include hybrid-button;               } } }
+		@if $style == 'inline'                      { @if mixin-exists( declare-#{ $style } ) { @include declare-inline;                      } @else if mixin-exists( $style ) { @include declare-specified-style { @include inline;                      } } }
+		@if $style == 'inline-block'                { @if mixin-exists( declare-#{ $style } ) { @include declare-inline-block;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include inline-block;                } } }
+		@if $style == 'inset-shadow'                { @if mixin-exists( declare-#{ $style } ) { @include declare-inset-shadow;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include inset-shadow;                } } }
+		@if $style == 'invisible'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-invisible;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include invisible;                   } } }
+		@if $style == 'italic'                      { @if mixin-exists( declare-#{ $style } ) { @include declare-italic;                      } @else if mixin-exists( $style ) { @include declare-specified-style { @include italic;                      } } }
+		@if $style == 'l-bordered'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-l-bordered;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include l-bordered;                  } } }
+		@if $style == 'l-gradient'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-l-gradient;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include l-gradient;                  } } }
+		@if $style == 'l-margin'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-l-margin;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include l-margin;                    } } }
+		@if $style == 'l-padded'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-l-padded;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include l-padded;                    } } }
+		@if $style == 'l-rounded'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-l-rounded;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include l-rounded;                   } } }
+		@if $style == 'large-text'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-large-text;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include large-text;                  } } }
+		@if $style == 'lbr-bordered'                { @if mixin-exists( declare-#{ $style } ) { @include declare-lbr-bordered;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include lbr-bordered;                } } }
+		@if $style == 'left'                        { @if mixin-exists( declare-#{ $style } ) { @include declare-left;                        } @else if mixin-exists( $style ) { @include declare-specified-style { @include left;                        } } }
+		@if $style == 'less-wide'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-less-wide;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include less-wide;                   } } }
+		@if $style == 'light-weight'                { @if mixin-exists( declare-#{ $style } ) { @include declare-light-weight;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include light-weight;                } } }
+		@if $style == 'link'                        { @if mixin-exists( declare-#{ $style } ) { @include declare-link;                        } @else if mixin-exists( $style ) { @include declare-specified-style { @include link;                        } } }
+		@if $style == 'link-coloring'               { @if mixin-exists( declare-#{ $style } ) { @include declare-link-coloring;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include link-coloring;               } } }
+		@if $style == 'lowercase'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-lowercase;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include lowercase;                   } } }
+		@if $style == 'lr-auto-margin'              { @if mixin-exists( declare-#{ $style } ) { @include declare-lr-auto-margin;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include lr-auto-margin;              } } }
+		@if $style == 'lr-bordered'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-lr-bordered;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include lr-bordered;                 } } }
+		@if $style == 'lr-margin'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-lr-margin;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include lr-margin;                   } } }
+		@if $style == 'lr-padded'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-lr-padded;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include lr-padded;                   } } }
+		@if $style == 'ltr-bordered'                { @if mixin-exists( declare-#{ $style } ) { @include declare-ltr-bordered;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include ltr-bordered;                } } }
+		@if $style == 'margin'                      { @if mixin-exists( declare-#{ $style } ) { @include declare-margin;                      } @else if mixin-exists( $style ) { @include declare-specified-style { @include margin;                      } } }
+		@if $style == 'more-wide'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-more-wide;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include more-wide;                   } } }
+		@if $style == 'mostly-opaque'               { @if mixin-exists( declare-#{ $style } ) { @include declare-mostly-opaque;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include mostly-opaque;               } } }
+		@if $style == 'mostly-sheer-coloring'       { @if mixin-exists( declare-#{ $style } ) { @include declare-mostly-sheer-coloring;       } @else if mixin-exists( $style ) { @include declare-specified-style { @include mostly-sheer-coloring;       } } }
+		@if $style == 'mostly-transparent'          { @if mixin-exists( declare-#{ $style } ) { @include declare-mostly-transparent;          } @else if mixin-exists( $style ) { @include declare-specified-style { @include mostly-transparent;          } } }
+		@if $style == 'negative-b-margin'           { @if mixin-exists( declare-#{ $style } ) { @include declare-negative-b-margin;           } @else if mixin-exists( $style ) { @include declare-specified-style { @include negative-b-margin;           } } }
+		@if $style == 'negative-l-margin'           { @if mixin-exists( declare-#{ $style } ) { @include declare-negative-l-margin;           } @else if mixin-exists( $style ) { @include declare-specified-style { @include negative-l-margin;           } } }
+		@if $style == 'negative-r-margin'           { @if mixin-exists( declare-#{ $style } ) { @include declare-negative-r-margin;           } @else if mixin-exists( $style ) { @include declare-specified-style { @include negative-r-margin;           } } }
+		@if $style == 'negative-t-margin'           { @if mixin-exists( declare-#{ $style } ) { @include declare-negative-t-margin;           } @else if mixin-exists( $style ) { @include declare-specified-style { @include negative-t-margin;           } } }
+		@if $style == 'no-background'               { @if mixin-exists( declare-#{ $style } ) { @include declare-no-background;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-background;               } } }
+		@if $style == 'no-margin'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-no-margin;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-margin;                   } } }
+		@if $style == 'no-overflow'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-no-overflow;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-overflow;                 } } }
+		@if $style == 'no-padding'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-no-padding;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-padding;                  } } }
+		@if $style == 'no-rounding'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-no-rounding;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-rounding;                 } } }
+		@if $style == 'no-shadow'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-no-shadow;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-shadow;                   } } }
+		@if $style == 'no-size'                     { @if mixin-exists( declare-#{ $style } ) { @include declare-no-size;                     } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-size;                     } } }
+		@if $style == 'no-text-shadow'              { @if mixin-exists( declare-#{ $style } ) { @include declare-no-text-shadow;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-text-shadow;              } } }
+		@if $style == 'no-transform'                { @if mixin-exists( declare-#{ $style } ) { @include declare-no-transform;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-transform;                } } }
+		@if $style == 'no-transitions'              { @if mixin-exists( declare-#{ $style } ) { @include declare-no-transitions;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-transitions;              } } }
+		@if $style == 'no-wrap'                     { @if mixin-exists( declare-#{ $style } ) { @include declare-no-wrap;                     } @else if mixin-exists( $style ) { @include declare-specified-style { @include no-wrap;                     } } }
+		@if $style == 'non-link'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-non-link;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include non-link;                    } } }
+		@if $style == 'normal-weight'               { @if mixin-exists( declare-#{ $style } ) { @include declare-normal-weight;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include normal-weight;               } } }
+		@if $style == 'not-b-bordered'              { @if mixin-exists( declare-#{ $style } ) { @include declare-not-b-bordered;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-b-bordered;              } } }
+		@if $style == 'not-b-rounded'               { @if mixin-exists( declare-#{ $style } ) { @include declare-not-b-rounded;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-b-rounded;               } } }
+		@if $style == 'not-bl-rounded'              { @if mixin-exists( declare-#{ $style } ) { @include declare-not-bl-rounded;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-bl-rounded;              } } }
+		@if $style == 'not-bordered'                { @if mixin-exists( declare-#{ $style } ) { @include declare-not-bordered;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-bordered;                } } }
+		@if $style == 'not-br-rounded'              { @if mixin-exists( declare-#{ $style } ) { @include declare-not-br-rounded;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-br-rounded;              } } }
+		@if $style == 'not-l-bordered'              { @if mixin-exists( declare-#{ $style } ) { @include declare-not-l-bordered;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-l-bordered;              } } }
+		@if $style == 'not-l-rounded'               { @if mixin-exists( declare-#{ $style } ) { @include declare-not-l-rounded;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-l-rounded;               } } }
+		@if $style == 'not-lr-bordered'             { @if mixin-exists( declare-#{ $style } ) { @include declare-not-lr-bordered;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-lr-bordered;             } } }
+		@if $style == 'not-r-bordered'              { @if mixin-exists( declare-#{ $style } ) { @include declare-not-r-bordered;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-r-bordered;              } } }
+		@if $style == 'not-r-rounded'               { @if mixin-exists( declare-#{ $style } ) { @include declare-not-r-rounded;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-r-rounded;               } } }
+		@if $style == 'not-rounded'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-not-rounded;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-rounded;                 } } }
+		@if $style == 'not-selectable'              { @if mixin-exists( declare-#{ $style } ) { @include declare-not-selectable;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-selectable;              } } }
+		@if $style == 'not-t-bordered'              { @if mixin-exists( declare-#{ $style } ) { @include declare-not-t-bordered;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-t-bordered;              } } }
+		@if $style == 'not-t-rounded'               { @if mixin-exists( declare-#{ $style } ) { @include declare-not-t-rounded;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-t-rounded;               } } }
+		@if $style == 'not-tb-bordered'             { @if mixin-exists( declare-#{ $style } ) { @include declare-not-tb-bordered;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-tb-bordered;             } } }
+		@if $style == 'not-tl-rounded'              { @if mixin-exists( declare-#{ $style } ) { @include declare-not-tl-rounded;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-tl-rounded;              } } }
+		@if $style == 'not-tr-rounded'              { @if mixin-exists( declare-#{ $style } ) { @include declare-not-tr-rounded;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include not-tr-rounded;              } } }
+		@if $style == 'opaque'                      { @if mixin-exists( declare-#{ $style } ) { @include declare-opaque;                      } @else if mixin-exists( $style ) { @include declare-specified-style { @include opaque;                      } } }
+		@if $style == 'padded'                      { @if mixin-exists( declare-#{ $style } ) { @include declare-padded;                      } @else if mixin-exists( $style ) { @include declare-specified-style { @include padded;                      } } }
+		@if $style == 'r-bordered'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-r-bordered;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include r-bordered;                  } } }
+		@if $style == 'r-gradient'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-r-gradient;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include r-gradient;                  } } }
+		@if $style == 'r-margin'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-r-margin;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include r-margin;                    } } }
+		@if $style == 'r-padded'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-r-padded;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include r-padded;                    } } }
+		@if $style == 'r-rounded'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-r-rounded;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include r-rounded;                   } } }
+		@if $style == 'raised-flat-button'          { @if mixin-exists( declare-#{ $style } ) { @include declare-raised-flat-button;          } @else if mixin-exists( $style ) { @include declare-specified-style { @include raised-flat-button;          } } }
+		@if $style == 'ratio-size'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-ratio-size;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include ratio-size;                  } } }
+		@if $style == 'relative'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-relative;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include relative;                    } } }
+		@if $style == 'right'                       { @if mixin-exists( declare-#{ $style } ) { @include declare-right;                       } @else if mixin-exists( $style ) { @include declare-specified-style { @include right;                       } } }
+		@if $style == 'rounded'                     { @if mixin-exists( declare-#{ $style } ) { @include declare-rounded;                     } @else if mixin-exists( $style ) { @include declare-specified-style { @include rounded;                     } } }
+		@if $style == 'scroll-overflow'             { @if mixin-exists( declare-#{ $style } ) { @include declare-scroll-overflow;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include scroll-overflow;             } } }
+		@if $style == 'select'                      { @if mixin-exists( declare-#{ $style } ) { @include declare-select;                      } @else if mixin-exists( $style ) { @include declare-specified-style { @include select;                      } } }
+		@if $style == 'selectable'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-selectable;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include selectable;                  } } }
+		@if $style == 'shadow'                      { @if mixin-exists( declare-#{ $style } ) { @include declare-shadow;                      } @else if mixin-exists( $style ) { @include declare-specified-style { @include shadow;                      } } }
+		@if $style == 'shadow-button'               { @if mixin-exists( declare-#{ $style } ) { @include declare-shadow-button;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include shadow-button;               } } }
+		@if $style == 'shallow-button'              { @if mixin-exists( declare-#{ $style } ) { @include declare-shallow-button;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include shallow-button;              } } }
+		@if $style == 'shallow-inset-shadow'        { @if mixin-exists( declare-#{ $style } ) { @include declare-shallow-inset-shadow;        } @else if mixin-exists( $style ) { @include declare-specified-style { @include shallow-inset-shadow;        } } }
+		@if $style == 'shallow-shadow'              { @if mixin-exists( declare-#{ $style } ) { @include declare-shallow-shadow;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include shallow-shadow;              } } }
+		@if $style == 'sheer-coloring'              { @if mixin-exists( declare-#{ $style } ) { @include declare-sheer-coloring;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include sheer-coloring;              } } }
+		@if $style == 'show-overflow'               { @if mixin-exists( declare-#{ $style } ) { @include declare-show-overflow;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include show-overflow;               } } }
+		@if $style == 'simple-text-styles'          { @if mixin-exists( declare-#{ $style } ) { @include declare-simple-text-styles;          } @else if mixin-exists( $style ) { @include declare-specified-style { @include simple-text-styles;          } } }
+		@if $style == 'small-text'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-small-text;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include small-text;                  } } }
+		@if $style == 'specific-value'              { @if mixin-exists( declare-#{ $style } ) { @include declare-specific-value;              } @else if mixin-exists( $style ) { @include declare-specified-style { @include specific-value;              } } }
+		@if $style == 't-bordered'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-t-bordered;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include t-bordered;                  } } }
+		@if $style == 't-gradient'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-t-gradient;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include t-gradient;                  } } }
+		@if $style == 't-margin'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-t-margin;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include t-margin;                    } } }
+		@if $style == 't-padded'                    { @if mixin-exists( declare-#{ $style } ) { @include declare-t-padded;                    } @else if mixin-exists( $style ) { @include declare-specified-style { @include t-padded;                    } } }
+		@if $style == 't-rounded'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-t-rounded;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include t-rounded;                   } } }
+		@if $style == 'table'                       { @if mixin-exists( declare-#{ $style } ) { @include declare-table;                       } @else if mixin-exists( $style ) { @include declare-specified-style { @include table;                       } } }
+		@if $style == 'table-cell'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-table-cell;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include table-cell;                  } } }
+		@if $style == 'table-padded'                { @if mixin-exists( declare-#{ $style } ) { @include declare-table-padded;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include table-padded;                } } }
+		@if $style == 'table-row'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-table-row;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include table-row;                   } } }
+		@if $style == 'target-above'                { @if mixin-exists( declare-#{ $style } ) { @include declare-target-above;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include target-above;                } } }
+		@if $style == 'target-barely-opaque'        { @if mixin-exists( declare-#{ $style } ) { @include declare-target-barely-opaque;        } @else if mixin-exists( $style ) { @include declare-specified-style { @include target-barely-opaque;        } } }
+		@if $style == 'target-mostly-transparent'   { @if mixin-exists( declare-#{ $style } ) { @include declare-target-mostly-transparent;   } @else if mixin-exists( $style ) { @include declare-specified-style { @include target-mostly-transparent;   } } }
+		@if $style == 'target-opaque'               { @if mixin-exists( declare-#{ $style } ) { @include declare-target-opaque;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include target-opaque;               } } }
+		@if $style == 'target-specific-value'       { @if mixin-exists( declare-#{ $style } ) { @include declare-target-specific-value;       } @else if mixin-exists( $style ) { @include declare-specified-style { @include target-specific-value;       } } }
+		@if $style == 'tb-bordered'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-tb-bordered;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include tb-bordered;                 } } }
+		@if $style == 'tb-margin'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-tb-margin;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include tb-margin;                   } } }
+		@if $style == 'tb-padded'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-tb-padded;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include tb-padded;                   } } }
+		@if $style == 'text-center'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-text-center;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include text-center;                 } } }
+		@if $style == 'text-coloring'               { @if mixin-exists( declare-#{ $style } ) { @include declare-text-coloring;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include text-coloring;               } } }
+		@if $style == 'text-input'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-text-input;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include text-input;                  } } }
+		@if $style == 'text-justify'                { @if mixin-exists( declare-#{ $style } ) { @include declare-text-justify;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include text-justify;                } } }
+		@if $style == 'text-left'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-text-left;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include text-left;                   } } }
+		@if $style == 'text-right'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-text-right;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include text-right;                  } } }
+		@if $style == 'text-shadowed'               { @if mixin-exists( declare-#{ $style } ) { @include declare-text-shadowed;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include text-shadowed;               } } }
+		@if $style == 'tl'                          { @if mixin-exists( declare-#{ $style } ) { @include declare-tl;                          } @else if mixin-exists( $style ) { @include declare-specified-style { @include tl;                          } } }
+		@if $style == 'tl-rounded'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-tl-rounded;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include tl-rounded;                  } } }
+		@if $style == 'tl-triangle'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-tl-triangle;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include tl-triangle;                 } } }
+		@if $style == 'tr'                          { @if mixin-exists( declare-#{ $style } ) { @include declare-tr;                          } @else if mixin-exists( $style ) { @include declare-specified-style { @include tr;                          } } }
+		@if $style == 'tr-rounded'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-tr-rounded;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include tr-rounded;                  } } }
+		@if $style == 'transitions'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-transitions;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include transitions;                 } } }
+		@if $style == 'transparent'                 { @if mixin-exists( declare-#{ $style } ) { @include declare-transparent;                 } @else if mixin-exists( $style ) { @include declare-specified-style { @include transparent;                 } } }
+		@if $style == 'transparent-border'          { @if mixin-exists( declare-#{ $style } ) { @include declare-transparent-border;          } @else if mixin-exists( $style ) { @include declare-specified-style { @include transparent-border;          } } }
+		@if $style == 'trb-bordered'                { @if mixin-exists( declare-#{ $style } ) { @include declare-trb-bordered;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include trb-bordered;                } } }
+		@if $style == 'underline'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-underline;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include underline;                   } } }
+		@if $style == 'uppercase'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-uppercase;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include uppercase;                   } } }
+		@if $style == 'valign-bottom'               { @if mixin-exists( declare-#{ $style } ) { @include declare-valign-bottom;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include valign-bottom;               } } }
+		@if $style == 'valign-center'               { @if mixin-exists( declare-#{ $style } ) { @include declare-valign-center;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include valign-center;               } } }
+		@if $style == 'valign-sub'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-valign-sub;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include valign-sub;                  } } }
+		@if $style == 'valign-super'                { @if mixin-exists( declare-#{ $style } ) { @include declare-valign-super;                } @else if mixin-exists( $style ) { @include declare-specified-style { @include valign-super;                } } }
+		@if $style == 'valign-top'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-valign-top;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include valign-top;                  } } }
+		@if $style == 'vertical-rhythm-text-styles' { @if mixin-exists( declare-#{ $style } ) { @include declare-vertical-rhythm-text-styles; } @else if mixin-exists( $style ) { @include declare-specified-style { @include vertical-rhythm-text-styles; } } }
+		@if $style == 'very-large-text'             { @if mixin-exists( declare-#{ $style } ) { @include declare-very-large-text;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include very-large-text;             } } }
+		@if $style == 'very-small-text'             { @if mixin-exists( declare-#{ $style } ) { @include declare-very-small-text;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include very-small-text;             } } }
+		@if $style == 'visible'                     { @if mixin-exists( declare-#{ $style } ) { @include declare-visible;                     } @else if mixin-exists( $style ) { @include declare-specified-style { @include visible;                     } } }
+		@if $style == 'way-above'                   { @if mixin-exists( declare-#{ $style } ) { @include declare-way-above;                   } @else if mixin-exists( $style ) { @include declare-specified-style { @include way-above;                   } } }
+		@if $style == 'way-more-wide'               { @if mixin-exists( declare-#{ $style } ) { @include declare-way-more-wide;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include way-more-wide;               } } }
+		@if $style == 'way-way-above'               { @if mixin-exists( declare-#{ $style } ) { @include declare-way-way-above;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include way-way-above;               } } }
+		@if $style == 'whole-b-rounded'             { @if mixin-exists( declare-#{ $style } ) { @include declare-whole-b-rounded;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include whole-b-rounded;             } } }
+		@if $style == 'whole-l-rounded'             { @if mixin-exists( declare-#{ $style } ) { @include declare-whole-l-rounded;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include whole-l-rounded;             } } }
+		@if $style == 'whole-r-rounded'             { @if mixin-exists( declare-#{ $style } ) { @include declare-whole-r-rounded;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include whole-r-rounded;             } } }
+		@if $style == 'whole-rounded'               { @if mixin-exists( declare-#{ $style } ) { @include declare-whole-rounded;               } @else if mixin-exists( $style ) { @include declare-specified-style { @include whole-rounded;               } } }
+		@if $style == 'whole-size'                  { @if mixin-exists( declare-#{ $style } ) { @include declare-whole-size;                  } @else if mixin-exists( $style ) { @include declare-specified-style { @include whole-size;                  } } }
+		@if $style == 'whole-t-rounded'             { @if mixin-exists( declare-#{ $style } ) { @include declare-whole-t-rounded;             } @else if mixin-exists( $style ) { @include declare-specified-style { @include whole-t-rounded;             } } }
+		@if $style == 'wide'                        { @if mixin-exists( declare-#{ $style } ) { @include declare-wide;                        } @else if mixin-exists( $style ) { @include declare-specified-style { @include wide;                        } } }
+		@if $style == 'wrap'                        { @if mixin-exists( declare-#{ $style } ) { @include declare-wrap;                        } @else if mixin-exists( $style ) { @include declare-specified-style { @include wrap;                        } } }
+	}
+}
+
+@mixin declare-specified-style(
+	$class-name      : map-get( $current-style-spec, class-name     ),
+	$with-inverse    : map-get( $current-style-spec, with-inverse   ),
+	$with-secondary  : map-get( $current-style-spec, with-secondary ),
+	$enable-inverse  : map-get( $current-theme, enable-inverse   ),
+	$enable-secondary: map-get( $current-theme, enable-secondary ),
+	$extends         : map-get( $current-style-spec, extends )
+) {
+	@if $class-name {
+		$current-class-name: $class-name !global;
+	}
+	@else {
+		$current-class-name: $current-style !global;
+	}
+
+	$current-extends: $extends !global;
+
+	$current-with-inverse  : $enable-inverse   and $with-inverse   !global;
+	$current-with-secondary: $enable-secondary and $with-secondary !global;
+
+	$current-inverse  : false !global;
+	$current-secondary: false !global;
+	@include declare-style-when-modifiers { @content; }
+
+	@if $current-with-inverse {
+		$current-inverse  : true !global;
+		$current-secondary: false !global;
+		@include declare-style-when-modifiers { @content; }
+	}
+
+	@if $current-with-secondary {
+		$current-inverse  : false !global;
+		$current-secondary: true !global;
+		@include declare-style-when-modifiers { @content; }
+	}
+
+	@if $current-with-inverse and $current-with-secondary {
+		$current-inverse  : true !global;
+		$current-secondary: true !global;
+		@include declare-style-when-modifiers { @content; }
+	}
+}
+
+@mixin declare-style-when-modifiers {
+	$only-with-whens   : map-get( $current-style-spec, only-with-whens );
+	$with-children-only: map-get( $current-style-spec, with-children-only );
+	$with-when-animating: map-get( $current-style-spec, with-when-animating );
+	$with-when-hovered : map-get( $current-style-spec, with-when-hovered );
+	$with-when-active  : map-get( $current-style-spec, with-when-active );
+	$with-when-at      : map-get( $current-style-spec, with-when-at );
+	$with-when-touching: map-get( $current-style-spec, with-when-touching );
+	$with-when-retina  : map-get( $current-style-spec, with-when-retina );
+	$with-when-first   : map-get( $current-style-spec, with-when-first );
+	$with-when-last    : map-get( $current-style-spec, with-when-last );
+	$with-when-ff      : map-get( $current-style-spec, with-when-ff );
+	$with-when-ie      : map-get( $current-style-spec, with-when-ie );
+	$with-when-tablet  : map-get( $current-style-spec, with-when-tablet );
+	$with-when-mobile  : map-get( $current-style-spec, with-when-mobile );
+
+	$theme-spec: map-get( $current-theme, theme-spec );
+	$theme-with-when-tablet  : map-get( $theme-spec, with-when-tablet );
+	$theme-with-when-mobile  : map-get( $theme-spec, with-when-mobile );
+
+	@if not $media-query-phase or $theme-with-when-tablet or $theme-with-when-mobile {
+		@if not $only-with-whens { @include declare-theme-and-inv-sec-modifiers() { @content; } }
+		@if $with-children-only  { @include declare-theme-and-inv-sec-modifiers( $class-name: get-children-only-class-name() ) { @include children-only { @content; } } }
+		@if $with-when-animating { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-animating-class-name() ) { @include when-animating { @content; } } }
+		@if $with-when-hovered   { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-hovered-class-name()  ) { @include when-hovered  { @content; } } }
+		@if $with-when-active    { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-active-class-name()   ) { @include when-active   { @content; } } }
+		@if $with-when-at        { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-at-class-name()       ) { @include when-at       { @content; } } }
+		@if $with-when-touching  { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-touching-class-name() ) { @include when-touching { @content; } } }
+		@if $with-when-retina    { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-retina-class-name()   ) { @include when-retina   { @content; } } }
+		@if $with-when-first     { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-first-class-name()    ) { @include when-first    { @content; } } }
+		@if $with-when-last      { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-last-class-name()     ) { @include when-last     { @content; } } }
+		@if $with-when-ff        { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-ff-class-name()       ) { @include when-ff       { @content; } } }
+		@if $with-when-ie        { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-ie-class-name()       ) { @include when-ie       { @content; } } }
+	}
+	@if $media-query-phase == 1 {
+		@if $with-when-tablet    { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-tablet-class-name()   ) { @include when-tablet   { @content; } } }
+	}
+	@if $media-query-phase == 2 {
+		@if $with-when-mobile    { @include declare-theme-and-inv-sec-modifiers( $class-name: get-when-mobile-class-name()   ) { @include when-mobile   { @content; } } }
+	}
+}
+
+@mixin declare-theme-and-inv-sec-modifiers(
+	$class-name: $current-class-name,
+	$extends   : $current-extends
+) {
+	$with-this           : map-get( $current-style-spec, with-this );
+	$with-fully-qualified: map-get( $current-style-spec, with-fully-qualified );
+
+	$theme-name: map-get( $current-theme, name );
+	$theme-spec: map-get( $current-theme, theme-spec );
+	@if not $theme-spec { $theme-spec: (); }
+
+	$only-with-whens   : map-get( $theme-spec, only-with-whens );
+	$with-when-hovered : map-get( $theme-spec, with-when-hovered );
+	$with-when-active  : map-get( $theme-spec, with-when-active );
+	$with-when-touching: map-get( $theme-spec, with-when-touching );
+	$with-when-retina  : map-get( $theme-spec, with-when-retina );
+	$with-when-first   : map-get( $theme-spec, with-when-first );
+	$with-when-last    : map-get( $theme-spec, with-when-last );
+	$with-when-ff      : map-get( $theme-spec, with-when-ff );
+	$with-when-ie      : map-get( $theme-spec, with-when-ie );
+	$with-when-tablet  : map-get( $theme-spec, with-when-tablet );
+	$with-when-mobile  : map-get( $theme-spec, with-when-mobile );
+
+	$fully-qualified-style-name: get-fully-qualified-style-name( $class-name: $class-name );
+	// @if not $media-query-phase { @debug "%#{ $fully-qualified-style-name }"; }
+	%#{ $fully-qualified-style-name } { @content; }
+
+	$fully-qualified-style-class-exists: $with-fully-qualified and (not $only-with-whens) and (not $media-query-phase);
+
+	@if $fully-qualified-style-class-exists { .#{ $fully-qualified-style-name } { /* @debug ".#{ $fully-qualified-style-name }"; */ @content; } }// @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } }
+
+	@if ( not $current-inverse ) and ( not $current-secondary ) {
+		$theme-selector: get-theme-selector();
+
+		$has-theme-name    : $theme-name and str-length( $theme-name ) > 0;
+		$has-theme-selector: str-length( $theme-selector ) > 0;
+
+		$has-theming: $has-theme-name or $has-theme-selector;
+
+		$class-selector: if( $class-name and $has-theming, ".#{ $class-name }, &.#{ $class-name }", if( $class-name, ".#{ $class-name }", "html" ) );
+		$class-selector: if( $extends, if( $class-selector == 'html', $extends, "#{ $class-selector }, #{ $extends }" ), $class-selector );
+
+		@if $has-theme-selector and (not $only-with-whens) { /* @debug "#{ $theme-name }: #{ $class-name }"; */ #{ $theme-selector } { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } }
+		@if $has-theme-name {
+			@if not $media-query-phase {
+				@if $with-when-hovered  { @debug "#{ get-when-hovered-class-name(  $theme-name ) }: #{ $class-name }"; .#{ get-when-hovered-class-name(  $theme-name ) } { @include when-hovered  { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } } }
+				@if $with-when-active   { @debug "#{ get-when-active-class-name(   $theme-name ) }: #{ $class-name }"; .#{ get-when-active-class-name(   $theme-name ) } { @include when-active   { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } } }//@if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; }
+				@if $with-when-touching { @debug "#{ get-when-touching-class-name( $theme-name ) }: #{ $class-name }"; .#{ get-when-touching-class-name( $theme-name ) } { @include when-touching { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } } }
+				@if $with-when-retina   { @debug "#{ get-when-retina-class-name(   $theme-name ) }: #{ $class-name }"; .#{ get-when-retina-class-name(   $theme-name ) } { @include when-retina   { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } } }
+				@if $with-when-first    { @debug "#{ get-when-first-class-name(    $theme-name ) }: #{ $class-name }"; .#{ get-when-first-class-name(    $theme-name ) } { @include when-first    { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } } }
+				@if $with-when-last     { @debug "#{ get-when-last-class-name(     $theme-name ) }: #{ $class-name }"; .#{ get-when-last-class-name(     $theme-name ) } { @include when-last     { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } } }
+				@if $with-when-ff       { @debug "#{ get-when-ff-class-name(       $theme-name ) }: #{ $class-name }"; .#{ get-when-ff-class-name(       $theme-name ) } { @include when-ff       { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } } }
+				@if $with-when-ie       { @debug "#{ get-when-ie-class-name(       $theme-name ) }: #{ $class-name }"; .#{ get-when-ie-class-name(       $theme-name ) } { @include when-ie       { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } } }
+			} @else {
+				@if $with-when-tablet   { @debug "#{ get-when-tablet-class-name(   $theme-name ) }: #{ $class-name }"; .#{ get-when-tablet-class-name(   $theme-name ) } { @include when-tablet   { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } } }
+				@if $with-when-mobile   { @debug "#{ get-when-mobile-class-name(   $theme-name ) }: #{ $class-name }"; .#{ get-when-mobile-class-name(   $theme-name ) } { @include when-mobile   { #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } } } }
+			}
+		}
+		@if not $has-theming and (not $only-with-whens) { /* @debug "#{ $class-selector }"; */ #{ $class-selector } { @if not $media-query-phase { @if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; } } @else { @content; } } }
+	}
+	@else if $current-inverse and ( not $current-secondary ) and not $media-query-phase {
+		#{ get-theme-selector() } {
+			.#{  $class-inverse }, // theme, then inverse, with and then class 
+			&.#{ $class-inverse }, // them with inverse, with and then class
+			.#{  $class-inverse } & { // inverse then theme, with and then class
+				.#{  $class-name }, 
+				&.#{ $class-name } {
+					@if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; }
+				}
+			}
+			@if $with-this {
+				.#{  $class-name }, // theme, then class with inverse-this
+				&.#{ $class-name } { // theme with class with inverse-this
+					&.#{ $class-inverse-this } { 
+						@if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; }
+					}
+				}
+			}
+		}
+	}
+	@else if ( not $current-inverse ) and $current-secondary and not $media-query-phase {
+		#{ get-theme-selector() } {
+			.#{  $class-secondary }, // theme, then secondary, with and then class 
+			&.#{ $class-secondary }, // them with secondary, with and then class
+			.#{  $class-secondary } & { // theme with secondary with and then class
+				.#{  $class-name }, 
+				&.#{ $class-name } {
+					@if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; }
+				}
+			}
+			@if $with-this {
+				.#{  $class-name }, // theme, then class with secondary-this
+				&.#{ $class-name } { // theme with class with secondary-this
+					&.#{ $class-secondary-this } { 
+						@if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; }
+					}
+				}
+			}
+		}
+	}
+	@else if $current-inverse and $current-secondary and not $media-query-phase {
+		#{ get-theme-selector() } {
+			.#{  $class-inverse   } .#{ $class-secondary }, // theme then inverse, then secondary, with and then class
+			.#{  $class-secondary } .#{ $class-inverse   }, // theme then secondary, then inverse, with and then class
+			.#{  $class-inverse   }.#{  $class-secondary }, // theme then inverse with secondary, with and then class
+			&.#{ $class-inverse   } .#{ $class-secondary }, // theme with inverse, then secondary, with and then class
+			&.#{ $class-secondary } .#{ $class-inverse   }, // theme with secondary, then inverse, with and then class
+			&.#{ $class-inverse   }.#{  $class-secondary }, // theme with inverse with secondary, with and then class
+			.#{  $class-inverse   } .#{ $class-secondary } &, // inverse, then secondary, then theme, with and then class
+			.#{  $class-secondary } .#{ $class-inverse   } &, // secondary, then inverse, then theme, with and then class
+			.#{  $class-inverse   }.#{  $class-secondary } &  { // inverse with secondary, then theme, with and then class
+				.#{  $class-name }, 
+				&.#{ $class-name } {
+					@if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; }
+				}
+			}
+			@if $with-this {
+				.#{  $class-inverse }, // theme then inverse, with and then class, with secondary-this
+				&.#{ $class-inverse }, // theme with inverse, with and then class, with secondary-this
+				.#{  $class-inverse } & { // inverse then theme, with and then class, with secondary-this
+					.#{  $class-name }, 
+					&.#{ $class-name } {
+						&.#{ $class-secondary-this } {
+							@if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; }
+						}
+					}
+				}
+				.#{  $class-secondary }, // theme then secondary, with and then class, with inverse-this
+				&.#{ $class-secondary }, // theme with secondary, with and then class, with inverse-this
+				.#{  $class-secondary } & { // secondary then theme, with and then class, with inverse-this
+					.#{  $class-name }, 
+					&.#{ $class-name } {
+						&.#{ $class-inverse-this } {
+							@if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; }
+						}
+					}
+				}
+				.#{ $class-inverse-this }.#{ $class-secondary-this }, // theme then inverse-this with secondary-this, with class
+				&.#{ $class-inverse-this }.#{ $class-secondary-this } { // theme with inverse-this with secondary-this, with class
+					&.#{ $class-name } {
+						@if $fully-qualified-style-class-exists { @extend .#{ $fully-qualified-style-name }; } @else { @extend %#{ $fully-qualified-style-name }; }
+					}
+				}
+			}
+		}
+	}
+}

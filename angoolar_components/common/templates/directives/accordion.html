@@ -1,0 +1,112 @@
+<div>
+	<div
+		class="relative"
+		c-sticky-area
+	>
+
+		<div
+			ng-if ="hasHeader"
+			class ="gone"
+		>
+			<div c-suppress-clicks>
+				<div c-transclude-with="AccordionController.$transclude"></div>
+			</div>
+		</div>
+
+		<div c-lazy-compile-children="! hideHeader"><div>
+
+			<div
+				c-sticky
+				sticky-options ="{ disabled: ! AccordionController.expanded || $root.isBrowser.Mobile || noStickyHeader }"
+				class          ="whole-width"
+			>
+				<div
+					ng-click           ="AccordionController.$scope.expanded = ! AccordionController.expanded"
+					class              ="link above-when-hovered relative transitions"
+					c-class-when-stuck ="{{ version == 'minor' ? 'barely-sheer-coloring-when-hovered' : '' }}"
+					ng-class           ="{
+						'raised-flat-button'                                               : version != 'minor',
+						'transitions b-bordered-when-hovered b-bordered transparent-border': version == 'minor',
+						'hover active c-rounded': AccordionController.expanded,
+						'rounded'               : ! AccordionController.expanded,
+						'padded'     : ! mode,
+						'less-padded': mode
+					}"
+				>
+					<div
+						class    ="table whole-width"
+						ng-class ="{ 'fixed-layout': hasHeader == 'whole-width' || ( hasHeader && ! label ) }"
+					><div class="table-row">
+
+						<div
+							class    ="table-cell valign-center"
+							ng-class ="{ 'font-width r-padded': ! hideContent && ( hasHeader == 'whole-width' || ( hasHeader && ! label ) ) }"
+						>
+							<div
+								class    ="no-wrap"
+								ng-class ="{
+									'very-small-text': mode == 'very-small',
+									'small-text'     : mode == 'small',
+									'r-padded': ! hideContent
+								}"
+							>
+
+								<div
+									ng-if    ="! hideContent"
+									class    ="inline-block fa h1 transitions no-line-height"
+									ng-class ="[ {
+										'fa-angle-right': ! AccordionController.expanded || $root.Modernizr.csstransitions,
+										'fa-angle-down' : AccordionController.expanded && ! $root.Modernizr.csstransitions,
+										'fa-rotate-90'  : AccordionController.expanded && !! $root.Modernizr.csstransitions
+									}, iconClass ]"
+								></div>
+
+								<div
+									ng-show      ="label"
+									class        ="inline-block l-padded transitions wrap"
+									ng-class     ="labelClass"
+									ng-bind-html ="label"
+								></div>
+
+							</div>
+						</div>
+
+						<div
+							class    ="table-cell valign-center"
+							ng-class ="{ 'whole-width': hasHeader == 'whole-width' || ( hasHeader && ! label ) }"
+							ng-if    ="AccordionController.AccordionHeaderController.$transclude"
+						>
+							<div class="relative">
+								<div c-suppress-clicks>
+									<div c-transclude-with="AccordionController.AccordionHeaderController.$transclude"></div>
+								</div>
+							</div>
+						</div>
+
+					</div></div>
+				</div>
+			</div>
+
+		</div></div>
+
+		<div
+			class    ="large-block {{ ! noAnimation ? 'c-animate slow wipe-max-height' : '' }}"
+			ng-class ="{ 'c-animate slow wipe-max-height': ! noAnimation }"
+			ng-if    ="AccordionController.expanded"
+		>
+			<div
+				class    ="floatfix"
+				ng-class ="{ 
+					'b-rounded lbr-bordered': version != 'minor' && ! hideHeader,
+					'padded'                : ! noInnerPadding
+				}"
+			>
+				<div
+					class             ="relative"
+					c-transclude-with ="AccordionController.AccordionContentController.$transclude || AccordionController.$transclude"
+				></div>
+			</div>
+		</div>
+
+	</div>
+</div>

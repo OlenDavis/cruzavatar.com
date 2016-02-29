@@ -1,0 +1,97 @@
+<div class="relative">
+	<div
+		ng-repeat ="widget in ShareController.widgetArray"
+		ng-if     ="ShareController.widget[ widget ]"
+		class     ="inline-block valign-bottom l-rounded-when-first r-rounded-when-last line-height-sized coloring above-when-hovered relative"
+		ng-class  ="ShareController.getWidgetClasses( widget )"
+		c-tooltip-target
+	>
+
+		<img
+			class     ="block whole-width"
+			c-src     ="{{ ShareController.widgetImage[ widget ] }}"
+			src-ext   ="png"
+			alt       ="Share widget"
+		/>
+
+		<!-- Facebook -->
+		<div
+			c-tooltip   ="top"
+			no-hide     ="true"
+			never-shown ="widget !== ShareController.widget.facebook"
+		>
+			<iframe
+				ng-src            ="{{ ShareController.getFacebookSrc() }}"
+				scrolling         ="no"
+				frameborder       ="0"
+				allowTransparency ="true"
+				ng-style          ="ShareController.facebookStyles"
+			></iframe>
+		</div>
+
+		<!-- Twitter -->
+		<div
+			c-tooltip   ="top"
+			no-hide     ="true"
+			never-shown ="! ( widget === ShareController.widget.twitter && !! ShareController.twitterLoaded )"
+		>
+			<a
+				c-init-social-plugin ="twitter"
+				class                ="twitter-share-button twitter-tweet"
+				href                 ="//twitter.com/share"
+				data-url             ="{{ url }}"
+				data-text            ="{{ description }}"
+				data-count           ="vertical"
+				data-via             ="tongal"
+			></a>
+		</div>
+
+		<!-- Tumblr -->
+		<div
+			c-tooltip   ="top"
+			no-hide     ="true"
+			never-shown ="! ( widget === ShareController.widget.tumblr && !! ShareController.tumblrLoaded )"
+		>
+			<a
+				c-init-social-plugin ="tumblr"
+				ng-href              ="{{ ShareController.getTumblrSrc() }}" 
+				title                ="Share on Tumblr"                                        
+				ng-style             ="ShareController.tumblrStyles"
+			></a>
+		</div>
+
+		<!-- LinkedIn -->
+		<div
+			c-tooltip   ="top"
+			no-hide     ="true"
+			never-shown ="! ( widget === ShareController.widget.linkedin && !! ShareController.linkedInLoaded )"
+		>
+			<script
+				c-init-social-plugin ="linkedin"
+				type                 ="IN/Share"
+				data-url             ="{{ url }}"
+				data-text            ="{{ description }}"
+			></script>
+		</div>
+
+		<!-- Pinterest -->
+		<div
+			c-tooltip   ="top"
+			no-hide     ="true"
+			never-shown ="! ( widget === ShareController.widget.pinterest && !! image.length )"
+		>
+			<a
+				ng-href         ="{{ ShareController.getPinterestHref() }}"
+				target          ="_blank"
+				data-pin-do     ="buttonPin"
+				data-pin-config ="above"
+			>
+				<img 
+					src ="//assets.pinterest.com/images/pidgets/pin_it_button.png" 
+					alt ="Pinterest pin-it button"
+				/>
+			</a>
+		</div>
+
+	</div>
+</div>

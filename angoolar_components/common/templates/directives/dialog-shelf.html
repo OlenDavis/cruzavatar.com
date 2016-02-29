@@ -1,0 +1,182 @@
+<div>
+
+	<div
+		class ="fixed tl whole-width whole-height way-way-above c-animate slow mostly-opaque black-coloring"
+		ng-if ="shown && ! neverShown"
+	></div>
+
+	<div
+		class ="fixed way-way-above tl whole-width whole-height c-animate slow opaque with-scale"
+		ng-if ="shown && ! neverShown"
+	>
+		<div
+			class     ="fixed tl whole-width whole-height scroll-overflow slow transitions container"
+			ng-repeat ="content in DialogShelfController.$contents"
+			ng-if     ="DialogShelfController.indexReady( $index )"
+			ng-class  ="{
+				'opaque way-way-above': $index == shownIndex,
+				'mostly-opaque'       : $index != shownIndex && DialogShelfController.indexVisible( $index ),
+				'transparent'         : ! DialogShelfController.indexVisible( $index ),
+				'to-left'             : $index < shownIndex,
+				'to-right'            : $index > shownIndex
+			}"
+		>
+			<div
+				c-centered-div
+				class          ="absolute whole-width whole-height slow transitions"
+				mode           ="{{ mode }}"
+				ng-click       ="DialogShelfController.hideDialog()"
+				ng-swipe-left  ="$root.isBrowser.Mobile && DialogShelfController.goRight()"
+				ng-swipe-right ="$root.isBrowser.Mobile && DialogShelfController.goLeft()"
+				ng-swipe-up    ="DialogShelfController.hideDialog()"
+				ng-swipe-down  ="DialogShelfController.hideDialog()"
+			>
+
+				<div
+					ng-if ="DialogShelfController.fixedArrows"
+					class ="fixed tl whole-width whole-height table hardware-render"
+				>
+					<div class="table-row">
+
+						<div
+							ng-click ="DialogShelfController.goLeft()"
+							class    ="table-cell width-ratio-2-5 valign-center link transitions text-left"
+							ng-class ="{
+								transparent: shownIndex != $index,
+								invisible  : ! DialogShelfController.canGoLeft( $index )
+							}"
+						>
+							<div
+								class    ="inline-block h2 line-height-sized whole-rounded padded grey blue-when-hovered raised-flat-button hardware-render text-center fa fa-arrow-left l-margin p-when-tablet less-padded-when-tablet no-margin-when-tablet whole-r-rounded-when-tablet p-when-tablet less-padded-when-tablet"
+								ng-class ="{ transparent: shownIndex != $index }"
+							></div>
+						</div>
+
+						<div class="table-cell width-ratio-1-5"></div>
+
+						<div
+							ng-click ="DialogShelfController.goRight()"
+							class    ="table-cell width-ratio-2-5 valign-center link transitions text-right"
+							ng-class ="{
+								transparent: shownIndex != $index,
+								invisible  : ! DialogShelfController.canGoRight( $index )
+							}"
+						>
+							<div
+								class    ="inline-block h2 line-height-sized whole-rounded padded grey blue-when-hovered raised-flat-button hardware-render text-center fa fa-arrow-right r-margin p-when-tablet less-padded-when-tablet no-margin-when-tablet whole-l-rounded-when-tablet p-when-tablet less-padded-when-tablet"
+								ng-class ="{ transparent: shownIndex != $index }"
+							></div>
+						</div>
+
+					</div>
+				</div>
+
+				<div ng-class="{
+					'way-way-more-l-margin more-l-margin-when-tablet': DialogShelfController.fixedArrows && !! DialogShelfController.canGoLeft( $index ),
+					'way-way-more-r-margin more-r-margin-when-tablet': DialogShelfController.fixedArrows && !! DialogShelfController.canGoRight( $index )
+				}">
+					<div
+						ng-click ="DialogShelfController.dontHide()"
+						class    ="whole-max-width table"
+						ng-class ="{
+							'lr-auto-margin': DialogShelfController.wholeWidthWithWidth,
+							'fixed-layout'  : DialogShelfController.wholeWidthWithWidth && !! DialogShelfController.fixedArrows
+						}"
+						ng-style ="{
+							width      : width || DialogShelfController.wholeWidthWithWidth && '100%' || null,
+							'max-width': maxWidth,
+							'min-width': minWidth
+						}"
+					>
+						<div class="table-row">
+
+							<div
+								ng-if    ="! DialogShelfController.fixedArrows"
+								class    ="table-cell valign-center transitions relative way-above"
+								ng-class ="{
+									transparent: shownIndex != $index,
+									invisible  : ! DialogShelfController.canGoLeft( $index )
+								}"
+							>
+								<div
+									ng-click ="DialogShelfController.goLeft()"
+									class    ="link inline-block h2 line-height-sized padded grey blue-when-hovered raised-flat-button hardware-render text-center fa fa-arrow-left negative-r-margin l-margin whole-rounded p-when-tablet less-padded-when-tablet no-margin-when-tablet negative-r-margin-when-tablet"
+									ng-class ="{ transparent: shownIndex != $index }"
+								></div>
+							</div>
+
+							<div
+								class    ="table-cell valign-center"
+								ng-class ="{ 'whole-width': DialogShelfController.wholeWidthWithWidth }"
+							>
+								<div class="relative more-lr-margin">
+
+									<div
+										class    ="absolute above deep-shadow tr h1 less-padded more negative-t-margin negative-r-margin line-height-sized text-center whole-rounded light-grey-coloring grey-text-coloring red-flat-button hardware-render fa fa-times p-when-tablet"
+										ng-class ="{ transparent: shownIndex != $index }"
+									></div>
+
+									<div
+										class    ="relative above rounded text-left more-tb-margin"
+										ng-class ="{ 'deep-shadow default-barely-sheer-coloring': version != 'clear' }"
+									>
+
+										<div
+											class ="h3 light-weight light-grey-coloring padded c-rounded break-word-wrap"
+											ng-if ="dialogTitle"
+										>
+											<span class="inline-block more r-padded">
+												{{ dialogTitle }}
+											</span>
+										</div>
+
+										<div
+											class    ="floatfix"
+											ng-class ="{ 'more-padded less-padded-when-tablet': version != 'clear' }"
+										>
+											<div
+												class             ="relative margin break-word-wrap-when-mobile"
+												c-transclude-with ="DialogShelfController.$transclude"
+												and-scope         ="DialogShelfController.getContentScope( content, $first, $last )"
+											></div>
+										</div>
+
+									</div>
+
+									<div
+										class    ="link absolute way-above tr h1 less-padded more negative-t-margin negative-r-margin line-height-sized text-center whole-rounded grey-text-coloring red-flat-button hardware-render fa fa-times p-when-tablet"
+										ng-click ="DialogShelfController.hideDialog()"
+										ng-class ="{
+											'light-grey-coloring': dialogTitle.length,
+											'default-coloring'   : ! dialogTitle.length,
+											transparent          : shownIndex != $index
+										}"
+									></div>
+
+								</div>
+							</div>
+
+							<div
+								ng-if    ="! DialogShelfController.fixedArrows"
+								class    ="table-cell valign-center transitions relative above"
+								ng-class ="{
+									transparent: shownIndex != $index,
+									invisible  : ! DialogShelfController.canGoRight( $index )
+								}"
+							>
+								<div
+									ng-click ="DialogShelfController.goRight()"
+									class    ="link inline-block h2 line-height-sized padded grey blue-when-hovered raised-flat-button hardware-render text-center fa fa-arrow-right negative-l-margin r-margin whole-rounded p-when-tablet less-padded-when-tablet no-margin-when-tablet negative-l-margin-when-tablet"
+									ng-class ="{ transparent: shownIndex != $index }"
+								></div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>

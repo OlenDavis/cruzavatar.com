@@ -1,0 +1,127 @@
+<div class="no-overflow rounded lr-auto-margin video-block-max-width">
+	<!-- This extra div is to ensure that the tooltip appears over the video even if the video is not whole-width -->
+	<div c-tooltip-target>
+
+		<div class="black-coloring relative">
+
+			<img
+				ng-if    ="image && VideoController.beingTranscoded"
+				class    ="block whole-width relative c-animate wipe-max-height rounded"
+				c-src    ="@shtml.dir@/images/submission-thumbnail-placeholder.png"
+				src-ext  ="default"
+				palette  ="VideoController.imagePalette"
+				alt      ="Video thumbnail placeholder"
+			/>
+
+			<img
+				ng-if     ="image && ! VideoController.waitingToCheckTranscoding"
+				class     ="block whole-width relative c-animate wipe-max-height rounded"
+				c-src     ="{{ image }}"
+				no-retina ="true"
+				on-error  ="VideoController.stillTranscoding()"
+				on-load   ="VideoController.doneTranscoding()"
+				ng-class  ="{ 'invisible no-height': VideoController.beingTranscoded }"
+			/>
+
+			<div class="absolute tl br">
+				<div
+					c-centered-div
+					ng-click ="VideoController.showVideo = true"
+					class    ="link whole-width whole-height target-opaque-when-hovered p-when-hovered"
+				>
+
+					<div class="h1">
+						<span
+							class="fa very-large-text text-coloring no-background text-shadowed mostly-opaque target transitions"
+							ng-class="{
+								'fa-play'        : ! VideoController.busy,
+								'fa-gear fa-spin': VideoController.busy
+							}"
+						></span>
+					</div>
+
+					<div
+						ng-if        ="VideoController.videoFileInfo.duration"
+						class        ="absolute br whole-max-width ellipsis-overflow c-animate opaque less-padded text-shadowed rounded black-sheer-coloring small-text-when-mobile bold single-lined"
+						ng-bind-html ="VideoController.videoFileInfo.duration"
+					></div>
+
+				</div>
+			</div>
+
+			<!-- This had been ng-if, and it turns out after recording heap allocations, that there were
+			literally hundreds of millions of iframes being held in memory over the course of switching
+			between lots of tongalers with lots of videos, so by actually lazy-compiling this here, we
+			can dramatically reduce the load of having having lots of videos come in and out of view.
+			-->
+			<div c-lazy-compile-children="! ( cantShowVideo || VideoController.cantShowVideo )">
+				<div
+					ng-switch ="VideoController.embedType"
+					class     ="c-animate opaque"
+				>
+
+					<iframe
+						ng-switch-when  ="HOSTED"
+						ng-if           ="VideoController.showVideo && ! VideoController.beingTranscoded"
+						ng-src          ="{{ video }}"
+						class           ="relative black-coloring c-animate opaque"
+						ng-class        ="{ 'absolute tl whole-width whole-height': image.length }"
+						allowfullscreen ="true"
+					></iframe>
+
+					<div
+						ng-switch-when ="FACEBOOK_V2_3"
+						class          ="relative fb-video"
+						ng-class       ="{ 'absolute tl whole-width whole-height': image.length }"
+						data-href      ="{{ video }}"
+						ng-init        ="VideoController.initFacebook()"
+					></div>
+
+					<iframe
+						ng-switch-when  ="YOUTUBE"
+						ng-src          ="{{ VideoController.youtubeVideo }}"
+						class           ="relative black-coloring c-animate opaque"
+						ng-class        ="{ 'absolute tl whole-width whole-height': image.length }"
+						frameborder     ="0"
+						allowfullscreen ="true"
+					></iframe>
+
+					<iframe
+						ng-switch-when  ="VIMEO"
+						ng-src          ="{{ VideoController.vimeoVideo }}"
+						class           ="relative black-coloring c-animate opaque"
+						ng-class        ="{ 'absolute tl whole-width whole-height': image.length }"
+						frameborder     ="0"
+						allowfullscreen ="true"
+					></iframe>
+
+					<iframe
+						ng-switch-when  ="UPLOADED"
+						ng-if           ="VideoController.showVideo && ! VideoController.beingTranscoded"
+						ng-src          ="{{ video }}"
+						class           ="relative black-coloring c-animate opaque"
+						ng-class        ="{ 'absolute tl whole-width whole-height': image.length }"
+						allowfullscreen ="true"
+					></iframe>
+
+				</div>
+			</div>
+
+		</div>
+
+		<div
+			c-tooltip    ="top"
+			match-target ="width"
+			never-shown  ="VideoController.embedType == 'HOSTED' ? ! VideoController.showVideo || VideoController.cantShowVideo : VideoController.cantShowVideo"
+			class        ="text-center text-left-when-mobile"
+		>
+			<div
+				class    ="minor-positive-button rounded less padded"
+				ng-click ="VideoController.reloadVideo()"
+			>
+				Waiting too long? Click to here to reload the video
+			</div>
+		</div>
+
+	</div>
+</div>

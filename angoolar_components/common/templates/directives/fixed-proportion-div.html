@@ -1,0 +1,21 @@
+<div>
+
+	<div
+		ng-transclude
+		ng-if="unfixed"
+	></div>
+
+	<div
+		ng-if    ="! unfixed"
+		class    ="relative whole-width"
+		ng-style ="{ 'padding-top': ( ratioHeight / ratioWidth * 100 ) + '%' }"
+		ng-class ="withClass"
+	>
+		<div
+			class    ="absolute whole-width whole-height tl"
+			ng-class ="{ 'scroll-overflow': scrollable }"
+			ng-transclude
+		></div>
+	</div>
+
+</div>

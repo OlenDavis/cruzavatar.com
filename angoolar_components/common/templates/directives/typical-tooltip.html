@@ -1,0 +1,33 @@
+<div>
+	<div
+		class    ="absolute way-above"
+		ng-if    ="shown"
+		ng-class ="{ 'c-animate opaque fast with-scale': TypicalTooltipController.displayed }"
+		c-tooltip-container
+	>
+	
+		<div
+			c-transclude-with ="TypicalTooltipController.$transclude"
+			class             ="relative transitions rounded deep-shadow shallow-shadow-when-hovered lr-padded less-tb-padded border-box default-barely-sheer-coloring default-coloring-when-hovered light-weight {{ sizeClass }}"
+			ng-class          ="{
+				active                          : TypicalTooltipController.displayed,
+				'border-box whole-height'       : TypicalTooltipController.matchHeight,
+				'transparent opaque-when-active': ! opaque
+			}"
+		></div>
+
+		<div
+			ng-if    ="! noHide && $root.isBrowser.Mobile"
+			class    ="absolute tr negative-t-margin negative-r-margin transitions transparent opaque-when-active"
+			ng-class ="{ active: TypicalTooltipController.displayed }"
+		>
+			<a
+				class    ="block single-lined bold uppercase very-small-text less-padded minor-negative-button rounded"
+				ng-click ="TypicalTooltipController.$scope.shown = false"
+			>
+				Hide
+			</a>
+		</div>
+
+	</div>
+</div>

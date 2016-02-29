@@ -1,0 +1,223 @@
+// Please read and understand Angular's animation documentation
+// [here](https://code.angularjs.org/1.3.0-rc.2/docs/api/ngAnimate/service/$animate) first. A little
+// caveat unmentioned there is the significance of the `c-animate` class that has to be on any
+// element for any of these animations to function. The reason is that `c-animate` is used as the
+// `$animateProvider.classNameFilter` as documented
+// [here](https://docs.angularjs.org/api/ng/provider/$animateProvider).
+
+// Now, the *reason* for using a `classNameFilter` is that without it, `$animate` would attempt to
+// animate *every single* class name addition, removal, every `ng-show` or `ng-hide` change, every
+// `ng-if` change, every `ng- repeat` addition, removal, movement--practically every change to the
+// DOM. And not only does that slow things down *noticably*, but it can actually easily interfere
+// with the functionality on the page and break substantial portions of a site.
+
+// # The Keyframes
+
+@include keyframes( flip-in ) {
+	0% {
+		@include create-transform( $perspective: $default-perspective * 10, $rotate-y: -90deg );
+	}
+	50% {
+		@include create-transform( $perspective: $default-perspective * 10, $rotate-y: -90deg );
+	}
+	100% {
+		@include create-transform( $perspective: $default-perspective * 10, $rotate-y: 0deg );
+	}
+}
+
+@include keyframes( flip-out ) {
+	0% {
+		@include create-transform( $perspective: $default-perspective * 10, $rotate-y: 0deg );
+	}
+	50% {
+		@include create-transform( $perspective: $default-perspective * 10, $rotate-y: 90deg );
+	}
+	100% {
+		@include create-transform( $perspective: $default-perspective * 10, $rotate-y: 90deg );
+	}
+}
+
+.flip-in { @include my-animation( $name: flip-in, $duration: $default-slow-transitions, $timing-function: ease ); }
+.flip-out { @include my-animation( $name: flip-out, $duration: $default-slow-transitions, $timing-function: ease ); }
+
+
+// # The Angular Animations
+
+// See 900_app_config.tail.coffee where the
+// [`$animateProvider`](https://docs.angularjs.org/api/ng/provider/$animateProvider) is configured
+// to use `c-animate` as the class name filter for the `$animate` service.
+.c-animate {
+	&.ng-enter, &.ng-move, &.ng-leave {
+		// We give it `hardware-render` to ensure the GPU if available will hardware-accelerate
+		// the animation.
+		@extend %default-hardware-render !optional;
+		// And because we also give it `transitions`, it we will additionally be able to apply
+		// the `fast` or `slow` classes to speed up or slow down the animation consistently.
+		@extend %default-transitions;
+
+		// #### Staggering
+		&-stagger {
+			// This was a new change in Angular 1.3rc2 that surprised me, but in order for
+			// Angular to respect the stagger delay on an animation, we have to actually have
+			// *only* the delay (i.e. no animation or transition duration). Only then will
+			// $animate apply staggering to animations.
+			@include transition-duration( 0s );
+			@include transition-delay( .05s );
+		}
+	}
+
+	&.wipe-width, &.wipe-height, &.wipe-max-width, &.wipe-max-height {
+		&.ng-animate {
+			// Note that we give it `no-overflow` which will ensure we will see any clipping
+			// animate, in addition to seeing its height affect the positioning of elements after it
+			// in the document flow.
+			@extend %default-no-overflow;
+		}
+		&.ng-enter.ng-enter-active, &.ng-move.ng-move-active, &.ng-leave {
+			@extend %default-opaque;
+		}
+		// ### wipe-max-height Collapsed State
+		&.ng-enter, &.ng-move, &.ng-leave.ng-leave-active {
+			@extend %default-mostly-transparent;
+		}
+	}
+
+	&.wipe-width, &.wipe-max-width {
+		&.ng-animate {
+			@extend %default-no-wrap;
+		}
+		&.ng-enter.ng-enter-active, &.ng-move.ng-move-active, &.ng-leave {
+			// This is how the `with-scale` modifier class functions; in the expanded state, its scale is 100%.
+		}
+		&.ng-enter, &.ng-move, &.ng-leave {
+			// This is the other part of how the `with-scale` modifier class functions; in the collapsed state, its scale is shrunk by the given `$scale-extent` (which is declared earlier).
+		}
+	}
+
+	&.wipe-height, &.wipe-max-height {
+		&.ng-enter.ng-enter-active, &.ng-move.ng-move-active, &.ng-leave {
+			// This is how the `with-scale` modifier class functions; in the expanded state, its scale is 100%.
+		}
+		&.ng-enter, &.ng-move, &.ng-leave.ng-leave-active {
+			// This is the other part of how the `with-scale` modifier class functions; in the collapsed state, its scale is shrunk by the given `$scale-extent` (which is declared earlier).
+		}
+	}
+
+	// ## opaque
+
+	@mixin opacity-animation() {
+		&.with-scale { @extend %default-hardware-render !optional; }
+		// ### opaque Present State
+		&.ng-enter.ng-enter-active, &.ng-move.ng-move-active, &.ng-leave {
+			@content;
+		}
+		// ### opaque Gone State
+		&.ng-enter, &.ng-move, &.ng-leave.ng-leave-active {
+			@extend %default-transparent;
+		}
+
+		// ### in-place Modifier
+
+		// This is for when you're fading out one element, while fading in another element in the
+		// place of the prior element. For this to work, the elements fading in or out must occupy
+		// the whole width of the parent element that is its positioning context (i.e. the parent
+		// element ought to have a non-`static` positioning context, i.e. `relative`, `absolute`, or
+		// `fixed`).
+		&.in-place.ng-leave {
+			@extend %default-absolute;
+			@extend %default-tl;
+			@extend %default-whole-width;
+		}
+	}
+
+	// This is the animation to use to fade an element in or out.
+	&.opaque {
+		@include opacity-animation {
+			@extend %default-opaque;
+		}
+	}
+
+	&.mostly-opaque {
+		@include opacity-animation {
+			@extend %default-mostly-opaque;
+		}
+	}
+
+	&.barely-transparent {
+		@include opacity-animation {
+			@extend %default-barely-transparent;
+		}
+	}
+
+	&.flip {
+		&.ng-leave {
+			@extend %default-absolute;
+			@extend %default-tl;
+			@extend %default-whole-width;
+			@extend .flip-out;
+		}
+		&.ng-enter, &.ng-move, {
+			@extend .flip-in;
+		}
+	}
+
+	// ## slide-h
+
+	// This is the animation for the slider used in the gallery page,
+	// [800_slider.tail.coffee](800_slider.tail.html) and slider.html. It works in
+	// conjunction with two additional classes, `to-left` and `to-right`, which work as you'd
+	// expect.
+	&.slide-h {
+		&.ng-enter, &.ng-leave.ng-leave-active { @include opacity( 0 ); }
+		&.ng-enter.ng-enter-active, &.ng-leave { @include opacity( 1 ); }
+
+		&.ng-enter {
+			@extend %default-absolute;
+			@extend %default-tr;
+			@extend %default-whole-width;
+			@extend %default-whole-height;
+			.to-left & { &, .slide-h & { @include create-transform( $trans-x: 100% ); } }
+			.to-right & { &, .slide-h & { @include create-transform( $trans-x: -100% ); } }
+			&.ng-enter-active { &, .slide-h & { 
+				@include create-transform( $trans-x: 0% );
+			} }
+		}
+
+		&.ng-leave {
+			@include create-transform( $trans-x: 0% );
+			&.ng-leave-active {
+				.to-left & { &, .slide-h & { @include create-transform( $trans-x: -100% ); } }
+				.to-right & { &, .slide-h & { @include create-transform( $trans-x: 100% ); } }
+			}
+		}
+	}
+
+	@mixin vendor-prefix( $name, $value ) {
+		@each $vendor in ( '-webkit-', '-moz-', '-ms-', '-o-', '' ) {
+			#{ $vendor }#{ $name }: #{ $value };
+		}
+	}
+
+	$blurring: 5px;
+	$unblurred-rule: "*:not(.dialog):not(.dialog-shelf):not([id^=mce_]):not(.ui-dialog):not(#show-message-popup):not(.ac_results):not([id^=colorbox])";
+	&.dialog-shown {
+		@extend %default-no-overflow;
+		&-add, &-remove { &, > #{ unquote( $unblurred-rule ) } {
+			@extend %default-transitions;
+			@extend %default-transitions.slow;
+		} }
+		> #{ unquote( $unblurred-rule ) } {
+			@extend %default-blurred;
+		}
+		&-remove-active > #{ unquote( $unblurred-rule ) } {
+			@extend %default-not-blurred;
+		}
+	}
+
+	&.ng-hide {
+		&.ng-hide-remove, &.ng-hide-add {
+			@extend %default-transparent;
+		}
+	}
+
+}

@@ -1,0 +1,85 @@
+$with-modifier-class-fallbacks: false !global;
+
+@function with-modifier-class-fallbacks() {
+	@return $with-modifier-class-fallbacks or map-get( map-get( $current-theme, theme-spec ), with-modifier-class-fallbacks ) or map-get( $current-style-spec, with-modifier-class-fallbacks );
+}
+
+@mixin children-only {
+	> * { @content; }
+}
+
+@mixin when-animating {
+	&.ng-animate { @content; }
+}
+
+@mixin when-hovered {
+	@if with-modifier-class-fallbacks() { &:hover, &.#{ $class-hover } { @content; } }
+	@else                               { &:hover                      { @content; } }
+}
+
+@mixin when-at {
+	@if with-modifier-class-fallbacks() { &:hover, &.#{ $class-hover }, &:active, &.#{ $class-active }, &:focus, &.ng-click-active { @content; } }
+	@else                               { &:hover,                      &:active,                       &:focus, &.ng-click-active { @content; } }
+}
+
+@mixin when-focused {
+	&:focus { @content; }
+}
+
+@mixin when-active {
+	@if with-modifier-class-fallbacks() { &:active, &.#{ $class-active }, &:focus, &.ng-click-active { @content; } }
+	@else                               { &:active,                       &:focus, &.ng-click-active { @content; } }
+}
+
+@mixin when-touching {
+	@include when-hovered { @include when-active { @content; } }
+}
+
+@mixin whenever {
+	@if with-modifier-class-fallbacks() { &, &:hover, &.#{ $class-hover }, &:focus, &:active, &.#{ $class-active }, &.ng-click-active { @content; } }
+	@else                               { &, &:hover,                      &:focus, &:active,                       &.ng-click-active { @content; } }
+}
+
+@mixin when-disabled {
+	@if with-modifier-class-fallbacks() { &[disabled], &.#{ $class-disabled } { @content; } }
+	@else                               { &[disabled]                         { @content; } }
+}
+
+@mixin when-retina {
+	@if with-modifier-class-fallbacks() { .#{ $class-retina }                                        { @content; } }
+	@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi), (min-resolution: 2dppx) { @content; }
+}
+
+@mixin when-first {
+	&:first-child, .#{ $class-first } {
+		@content;
+	}
+}
+
+@mixin when-last {
+	&:last-child, .#{ $class-last } {
+		@content;
+	}
+}
+
+@mixin when-ff {
+	.#{ $class-ff } & {
+		@content;
+	}
+}
+
+@mixin when-ie {
+	.#{ $class-ie } & {
+		@content;
+	}
+}
+
+@mixin when-tablet {
+	// .#{ $class-tablet } & { @content; }
+	@media only screen and (max-width: 768px) { @content; }
+}
+
+@mixin when-mobile {
+	// .#{ $class-mobile } & { @content; }
+	@media only screen and (max-width: 768px) and (max-width: 480px) { @content; }
+}

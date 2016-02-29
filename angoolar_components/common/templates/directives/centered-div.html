@@ -1,0 +1,18 @@
+<div class="table fixed-layout">
+	<div class="table-row">
+		<div
+			class    ="table-cell"
+			ng-class ="{
+				'valign-center': ( mode || '' ).indexOf( 'bottom' ) == -1 && ( mode || '' ).indexOf( 'top' ) == -1,
+				'valign-bottom': ( mode || '' ).indexOf( 'bottom' ) != -1,
+				'valign-top'   : ( mode || '' ).indexOf( 'top' ) != -1,
+				'text-center'  : ( mode || '' ).indexOf( 'left' ) == -1
+			}"
+		>
+			<div
+				ng-class ="{ 'inline-block': ( mode || '' ).indexOf( 'whole-width' ) == -1 }"
+				ng-transclude
+			></div>
+		</div>
+	</div>
+</div>

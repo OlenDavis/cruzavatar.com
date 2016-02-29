@@ -1,0 +1,1611 @@
+@mixin target( $nesting-id: null ) {
+	$actual-target-class: get-target-class-name( $nesting-id );
+	.#{ $actual-target-class } {
+		@content;
+	}
+}
+
+//////////////////////// TEXT STYLES
+@mixin declare-vertical-rhythm-text-style(
+	$base-font-size     : map-get( map-get( $current-theme, text-styles ), base-font-size ),
+	$font-family        : map-get( $current-style-spec, font-family       ),
+	$font-size          : map-get( $current-style-spec, font-size         ),
+	$lines              : map-get( $current-style-spec, lines             ),
+	$leader             : map-get( $current-style-spec, leader            ),
+	$leader-property    : map-get( $current-style-spec, leader-property   ),
+	$trailer            : map-get( $current-style-spec, trailer           ),
+	$trailer-property   : map-get( $current-style-spec, trailer-property  ),
+	$bold               : map-get( $current-style-spec, bold              ),
+	$italic             : map-get( $current-style-spec, italic            ),
+	$spacing            : map-get( $current-style-spec, spacing           ),
+	$text-shadowed      : map-get( $current-style-spec, text-shadowed     ),
+	$line-height-sized  : map-get( $current-style-spec, line-height-sized ),
+	$line-height-factors: map-get( $current-style-spec, line-height-factors ),
+	$with-text-height   : map-get( $current-style-spec, with-text-height ),
+	$with-text-min-height: map-get( $current-style-spec, with-text-min-height )
+) {
+	$actual-line-height: null;
+
+	@if $lines == true {
+		$actual-line-height: rhythm( $lines: lines-for-font-size( $font-size ), $font-size: $font-size );
+	}
+	@else if $lines == false {
+		$actual-line-height: 1em;
+	}
+	@else if $lines {
+		$actual-line-height: rhythm( $lines: $lines, $font-size: $font-size );
+	}
+
+	@include declare-specified-style {
+		@if $font-family {
+			font-family: $font-family;
+		}
+
+		@if $font-size {
+			font-size: $font-size / $base-font-size * 1em;
+		}
+
+		line-height: $actual-line-height;
+
+		@if $leader {
+			@if $leader-property {
+				@include leader( $lines: $leader, $property: $leader-property );
+			}
+			@else {
+				@include leader( $lines: $leader );
+			}
+		}
+
+		@if $trailer {
+			@if $trailer-property {
+				@include trailer( $lines: $trailer, $property: $trailer-property );
+			}
+			@else {
+				@include trailer( $lines: $trailer );
+			}
+		}
+
+		@if $line-height-sized and $actual-line-height {
+			&.#{ $class-line-height-sized }, .#{ $class-line-height-sized }, &-#{ $class-line-height-sized } {
+				&, &:before {
+					width      : $actual-line-height;
+					height     : $actual-line-height;
+					line-height: $actual-line-height;
+				}
+			}
+		}
+
+		@if $with-text-height {
+			&.text-height, .text-height {
+				line-height: $actual-line-height;
+				height     : $actual-line-height;
+			}
+		}
+
+		@if $with-text-min-height {
+			&.text-min-height, .text-min-height {
+				line-height: $actual-line-height;
+				min-height : $actual-line-height;
+			}
+		}
+
+		@if $line-height-factors and $actual-line-height {
+			@each $line-height-factor-name, $line-height-factor in $line-height-factors {
+				&.#{ $line-height-factor-name }, .#{ $line-height-factor-name } {
+					line-height: $actual-line-height * $line-height-factor;
+
+					@if $line-height-sized and $actual-line-height {
+						&.#{ $class-line-height-sized }, .#{ $class-line-height-sized } {
+							&, &:before {
+								width      : $actual-line-height * $line-height-factor;
+								height     : $actual-line-height * $line-height-factor;
+								line-height: $actual-line-height * $line-height-factor;
+							}
+						}
+					}
+
+					@if $with-text-height {
+						&.text-height, .text-height {
+							line-height: $actual-line-height * $line-height-factor;
+							height     : $actual-line-height * $line-height-factor;
+						}
+					}
+
+					@if $with-text-min-height {
+						&.text-min-height, .text-min-height {
+							line-height: $actual-line-height * $line-height-factor;
+							min-height : $actual-line-height * $line-height-factor;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin declare-vertical-rhythm-text-styles(
+	$establish-baseline: map-get( map-get( $current-theme, text-styles ), establish-baseline ),
+	$base-font-size    : map-get( map-get( $current-theme, text-styles ), base-font-size     ),
+	$base-line-height  : map-get( map-get( $current-theme, text-styles ), base-line-height   ),
+	$base-font-family  : map-get( map-get( $current-theme, text-styles ), base-font-family   )
+) {
+	@if $establish-baseline {
+		$base-font-size  : $base-font-size !global;
+		$base-line-height: $base-line-height !global;
+
+		html { font-family: $base-font-family; }
+		@include establish-baseline;
+	}
+	@each $vertical-rhythm-text-style-spec in $current-style-spec {
+		$current-style-spec: $vertical-rhythm-text-style-spec !global;
+		@include declare-vertical-rhythm-text-style;
+	}
+}
+
+//////////////////////// INTERACTIVITY
+@mixin not-selectable {
+	-webkit-touch-callout: none;
+	-webkit-user-select  : none;
+	-khtml-user-select   : none;
+	-moz-user-select     : none;
+	-ms-user-select      : none;
+	user-select          : none;
+}
+
+@mixin selectable {
+	-webkit-touch-callout: default;
+	-webkit-user-select  : text;
+	-khtml-user-select   : text;
+	-moz-user-select     : text;
+	-ms-user-select      : text;
+	user-select          : text;
+}
+
+@mixin declare-hoverable( $max-nesting-id: map-get( $current-style-spec, max-nesting-id ) ) {
+	$current-style-spec: map-merge( $current-style-spec, ( with-when-hovered: false ) ) !global;
+
+	@include declare-specified-style { @include hoverable; }
+
+	@if $max-nesting-id {
+		@for $nesting-id from 1 through $max-nesting-id {
+			$current-style-spec: set-current-style-spec-class-name( get-hoverable-class-name( $nesting-id ) ) !global;
+			@include declare-specified-style { @include hoverable( $nesting-id ); }
+		}
+	}
+}
+
+@mixin hoverable( $nesting-id: null ) {
+	$actual-hovered-class                        : get-hovered-class-name(                    $nesting-id );
+	$actual-not-hovered-class                    : get-not-hovered-class-name(                $nesting-id );
+	$actual-hovered-mostly-transparent-class-name: get-hovered-mostly-transparent-class-name( $nesting-id );
+
+	.#{ $actual-hovered-class }, .#{ $actual-not-hovered-class }, .#{ $actual-hovered-mostly-transparent-class-name } {
+		@include extend-style( transitions, $theme: $default-theme );
+	}
+	.#{ $actual-hovered-class }, .#{ $actual-hovered-mostly-transparent-class-name } {
+		@include transparent;
+	}
+	.#{ $actual-not-hovered-class } {
+		@include opaque;
+	}
+	@include when-hovered {
+		.#{ $actual-hovered-class } {
+			@include opaque;
+		}
+		.#{ $actual-not-hovered-class } {
+			@include transparent;
+		}
+		.#{ $actual-hovered-mostly-transparent-class-name } {
+			@include mostly-transparent;
+		}
+	}
+}
+
+//////////////////////// BLOCKS
+@mixin transparent {
+	@include opacity( 0 );
+}
+
+@mixin mostly-transparent( $mostly: map-get( map-get( $current-theme, opacity-modifiers ), mostly ) ) {
+	@include opacity( 1 - $mostly );
+}
+
+@mixin barely-transparent( $barely: map-get( map-get( $current-theme, opacity-modifiers ), barely ) ) {
+	@include opacity( 1 - $barely );
+}
+
+@mixin opaque {
+	@include opacity( 1 );
+}
+
+@mixin definitely-opaque {
+	filter: unquote("progid:DXImageTransform.Microsoft.Alpha(Opacity=100)") !important;
+	opacity: 1 !important;
+}
+
+@mixin mostly-opaque( $mostly: map-get( map-get( $current-theme, opacity-modifiers ), mostly ) ) {
+	@include opacity( $mostly );
+}
+
+@mixin barely-opaque( $barely: map-get( map-get( $current-theme, opacity-modifiers ), barely ) ) {
+	@include opacity( $barely );
+}
+
+@mixin declare-target-opaque( $max-nesting-id: map-get( $current-style-spec, max-nesting-id ) ) {
+	@include declare-specified-style { @include target-opaque; }
+
+	@if $max-nesting-id and $max-nesting-id > 0 {
+		@for $nesting-id from 1 through $max-nesting-id {
+			$current-style-spec: set-current-style-spec-class-name( get-target-opaque-class-name( $nesting-id ) ) !global;
+			@include declare-specified-style { @include target-opaque( $nesting-id ); }
+		}
+	}
+}
+
+@mixin target-opaque( $nesting-id: false  ) {
+	@include target( $nesting-id: $nesting-id ) {
+		@include opaque;
+	}
+}
+
+@mixin declare-target-barely-opaque( $max-nesting-id: map-get( $current-style-spec, max-nesting-id ) ) {
+	@include declare-specified-style { @include target-barely-opaque; }
+
+	@if $max-nesting-id and $max-nesting-id > 0 {
+		@for $nesting-id from 1 through $max-nesting-id {
+			$current-style-spec: set-current-style-spec-class-name( get-target-barely-opaque-class-name( $nesting-id ) ) !global;
+			@include declare-specified-style { @include target-barely-opaque( $nesting-id ); }
+		}
+	}
+}
+
+@mixin target-barely-opaque( $nesting-id: false  ) {
+	@include target( $nesting-id: $nesting-id ) {
+		@include barely-opaque;
+	}
+}
+
+@mixin declare-target-mostly-transparent( $max-nesting-id: map-get( $current-style-spec, max-nesting-id ) ) {
+	@include declare-specified-style { @include target-mostly-transparent; }
+
+	@if $max-nesting-id and $max-nesting-id > 0 {
+		@for $nesting-id from 1 through $max-nesting-id {
+			$current-style-spec: set-current-style-spec-class-name( get-target-mostly-transparent-class-name( $nesting-id ) ) !global;
+			@include declare-specified-style { @include target-mostly-transparent( $nesting-id ); }
+		}
+	}
+}
+
+@mixin declare-target-mostly-opaque( $max-nesting-id: map-get( $current-style-spec, max-nesting-id ) ) {
+	@include declare-specified-style { @include target-mostly-opaque; }
+
+	@if $max-nesting-id and $max-nesting-id > 0 {
+		@for $nesting-id from 1 through $max-nesting-id {
+			$current-style-spec: set-current-style-spec-class-name( get-target-mostly-opaque-class-name( $nesting-id ) ) !global;
+			@include declare-specified-style { @include target-mostly-opaque( $nesting-id ); }
+		}
+	}
+}
+
+@mixin target-mostly-transparent( $nesting-id: false  ) {
+	@include target( $nesting-id: $nesting-id ) {
+		@include mostly-transparent;
+	}
+}
+
+@mixin gone {
+	display: none;
+}
+
+@mixin visible {
+	visibility: visible;
+}
+
+@mixin invisible {
+	visibility: hidden;
+}
+
+@mixin inline {
+	display: inline;
+}
+
+@mixin block {
+	display: block;
+}
+
+@mixin floatfix {
+	@include pie-clearfix;
+}
+
+@mixin no-overflow {
+	overflow: hidden;
+}
+@mixin show-overflow {
+	overflow: visible;
+}
+@mixin scroll-overflow {
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+@mixin ellipsis-overflow {
+	@include no-wrap;
+	@include no-overflow;
+	text-overflow: ellipsis;
+}
+
+// Block floating
+@mixin left {
+	float: left;
+}
+@mixin right {
+	float: right;
+}
+
+@mixin clear-left {
+	clear: left;
+}
+@mixin clear-right {
+	clear: right;
+}
+@mixin clear-both {
+	clear: both;
+}
+
+//////////////////////// TEXT
+@mixin link {
+	text-decoration: none;
+	cursor         : pointer;
+	@include when-disabled {
+		@include non-link;
+	}
+}
+@mixin non-link {
+	text-decoration: none;
+	cursor         : default;
+}
+
+// Text Alignment
+@mixin text-left {
+	text-align: left;
+}
+@mixin text-right {
+	text-align: right;
+}
+@mixin text-center {
+	text-align: center;
+}
+@mixin text-justify {
+	text-align: justify;
+}
+
+@mixin uppercase {
+	text-transform: uppercase;
+}
+
+@mixin lowercase {
+	text-transform: lowercase;
+}
+
+@mixin capitalize {
+	text-transform: capitalize;
+}
+
+@mixin no-wrap {
+	white-space: nowrap;
+}
+
+@mixin break-word {
+	-ms-word-break: break-all;
+	word-break    : break-all;
+
+	// Non standard for webkit
+	word-break: break-word;
+
+	-webkit-hyphens: auto;
+	-moz-hyphens   : auto;
+	hyphens        : auto;
+}
+
+@mixin wrap {
+	white-space: normal;
+}
+
+@mixin small-text(      $modifier: map-get( map-get( $current-theme, text-styles ), small-text      ) ) { font-size: $modifier; }
+@mixin very-small-text( $modifier: map-get( map-get( $current-theme, text-styles ), very-small-text ) ) { font-size: $modifier; }
+@mixin large-text(      $modifier: map-get( map-get( $current-theme, text-styles ), large-text      ) ) { font-size: $modifier; }
+@mixin very-large-text( $modifier: map-get( map-get( $current-theme, text-styles ), very-large-text ) ) { font-size: $modifier; }
+
+@mixin light-weight {
+	font-weight: 300;
+}
+
+@mixin normal-weight {
+	font-weight: normal;
+}
+
+@mixin bold {
+	&, &:before, &:after {
+		font-weight: bold;
+	}
+}
+
+@mixin italic {
+	&, &:before, &:after {
+		font-style: italic;
+	}
+}
+
+@mixin underline {
+	&, &:before, &:after {
+		text-decoration: underline;
+	}
+}
+
+@mixin less-wide(     $width: map-get( map-get( $current-theme, text-styles ), less-wide     ) ) { letter-spacing: $width; }
+@mixin wide(          $width: map-get( map-get( $current-theme, text-styles ), wide          ) ) { letter-spacing: $width; }
+@mixin more-wide(     $width: map-get( map-get( $current-theme, text-styles ), more-wide     ) ) { letter-spacing: $width; }
+@mixin way-more-wide( $width: map-get( map-get( $current-theme, text-styles ), way-more-wide ) ) { letter-spacing: $width; }
+
+//////////////////////// TABLES
+@mixin table {
+	display        : table;
+	border-collapse: collapse;
+	border-spacing : 0em;
+}
+
+@mixin table-row {
+	display: table-row;
+}
+
+@mixin table-cell {
+	display: table-cell;
+}
+
+@mixin fixed-layout {
+	table-layout: fixed;
+}
+
+@mixin auto-layout {
+	table-layout: auto;
+}
+
+@mixin valign-center {
+	vertical-align: middle;
+}
+@mixin valign-bottom {
+	vertical-align: bottom;
+}
+@mixin valign-top {
+	vertical-align: top;
+}
+@mixin valign-super {
+	vertical-align: super;
+	font-size     : smaller;
+}
+@mixin valign-sub {
+	vertical-align: sub;
+	font-size     : smaller;
+}
+
+//////////////////////// POSITIONING
+@mixin relative {
+	position: relative;
+}
+@mixin absolute {
+	position: absolute;
+}
+@mixin fixed {
+	position: fixed;
+}
+
+@mixin above {
+	z-index: 99;
+}
+
+@mixin way-above {
+	z-index: 999;
+}
+
+@mixin way-way-above {
+	z-index: 9999;
+}
+
+@mixin declare-target-above( $max-nesting-id: map-get( $current-style-spec, max-nesting-id ) ) {
+	@include declare-specified-style { @include target-above; }
+
+	@if $max-nesting-id and $max-nesting-id > 0 {
+		@for $nesting-id from 1 through $max-nesting-id {
+			$current-style-spec: set-current-style-spec-class-name( get-target-above-class-name( $nesting-id ) ) !global;
+			@include declare-specified-style { @include target-above( $nesting-id ); }
+		}
+	}
+}
+
+@mixin declare-target-way-above( $max-nesting-id: map-get( $current-style-spec, max-nesting-id ) ) {
+	@include declare-specified-style { @include target-way-above; }
+
+	@if $max-nesting-id and $max-nesting-id > 0 {
+		@for $nesting-id from 1 through $max-nesting-id {
+			$current-style-spec: set-current-style-spec-class-name( get-target-way-above-class-name( $nesting-id ) ) !global;
+			@include declare-specified-style { @include target-way-above( $nesting-id ); }
+		}
+	}
+}
+
+@mixin declare-target-way-way-above( $max-nesting-id: map-get( $current-style-spec, max-nesting-id ) ) {
+	@include declare-specified-style { @include target-way-way-above; }
+
+	@if $max-nesting-id and $max-nesting-id > 0 {
+		@for $nesting-id from 1 through $max-nesting-id {
+			$current-style-spec: set-current-style-spec-class-name( get-target-way-way-above-class-name( $nesting-id ) ) !global;
+			@include declare-specified-style { @include target-way-way-above( $nesting-id ); }
+		}
+	}
+}
+
+@mixin target-above( $nesting-id: false  ) {
+	@include target( $nesting-id: $nesting-id ) {
+		@include above;
+	}
+}
+
+@mixin target-way-above( $nesting-id: false  ) {
+	@include target( $nesting-id: $nesting-id ) {
+		@include way-above;
+	}
+}
+
+@mixin target-way-way-above( $nesting-id: false  ) {
+	@include target( $nesting-id: $nesting-id ) {
+		@include way-way-above;
+	}
+}
+
+@mixin below {
+	z-index: -1;
+}
+
+@mixin tl { top:    0px; left:  0px; }
+@mixin tr { top:    0px; right: 0px; }
+@mixin br { bottom: 0px; right: 0px; }
+@mixin bl { bottom: 0px; left:  0px; }
+
+//////////////////////// CONTENT STYLING
+@mixin appearance-none {
+	@include appearance( none );
+}
+
+@mixin hardware-render {
+	@include translate( 0, 0, 0 );
+}
+
+@mixin no-transform {
+	@include transform( none );
+}
+
+@mixin transitions(
+	$duration          : map-get( map-get( $current-theme, transitions ), standard  ),
+	$very-slow-duration: map-get( map-get( $current-theme, transitions ), very-slow ),
+	$slow-duration     : map-get( map-get( $current-theme, transitions ),     slow  ),
+	$fast-duration     : map-get( map-get( $current-theme, transitions ),     fast  )
+) {
+	@include transition-property( all );
+	@include transition-duration( $duration );
+	&.#{ $class-fast      } { @include transition-duration( $fast-duration      ); }
+	&.#{ $class-slow      } { @include transition-duration( $slow-duration      ); }
+	&.#{ $class-very-slow } { @include transition-duration( $very-slow-duration ); }
+}
+
+@mixin no-transitions {
+	@include transition-property( none );
+	@include transition-duration( 0s );
+}
+
+@mixin definitely-no-transitions {
+	@include transition-property( none !important );
+	@include transition-duration( 0s !important );
+}
+
+//////////////////////// RATIO-SIZE
+@mixin declare-ratio-size {
+	$sizes-already-rendered: ();
+	@each $property, $ratio-size-spec in $current-style-spec {
+		@for $denominator from map-get( $ratio-size-spec, from ) through map-get( $ratio-size-spec, to ) {
+			@for $numerator from 1 to $denominator {
+				@if not map-has-key( $sizes-already-rendered, "#{ $property }-#{ $numerator / $denominator }" ) {
+					$sizes-already-rendered: map-merge( $sizes-already-rendered, ( "#{ $property }-#{ $numerator / $denominator }": true ) );
+					$ratio-size-spec: map-merge( $ratio-size-spec, ( class-name: get-ratio-size-class-name( $property, $numerator, $denominator ) ) );
+					$current-style-spec: $ratio-size-spec !global;
+					@include declare-specified-style { @include ratio-size( $property, $numerator, $denominator ); }
+				}
+			}
+		}
+	}
+}
+
+@mixin ratio-size( $property, $numerator, $denominator ) {
+	#{ $property }: $numerator / $denominator * 100%;
+}
+
+//////////////////////// WHOLE-SIZE
+@mixin declare-whole-size {
+	@each $property, $whole-size-spec in $current-style-spec {
+		$whole-size-spec: map-merge( $whole-size-spec, ( class-name: get-whole-size-class-name( $property ) ) );
+		$current-style-spec: $whole-size-spec !global;
+		@include declare-specified-style { #{ $property }: 100%; }
+		
+		@if map-get( $whole-size-spec, with-definitely ) {
+			$whole-size-spec: map-merge( $whole-size-spec, ( class-name: "definitely-#{ map-get( $whole-size-spec, class-name ) }" ) );
+			$current-style-spec: $whole-size-spec !global;
+			@include declare-specified-style { #{ $property }: 100% !important; }
+		}
+	}
+}
+
+//////////////////////// NO-SIZE
+@function get-no-size-unit( $no-size-spec ) {
+	$unit: map-get( $no-size-spec, unit );
+	@if not $unit { $unit: 0%; }
+	@return $unit;
+}
+@mixin declare-no-size {
+	@each $property, $no-size-spec in $current-style-spec {
+		$no-size-spec: map-merge( $no-size-spec, ( class-name: get-no-size-class-name( $property ) ) );
+		$current-style-spec: $no-size-spec !global;
+		@include declare-specified-style { #{ $property }: 0 * get-no-size-unit( $no-size-spec ); }
+
+		@if map-get( $no-size-spec, with-definitely ) {
+			$no-size-spec: map-merge( $no-size-spec, ( class-name: "definitely-#{ map-get( $no-size-spec, class-name ) }" ) );
+			$current-style-spec: $no-size-spec !global;
+			@include declare-specified-style { #{ $property }: 0 * get-no-size-unit( $no-size-spec ) !important; }
+		}
+	}
+}
+
+//////////////////////// SPECIFIC-SIZE
+@mixin declare-specific-value {
+	@each $property, $specific-value-specs in $current-style-spec {
+		@if                                                               type-of( $specific-value-specs ) == map { @include declare-a-specific-value( $property, $specific-value-specs ); }
+		@else { @each $specific-value-spec in $specific-value-specs { @if type-of( $specific-value-spec  ) == map { @include declare-a-specific-value( $property, $specific-value-spec  ); } } }
+	}
+}
+
+@mixin declare-a-specific-value( $property, $specific-value-spec ) {
+	// set the class-name in the spec using correctly by using the get-specific-value-class-name function
+	$specific-value-spec: map-merge(
+		$specific-value-spec,
+		(
+			class-name: get-specific-value-class-name(
+				map-get( $specific-value-spec, class-name ),
+				$property
+			)
+		)
+	);
+	// set this spec to be the globally "current" style spec
+	$current-style-spec: $specific-value-spec !global;
+	@include declare-specified-style { #{ $property }: map-get( $specific-value-spec, value ); }
+}
+
+//////////////////////// TARGET-SPECIFIC-SIZE
+@mixin declare-target-specific-value {
+	@each $property, $target-specific-value-specs in $current-style-spec {
+		@if                                                                             type-of( $target-specific-value-specs ) == map { @include declare-a-target-specific-value( $property, $target-specific-value-specs ); }
+		@else { @each $target-specific-value-spec in $target-specific-value-specs { @if type-of( $target-specific-value-spec  ) == map { @include declare-a-target-specific-value( $property, $target-specific-value-spec  ); } } }
+	}
+}
+
+@mixin declare-a-target-specific-value( $property, $target-specific-value-spec ) {
+	$max-nesting-id: map-get( $target-specific-value-spec, max-nesting-id );
+	@if $max-nesting-id and $max-nesting-id > 0 { @for $nesting-id from 1 through $max-nesting-id { @include declare-a-target-specific-value-inner( $nesting-id, $property, $target-specific-value-spec ); } }
+	@else {                                                                                         @include declare-a-target-specific-value-inner(        null, $property, $target-specific-value-spec );   }
+}
+
+@mixin declare-a-target-specific-value-inner( $nesting-id, $property, $target-specific-value-spec ) {
+	// set the class-name in the spec using correctly by using the get-target-specific-value-class-name function
+	$target-specific-value-spec: map-merge(
+		$target-specific-value-spec,
+		(
+			class-name: get-target-specific-value-class-name(
+				$nesting-id,
+				map-get( $target-specific-value-spec, class-name ),
+				$property
+			)
+		)
+	);
+	// set this spec to be the globally "current" style spec
+	$current-style-spec: $target-specific-value-spec !global;
+	@include declare-specified-style { @include target( $nesting-id ) { #{ $property }: map-get( $target-specific-value-spec, value ); } }
+}
+
+//////////////////////// FILTER
+@mixin vendor-prefix( $name, $value ) {
+	@each $vendor in ( '-webkit-', '-moz-', '-ms-', '-o-', '' ) {
+		#{ $vendor }#{ $name }: #{ $value };
+	}
+}
+
+@mixin declare-filter {
+	@each $property, $filter-specs in $current-style-spec {
+		@if                                               type-of( $filter-specs ) == map { @include declare-a-filter( $property, $filter-specs ); }
+		@else { @each $filter-spec in $filter-specs { @if type-of( $filter-spec  ) == map { @include declare-a-filter( $property, $filter-spec  ); } } }
+	}
+}
+
+@mixin declare-a-filter( $property, $filter-spec ) {
+	// set the class-name in the spec using correctly by using the get-filter-class-name function
+	$filter-spec: map-merge( $filter-spec, ( class-name: map-get( $filter-spec, class-name ) ) );
+	// set this spec to be the globally "current" style spec
+	$current-style-spec: $filter-spec !global;
+	$filters: ();
+	@each $filter, $value in map-get( $filter-spec, values ) {
+		$filters: append( $filters, unquote( "#{ $filter }( #{ $value } )" ) );
+	}
+	@include declare-specified-style {
+		@include vendor-prefix( filter, $filters );
+	}
+}
+
+@mixin no-background {
+	background: none;
+}
+
+@mixin border-box {
+	@include box-sizing( border-box );
+}
+
+@mixin not-bordered {
+	border-width: 0px;
+	// border-top   : 0px solid transparent;
+	// border-right : 0px solid transparent;
+	// border-bottom: 0px solid transparent;
+	// border-left  : 0px solid transparent;
+}
+
+@mixin not-lr-bordered {
+	border-left-width : 0px;
+	border-right-width: 0px;
+}
+
+@mixin not-tb-bordered {
+	border-top-width   : 0px;
+	border-bottom-width: 0px;
+}
+
+@mixin not-l-bordered {
+	border-left-width: 0px;
+}
+
+@mixin not-r-bordered {
+	border-right-width: 0px;
+}
+
+@mixin not-t-bordered {
+	border-top-width: 0px;
+}
+
+@mixin not-b-bordered {
+	border-bottom-width: 0px;
+}
+
+@mixin transparent-border {
+	border-color: transparent;
+}
+
+@mixin no-padding {
+	padding: 0px;
+	// padding-top   : 0px;
+	// padding-right : 0px;
+	// padding-bottom: 0px;
+	// padding-left  : 0px;
+}
+
+@mixin no-margin {
+	margin: 0px;
+	// margin-top   : 0px;
+	// margin-right : 0px;
+	// margin-bottom: 0px;
+	// margin-left  : 0px;
+}
+@mixin lr-auto-margin {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@mixin whole-rounded   { @include border-radius(        100% ); }
+@mixin whole-t-rounded { @include border-top-radius(    100% ); }
+@mixin whole-r-rounded { @include border-right-radius(  100% ); }
+@mixin whole-b-rounded { @include border-bottom-radius( 100% ); }
+@mixin whole-l-rounded { @include border-left-radius(   100% ); }
+
+@mixin no-rounding { @include border-radius( 0% ); }
+
+////////////////////////////////////////////
+//////////////////////// PLAIN-THEMED MIXINS
+////////////////////////////////////////////
+
+//////////////////////// ROUNDED BORDERS
+@mixin rounded(    $radius: map-get( map-get( $current-theme, borders ), radius ) ) { @include border-radius(              $radius ); }
+@mixin t-rounded(  $radius: map-get( map-get( $current-theme, borders ), radius ) ) { @include border-top-radius(          $radius ); }
+@mixin r-rounded(  $radius: map-get( map-get( $current-theme, borders ), radius ) ) { @include border-right-radius(        $radius ); }
+@mixin b-rounded(  $radius: map-get( map-get( $current-theme, borders ), radius ) ) { @include border-bottom-radius(       $radius ); }
+@mixin l-rounded(  $radius: map-get( map-get( $current-theme, borders ), radius ) ) { @include border-left-radius(         $radius ); }
+@mixin tl-rounded( $radius: map-get( map-get( $current-theme, borders ), radius ) ) { @include border-top-left-radius(     $radius ); }
+@mixin tr-rounded( $radius: map-get( map-get( $current-theme, borders ), radius ) ) { @include border-top-right-radius(    $radius ); }
+@mixin bl-rounded( $radius: map-get( map-get( $current-theme, borders ), radius ) ) { @include border-bottom-left-radius(  $radius ); }
+@mixin br-rounded( $radius: map-get( map-get( $current-theme, borders ), radius ) ) { @include border-bottom-right-radius( $radius ); }
+@mixin not-rounded    { @include border-radius(              0px ); }
+@mixin not-t-rounded  { @include border-top-radius(          0px ); }
+@mixin not-r-rounded  { @include border-right-radius(        0px ); }
+@mixin not-b-rounded  { @include border-bottom-radius(       0px ); }
+@mixin not-l-rounded  { @include border-left-radius(         0px ); }
+@mixin not-tl-rounded { @include border-top-left-radius(     0px ); }
+@mixin not-tr-rounded { @include border-top-right-radius(    0px ); }
+@mixin not-bl-rounded { @include border-bottom-left-radius(  0px ); }
+@mixin not-br-rounded { @include border-bottom-right-radius( 0px ); }
+
+//////////////////////// PADDING/MARGIN
+
+@mixin declare-padded            { @include declare-spacing(( padding )); }
+@mixin declare-t-padded          { @include declare-spacing(( padding-top )); }
+@mixin declare-r-padded          { @include declare-spacing(( padding-right )); }
+@mixin declare-b-padded          { @include declare-spacing(( padding-bottom )); }
+@mixin declare-l-padded          { @include declare-spacing(( padding-left )); }
+@mixin declare-lr-padded         { @include declare-spacing(( padding-left, padding-right )); }
+@mixin declare-tb-padded         { @include declare-spacing(( padding-top, padding-bottom )); }
+@mixin declare-margin            { @include declare-spacing(( margin )); }
+@mixin declare-t-margin          { @include declare-spacing(( margin-top )); }
+@mixin declare-r-margin          { @include declare-spacing(( margin-right )); }
+@mixin declare-b-margin          { @include declare-spacing(( margin-bottom )); }
+@mixin declare-l-margin          { @include declare-spacing(( margin-left )); }
+@mixin declare-lr-margin         { @include declare-spacing(( margin-left, margin-right )); }
+@mixin declare-tb-margin         { @include declare-spacing(( margin-top, margin-bottom )); }
+@mixin declare-negative-t-margin { @include declare-spacing( ( margin-top    ), $overall-factor: -1 ); }
+@mixin declare-negative-r-margin { @include declare-spacing( ( margin-right  ), $overall-factor: -1 ); }
+@mixin declare-negative-b-margin { @include declare-spacing( ( margin-bottom ), $overall-factor: -1 ); }
+@mixin declare-negative-l-margin { @include declare-spacing( ( margin-left   ), $overall-factor: -1 ); }
+
+@mixin declare-table-padded { @include declare-spacing( ( border-spacing ) ) { border-collapse: separate; }; }
+
+@mixin declare-spacing(
+	$properties,
+	$spacing                  : map-get( $current-theme,      spacing ),
+	$factors                  : map-get( $current-style-spec, factors ),
+	$with-factors-concatenated: map-get( $current-style-spec, with-factors-concatenated ),
+	$overall-factor           : 1 // this is here for being able to do negative margins
+) {
+	@include spacing( $properties, $overall-factor: $overall-factor ) { @content };
+
+	@if $with-factors-concatenated {
+		@if $factors {
+			@each $factor-name, $factor in $factors {
+				$spacing-name: get-current-style-spec-class-name();
+				$current-style-spec: set-current-style-spec-class-name( "#{ $factor-name }-#{ $spacing-name }" ) !global;
+				@include spacing(
+					$properties,
+					$without-factors-separated: true,
+					$spacing                  : $spacing * $factor,
+					$overall-factor           : $overall-factor
+				) { @content };
+			}
+		}
+	}
+}
+
+@mixin spacing(
+	$properties,
+	$without-factors-separated: map-get( $current-style-spec, without-factors-separated ),
+	$spacing                  : map-get( $current-theme,      spacing ),
+	$factors                  : map-get( $current-style-spec, factors ),
+	$overall-factor           : 1
+) {
+	@include declare-specified-style {
+		@each $property in $properties {
+			@content;
+
+			#{ $property }: $spacing * $overall-factor;
+
+			@if not $without-factors-separated {
+				@if $factors {
+					@each $factor-name, $factor in $factors {
+						&.#{ $factor-name } {
+							#{ $property }: $spacing * $factor * $overall-factor;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin declare-tl-triangle { @include declare-triangle( $invisible-border: bottom, $visible-border: left ); }
+
+@mixin declare-triangle(
+	$invisible-border,
+	$visible-border,
+	$spacing                  : map-get( $current-theme,      spacing ),
+	$factors                  : map-get( $current-style-spec, factors ),
+	$with-factors-concatenated: map-get( $current-style-spec, with-factors-concatenated )
+) {
+	@include triangle( $invisible-border, $visible-border );
+
+	@if $with-factors-concatenated {
+		@if $factors {
+			@each $factor-name, $factor in $factors {
+				$triangle-name: get-current-style-spec-class-name();
+				$current-style-spec: set-current-style-spec-class-name( "#{ $factor-name }-#{ $triangle-name }" ) !global;
+				@include triangle(
+					$invisible-border, $visible-border,
+					$spacing                  : $spacing * $factor,
+					$without-factors-separated: true
+				);
+			}
+		}
+	}
+}
+
+@function opposite-direction-of( $direction ) {
+	@return map-get( (
+		top   : bottom,
+		right : left,
+		bottom: top,
+		left  : right
+	), $direction );
+}
+
+@mixin triangle(
+	$invisible-border,
+	$visible-border,
+	$spacing                  : map-get( $current-theme,      spacing ),
+	$factors                  : map-get( $current-style-spec, factors ),
+	$without-factors-separated: map-get( $current-style-spec, without-factors-separated )
+) {
+	@include declare-specified-style {
+		height: 0px;
+		width : 0px;
+
+		border-#{ opposite-direction-of( $invisible-border ) }: 0px;
+		border-#{ opposite-direction-of( $visible-border   ) }: 0px;
+		border-#{ $invisible-border }: $spacing solid transparent !important;
+		border-#{ $visible-border }-width: $spacing;
+
+		@if not $without-factors-separated {
+			@if $factors {
+				@each $factor-name, $factor in $factors {
+					&.#{ $factor-name } {
+						border-#{ opposite-direction-of( $invisible-border ) }: 0px;
+						border-#{ opposite-direction-of( $visible-border   ) }: 0px;
+						border-#{ $invisible-border }: $spacing * $factor solid transparent !important;
+						border-#{ $visible-border }-width: $spacing * $factor;
+					}
+				}
+			}
+		}
+	}
+}
+
+//////////////////////// SHADOWS
+@mixin shadow(
+	$color               : map-get( map-get( $current-theme, shadows ), color                ),
+	$opacity             : map-get( map-get( $current-theme, shadows ), opacity              ),
+	$primary-depth       : map-get( map-get( $current-theme, shadows ), primary-depth        ),
+	$secondary-depth     : map-get( map-get( $current-theme, shadows ), secondary-depth      ),
+	$hovered-depth-factor: map-get( map-get( $current-theme, shadows ), hovered-depth-factor ),
+
+	$external            : true, // True means the primary shadow is an outer shadow, and the highlight/lowlight are inner shadows
+	$include-highlight   : false,
+	$include-lowlight    : false,
+	$primary-depth-factor: 1,
+	$spread              : 2.5,
+	$shift               : 1
+) {
+	$highlight-color: white; //if( $inverse,                      black,                       white );
+	$lowlight-color : shade( $color, 75% ); //if( $inverse, tint( $color, 75% ), shade( $color, 75% ) );
+
+	$primary-shadow     : '';
+	$primary-shadow-ff  : '';
+	$highlight-shadow   : '';
+	$highlight-shadow-ff: '';
+	$lowlight-shadow    : '';
+	$lowlight-shadow-ff : '';
+
+	$highlight-visibility-factor: if( $include-highlight, 1, 0 );
+	$lowlight-visibility-factor : if( $include-lowlight,  1, 0 );
+
+	$primary-depth  : $primary-depth * $primary-depth-factor;
+	$secondary-depth: $secondary-depth;
+
+	@if ( $spread == 0 and $shift == 0 ) or ( $primary-depth == 0 and not $include-highlight and not $include-lowlight ) {
+		$opacity: $opacity * 0;
+	}
+
+	$ff-factor: .75;
+
+	@if $external != false {
+		//                                                                                                                                              -------------------NO INSET SHADOW-------------------
+		$primary-shadow   : 0px ( $primary-depth * $shift              ) ( $primary-depth * $spread              ) 0px rgba( $color, $opacity ), 0px 0px 0px 0px rgba( $color, $opacity ) inset;
+		$primary-shadow-ff: 0px ( $primary-depth * $shift * $ff-factor ) ( $primary-depth * $spread * $ff-factor ) 0px rgba( $color, $opacity ), 0px 0px 0px 0px rgba( $color, $opacity ) inset;
+
+		//                    -------------------------------NO EXTERNAL SHADOW-------------------------------
+		$highlight-shadow   : 0px 0px 0px 0px rgba( $highlight-color, $opacity * $highlight-visibility-factor ), 0px (   $secondary-depth * $shift              ) ( $secondary-depth * $spread              ) 0px rgba( $highlight-color, $opacity * $highlight-visibility-factor ) inset;
+		$highlight-shadow-ff: 0px 0px 0px 0px rgba( $highlight-color, $opacity * $highlight-visibility-factor ), 0px (   $secondary-depth * $shift * $ff-factor ) ( $secondary-depth * $spread * $ff-factor ) 0px rgba( $highlight-color, $opacity * $highlight-visibility-factor ) inset;
+		$lowlight-shadow    : 0px 0px 0px 0px rgba( $lowlight-color,  $opacity *  $lowlight-visibility-factor ), 0px ( - $secondary-depth * $shift              ) ( $secondary-depth * $spread              ) 0px rgba( $lowlight-color,  $opacity *  $lowlight-visibility-factor ) inset;
+		$lowlight-shadow-ff : 0px 0px 0px 0px rgba( $lowlight-color,  $opacity *  $lowlight-visibility-factor ), 0px ( - $secondary-depth * $shift * $ff-factor ) ( $secondary-depth * $spread * $ff-factor ) 0px rgba( $lowlight-color,  $opacity *  $lowlight-visibility-factor ) inset;
+	}
+	@else {
+		//                  --------------NO EXTERNAL SHADOW--------------
+		$primary-shadow   : 0px 0px 0px 0px rgba( $color, $opacity ), 0px ( $primary-depth * $shift              ) ( $primary-depth * $spread              ) 0px rgba( $color, $opacity ) inset;
+		$primary-shadow-ff: 0px 0px 0px 0px rgba( $color, $opacity ), 0px ( $primary-depth * $shift * $ff-factor ) ( $primary-depth * $spread * $ff-factor ) 0px rgba( $color, $opacity ) inset;
+
+		//                                                                                                                                                                                        ------------------------------------NO INSET SHADOW------------------------------------
+		$highlight-shadow   : 0px (   $secondary-depth * $shift              ) ( $secondary-depth * $spread              ) 0px rgba( $highlight-color, $opacity * $highlight-visibility-factor ), 0px 0px 0px 0px rgba( $highlight-color, $opacity * $highlight-visibility-factor ) inset;
+		$highlight-shadow-ff: 0px (   $secondary-depth * $shift * $ff-factor ) ( $secondary-depth * $spread * $ff-factor ) 0px rgba( $highlight-color, $opacity * $highlight-visibility-factor ), 0px 0px 0px 0px rgba( $highlight-color, $opacity * $highlight-visibility-factor ) inset;
+		$lowlight-shadow    : 0px ( - $secondary-depth * $shift              ) ( $secondary-depth * $spread              ) 0px rgba( $lowlight-color,  $opacity *  $lowlight-visibility-factor ), 0px 0px 0px 0px rgba( $lowlight-color,  $opacity *  $lowlight-visibility-factor ) inset;
+		$lowlight-shadow-ff : 0px ( - $secondary-depth * $shift * $ff-factor ) ( $secondary-depth * $spread * $ff-factor ) 0px rgba( $lowlight-color,  $opacity *  $lowlight-visibility-factor ), 0px 0px 0px 0px rgba( $lowlight-color,  $opacity *  $lowlight-visibility-factor ) inset;
+	}
+
+	$all-shadows   : $primary-shadow   , $highlight-shadow   , $lowlight-shadow   ;
+	$all-shadows-ff: $primary-shadow-ff, $highlight-shadow-ff, $lowlight-shadow-ff;
+
+	@include box-shadow( $all-shadows );
+	// .ff & {
+	// 	@ include box-shadow( $all-shadows-ff );
+	// }
+}
+
+@mixin deep-shadow(
+	$deep-depth-factor: map-get( map-get( $current-theme, shadows ), deep-depth-factor ),
+	$external         : true
+) {
+	@include shadow(
+		$primary-depth-factor: $deep-depth-factor,
+		$external            : $external
+	);
+}
+
+@mixin shallow-shadow(
+	$shallow-depth-factor: map-get( map-get( $current-theme, shadows ), shallow-depth-factor ),
+	$external            : true
+) {
+	@include shadow(
+		$primary-depth-factor: $shallow-depth-factor,
+		$external            : $external
+	);
+}
+
+@mixin no-shadow {
+	@include shadow(
+		$spread: 0,
+		$shift : 0
+	);
+}
+
+@mixin no-text-shadow {
+	@include text-shadowed(
+		$spread: 0,
+		$shift : 0
+	);
+}
+
+@mixin inset-shadow( $primary-depth-factor: 1 ) {
+	@include shadow(
+		$external            : false,
+		$primary-depth-factor: $primary-depth-factor
+	);
+}
+
+@mixin deep-inset-shadow( $deep-depth-factor: map-get( map-get( $current-theme, shadows ), deep-depth-factor ) ) {
+	@include inset-shadow( $primary-depth-factor: $deep-depth-factor );
+}
+
+@mixin shallow-inset-shadow( $shallow-depth-factor: map-get( map-get( $current-theme, shadows ), shallow-depth-factor ) ) {
+	@include inset-shadow( $primary-depth-factor: $shallow-depth-factor );
+}
+
+@mixin text-shadowed(
+	$color          : map-get( map-get( $current-theme, shadows ), color           ),
+	$opacity        : map-get( map-get( $current-theme, shadows ), opacity         ),
+	$secondary-depth: map-get( map-get( $current-theme, shadows ), secondary-depth ),
+	$spread         : 2.5,
+	$shift          : 1
+) {
+	@include text-shadow( 0px ( $secondary-depth * $shift ) ( $secondary-depth * $spread ) rgba( $color, $opacity ) );
+}
+
+/////////////////////////////////////////////////////////////
+//////////////////////// INVERSABLE & SECONDARY-THEMED MIXINS
+/////////////////////////////////////////////////////////////
+
+//////////////////////// BORDERS
+
+@mixin declare-bordered     { @include declare-borders;                                                                              }
+@mixin declare-t-bordered   { @include declare-borders( $border-properties: ( 'border-top'                                      ) ); }
+@mixin declare-r-bordered   { @include declare-borders( $border-properties: ( 'border-right'                                    ) ); }
+@mixin declare-b-bordered   { @include declare-borders( $border-properties: ( 'border-bottom'                                   ) ); }
+@mixin declare-l-bordered   { @include declare-borders( $border-properties: ( 'border-left'                                     ) ); }
+@mixin declare-lr-bordered  { @include declare-borders( $border-properties: ( 'border-left',   'border-right'                   ) ); }
+@mixin declare-tb-bordered  { @include declare-borders( $border-properties: ( 'border-top',    'border-bottom'                  ) ); }
+@mixin declare-ltr-bordered { @include declare-borders( $border-properties: ( 'border-left',   'border-top',    'border-right'  ) ); }
+@mixin declare-lbr-bordered { @include declare-borders( $border-properties: ( 'border-left',   'border-bottom', 'border-right'  ) ); }
+@mixin declare-trb-bordered { @include declare-borders( $border-properties: ( 'border-top',    'border-right',  'border-bottom' ) ); }
+@mixin declare-blt-bordered { @include declare-borders( $border-properties: ( 'border-bottom', 'border-left',   'border-top'    ) ); }
+
+@mixin declare-borders(
+	$border-properties      : ( 'border' ),
+	$with-thick-concatenated: map-get( $current-style-spec, with-thick-concatenated ),
+	$with-heavy-concatenated: map-get( $current-style-spec, with-heavy-concatenated ),
+
+	$opacity     : map-get( map-get( $current-theme, borders ), opacity ),
+	$width       : map-get( map-get( $current-theme, borders ), width ),
+	$heavy-factor: map-get( map-get( $current-theme, borders ), heavy-factor ),
+	$thick-factor: map-get( map-get( $current-theme, borders ), thick-factor )
+) {
+	@include declare-specified-style { @include borders( $border-properties ); }
+
+	@if $thick-factor and $with-thick-concatenated {
+		$current-style-spec: set-current-style-spec-class-name( "#{ $class-thick }-#{ get-current-style-spec-class-name() }" ) !global;
+		@include declare-specified-style {
+			@include borders(
+				$border-properties,
+				$width                  : $width * $thick-factor,
+				$without-thick-separated: true,
+				$without-heavy-separated: true
+			);
+		}
+
+		@if $heavy-factor and $with-heavy-concatenated {
+			$current-style-spec: set-current-style-spec-class-name( "#{ $class-thick }-#{ $class-heavy }-#{ get-current-style-spec-class-name() }" ) !global;
+			@include declare-specified-style {
+				@include borders(
+					$border-properties,
+					$width                  : $width * $thick-factor,
+					$opacity                : $opacity * $heavy-factor,
+					$without-thick-separated: true,
+					$without-heavy-separated: true
+				);
+			}
+		}
+	}
+
+	@if $heavy-factor and $with-heavy-concatenated {
+		$current-style-spec: set-current-style-spec-class-name( "#{ $class-heavy }-#{ get-current-style-spec-class-name() }" ) !global;
+		@include declare-specified-style {
+			@include borders(
+				$border-properties,
+				$opacity                : $opacity * $heavy-factor,
+				$without-thick-separated: true,
+				$without-heavy-separated: true
+			);
+		}
+	}
+}
+
+@mixin borders(
+	$border-properties      : ( 'border' ),
+	$without-thick-separated: map-get( $current-style-spec, without-thick-separated ),
+	$without-heavy-separated: map-get( $current-style-spec, without-heavy-separated ),
+
+	$color           : map-get( map-get( $current-theme, borders ), color ) or get-color(),
+	$opacity         : map-get( map-get( $current-theme, borders ), opacity ),
+	$styles          : map-get( map-get( $current-theme, borders ), styles ),
+	$width           : map-get( map-get( $current-theme, borders ), width ),
+	$heavy-factor    : map-get( map-get( $current-theme, borders ), heavy-factor ),
+	$thick-factor    : map-get( map-get( $current-theme, borders ), thick-factor ),
+	$background-color: get-color() // only used for the rgba fallback
+) {
+	@each $border-property in $border-properties {
+		#{ $border-property }-style: solid;
+		@if $styles {
+			@each $style in $styles {
+				&.#{ $style } {
+					#{ $border-property }-style: $style;
+				}
+			}
+		}
+		#{ $border-property }-width: $width;
+		#{ $border-property }-color: mix( $color, $background-color, $opacity * 100% ); // for rgba fallback
+		#{ $border-property }-color: rgba( $color, $opacity );
+	}
+
+	@if $thick-factor and not $without-thick-separated {
+		&.#{ $class-thick } {
+			@each $border-property in $border-properties {
+				#{ $border-property }-width: $width * $thick-factor;
+			}
+		}
+	}
+
+	@if $heavy-factor and not $without-heavy-separated {
+		&.#{ $class-heavy } {
+			$heavy-opacity: $heavy-factor * $opacity;
+			@each $border-property in $border-properties {
+				#{ $border-property }-color: mix( $color, $background-color, $heavy-opacity * 100% ); // for rgba fallback
+				#{ $border-property }-color: rgba( $color, $heavy-opacity );
+			}
+		}
+	}
+}
+
+//////////////////////// INPUTS
+@mixin text-input(
+	$barely     : map-get( map-get( $current-theme, opacity-modifiers ), barely ),
+	$mostly     : map-get( map-get( $current-theme, opacity-modifiers ), mostly ),
+	$color      : get-color(),
+	$error-color: map-get( map-get( $current-theme, error-colors ), light )
+) {
+	font  : inherit;
+	margin: 0px;
+	border: none;
+
+	@include appearance-none;
+	@include border-box;
+	@include extend-style( transitions, $theme: $default-theme );
+
+	$background-color: tint( $color, ( 1 - $barely ) * 100% );
+	background-color : $background-color;
+	color            : get-contrasting-primary-color( $background-color );
+
+	@include shallow-shadow( $external: false );
+
+	@include when-focused {
+		@include extend-style( inset-shadow, $theme: $default-theme );
+	}
+	&.ng-invalid, &.error {
+		// &.ng-pristine {
+		// 	$error-background-color: tint( $error-color, ( 1 - $barely ) * 100% );
+		// 	background-color: $error-background-color;
+		// 	color           : get-contrasting-primary-color( $error-background-color );
+		// }
+		&.ng-dirty {
+			$error-background-color: tint( $error-color, ( 1 - 2 * $barely ) * 100% );
+			background-color: $error-background-color;
+			color           : get-contrasting-primary-color( $error-background-color );
+		}
+	}
+	@include when-disabled {
+		@include no-shadow();
+		@include borders;
+	}
+}
+
+@mixin select(
+	$theme    : $current-theme,
+	$inverse  : $current-inverse,
+	$secondary: $current-secondary
+) {
+	@include appearance-none;
+	@include border-box;
+	// margin: 0px;
+
+	@include extend-style( transitions, $theme: $default-theme );
+
+	@include coloring;
+	// @ include bordered;
+	@include shadow( $primary-depth-factor: .5 );
+
+	// padding-left: map-get( $current-theme, spacing );
+
+	// .not-ff.not-ie & {
+	// 	padding-right: 16px / $base-font-size * 1em; // the width of the arrow image
+
+	// 	$foreground-color: get-contrasting-primary-color();
+
+	// 	@if lightness( $foreground-color ) < 50% {
+	// 		background-image: url( '/* @echo applicationConfig_defaultScheme *//* @echo applicationConfig_staticFileDomain *///* @echo applicationConfig_staticFileDirectory *///* @echo imagesDir *//arrow_down_white.svg' );
+	// 	}
+	// 	@else {
+	// 		background-image: url( '/* @echo applicationConfig_defaultScheme *//* @echo applicationConfig_staticFileDomain *///* @echo applicationConfig_staticFileDirectory *///* @echo imagesDir *//arrow_down.svg' );
+	// 	}
+	// 	background-position: right center;
+	// 	background-repeat: no-repeat;
+	// 	background-size: auto 50%;
+	// }
+
+	@include when-at {
+		// @ include transparent-border;
+		@include shadow;
+	}
+	@include when-disabled {
+		@include whenever {
+			// @ include bordered;
+			@include shadow( $primary-depth-factor: 0 );
+		}
+	}
+}
+
+//////////////////////// BUTTONS/COLORS
+@mixin text-coloring(
+	$color: get-color(),
+	$lightening-factors: map-get( $current-style-spec, lightening-factors )
+) {
+	color: $color;
+
+	@if $lightening-factors {
+		@each $lightening-factor-name, $lightening-factor in $lightening-factors {
+			&.#{ $lightening-factor-name } {
+				color: tint( $color, $lightening-factor );
+			}
+		}
+	}
+}
+
+@mixin link-coloring(
+	$color          : get-color(),
+	$alternate-color: get-opposite-color()
+) {
+	a {
+		color: $color;
+	}
+}
+
+@mixin sheer-coloring(
+	$opacity         : map-get( map-get( $current-theme, opacity-modifiers ), mostly ),
+	$background-color: get-color()
+) {
+	$fallback-background-color: tint( $background-color, ( 1 - $opacity ) * 100% ); // for rgba fallback as well as for the contrast calculation of what the color should be
+	background-color: $fallback-background-color;
+	background-color: rgba( $background-color, $opacity );
+
+	color: get-contrasting-primary-color( $fallback-background-color );
+}
+
+@mixin barely-sheer-coloring {
+	// half-way between mostly and 1-barely
+	@include sheer-coloring( $opacity: .875 );
+}
+
+@mixin mostly-sheer-coloring {
+	@include sheer-coloring( $opacity: 1 - map-get( map-get( $current-theme, opacity-modifiers ), mostly ) );
+}
+
+@mixin declare-t-gradient { @include declare-gradient( $to: top ); }
+@mixin declare-r-gradient { @include declare-gradient( $to: right ); }
+@mixin declare-b-gradient { @include declare-gradient( $to: bottom ); }
+@mixin declare-l-gradient { @include declare-gradient( $to: left ); }
+
+@mixin declare-gradient(
+	$to,
+	$color: get-color()
+) {
+	@include declare-specified-style {
+		@include background-image( linear-gradient( to $to, rgba($color, 0), $color ) );
+	}
+}
+
+@mixin coloring(
+	$background-color     : get-color(),
+	$background-darkening : 0%,
+	$background-lightening: 0%,
+	$link-colors          : map-get( map-get( $current-theme, colorings ), link-colors ),
+	$lightening-factors   : map-get( $current-style-spec, lightening-factors )
+) {
+	$background-color: shade( tint( $background-color, $background-lightening ), $background-darkening );
+	$color           : get-contrasting-primary-color( $background-color );
+
+	background-color: $background-color;
+	color           : $color;
+
+	@if $lightening-factors {
+		@each $lightening-factor-name, $lightening-factor in $lightening-factors {
+			&.#{ $lightening-factor-name } {
+				background-color: tint( $background-color, $lightening-factor );
+			}
+		}
+	}
+
+	@if $link-colors {
+		a {
+			$link-color: contrast-color( $background-color, map-get( $link-colors, dark ), map-get( $link-colors, light ) );
+			color: $link-color;
+		}
+	}
+}
+
+@mixin low-contrast-coloring(
+	$background-color: get-color(),
+	$low-contrast-mix: map-get( map-get( $current-theme, colorings ), low-contrast-mix ),
+	$link-colors     : map-get( map-get( $current-theme, colorings ), link-colors )
+) {
+	$color: get-contrasting-primary-color( $background-color );
+
+	background-color: mix( $background-color,            $color, $low-contrast-mix );
+	color           : mix(            $color, $background-color, $low-contrast-mix );
+
+	@if $link-colors {
+		a {
+			$link-color: contrast-color( $background-color, map-get( $link-colors, dark ), map-get( $link-colors, light ) );
+			color: mix( $link-color, $background-color, $low-contrast-mix );
+		}
+	}
+}
+
+@mixin darker-coloring(
+	$background-color    : get-color(),
+	$background-darkening: map-get( get-colors(), darkening )
+) {
+	@include coloring(
+		$background-color    : $background-color,
+		$background-darkening: $background-darkening
+	);
+}
+
+@mixin lighter-coloring(
+	$background-color     : get-color(),
+	$background-lightening: map-get( get-colors(), lightening )
+) {
+	@include coloring(
+		$background-color     : $background-color,
+		$background-lightening: $background-lightening
+	);
+}
+
+@mixin button-shadow(
+	$state: default, // this should either be default/'default', hovered/'hovered', or depressed/'depressed', or disabled/'disabled'
+
+	$default-depth-factor  : map-get( map-get( $current-theme, buttons ), default-depth-factor ),
+	$hovered-depth-factor  : map-get( map-get( $current-theme, buttons ), hovered-depth-factor ),
+	$depressed-depth-factor: map-get( map-get( $current-theme, buttons ), depressed-depth-factor ),
+	$disabled-depth-factor : map-get( map-get( $current-theme, buttons ), disabled-depth-factor )
+) {
+	@include shadow(
+		$include-lowlight    : true,
+		$include-highlight   : unquote( $state ) != depressed,
+		$external            : unquote( $state ) != depressed,
+		$primary-depth-factor: if( unquote( $state ) == hovered, $hovered-depth-factor, if( unquote( $state ) == depressed, $depressed-depth-factor, if( unquote( $state ) == disabled, 0, $default-depth-factor ) ) )
+	);
+}
+
+@mixin button-shading(
+	$state            : default, // this should either be default/'default', hovered/'hovered', or depressed/'depressed', or disabled/'disabled'
+	$highlight-opacity: map-get( map-get( $current-theme, buttons ), highlight-opacity ),
+	$lowlight-opacity : map-get( map-get( $current-theme, buttons ), lowlight-opacity )
+) {
+	@if unquote( $state ) == hovered {
+		@include lighter-coloring;
+	}
+	@else if unquote( $state ) == depressed {
+		@include darker-coloring;
+	}
+	@else if unquote( $state ) == disabled {
+		@include low-contrast-coloring;
+	}
+	@else {
+		@include coloring( $link-colors: false );
+	}
+
+	@include background-image( linear-gradient( top, color-stops( rgba( white, $highlight-opacity ),  rgba( black, $lowlight-opacity ) ) ) );
+}
+
+@mixin button {
+	@include not-selectable;
+
+	@include extend-style( transitions, $theme: $default-theme );
+
+	@include button-shadow();
+	@include button-shading();
+
+	@include when-at {
+		@include button-shadow(  $state: hovered );
+		@include button-shading( $state: hovered );
+	}
+	@include when-active {
+		@include button-shadow(  $state: depressed );
+		@include button-shading( $state: depressed );
+	}
+	@include when-disabled {
+		@include whenever {
+			@include button-shadow(  $state: disabled );
+			@include button-shading( $state: disabled );
+		}
+	}
+}
+
+@mixin flat-button( $deep: false ) {
+	@include extend-style( not-selectable, $theme: $default-theme );
+
+	@include extend-style( transitions, $theme: $default-theme );
+
+	@include when-at {
+		@include lighter-coloring;
+		@if $deep {
+			@include deep-shadow;
+		} @else {
+			@include shadow;
+		}
+	}
+	@include when-active {
+		@include darker-coloring;
+		@if $deep {
+			@include deep-inset-shadow;
+		} @else {
+			@include inset-shadow;
+		}
+	}
+	@include when-disabled {
+		@include whenever {
+			@include low-contrast-coloring;
+			@include no-shadow;
+		}
+	}
+}
+
+@mixin raised-flat-button() {
+	@include coloring;
+	@include shallow-shadow;
+	@include flat-button();
+}
+
+@mixin deep-flat-button() {
+	@include flat-button( $deep: true );
+}
+
+@mixin shadow-button( $deep: false ) {
+	@include extend-style( not-selectable, $theme: $default-theme );
+
+	@include extend-style( transitions, $theme: $default-theme );
+
+	@include when-at {
+		@if $deep {
+			@include deep-shadow;
+		} @else {
+			@include shadow;
+		}
+	}
+	@include when-active {
+		@if $deep {
+			@include deep-inset-shadow;
+		} @else {
+			@include inset-shadow;
+		}
+	}
+	@include when-disabled {
+		@include whenever {
+			@include no-shadow;
+		}
+	}
+}
+
+@mixin hybrid-button( $initial-primary-depth-factor: 1 ) {
+	@include not-selectable;
+
+	@include extend-style( transitions, $theme: $default-theme );
+
+	@include shadow( $primary-depth-factor: $initial-primary-depth-factor );
+
+	@include when-at {
+		@include button-shadow(  $state: hovered );
+		@include button-shading( $state: hovered );
+	}
+	@include when-active {
+		@include button-shadow(  $state: depressed );
+		@include button-shading( $state: depressed );
+	}
+	@include when-disabled {
+		@include whenever {
+			@include low-contrast-coloring;
+			@include no-shadow;
+		}
+	}
+}
+
+@mixin raised-hybrid-button( $initial-primary-depth-factor: map-get( map-get( $current-theme, buttons ), raised-depth-factor ) ) {
+	@include not-selectable;
+
+	@include extend-style( transitions, $theme: $default-theme );
+
+	@include shadow( $primary-depth-factor: $initial-primary-depth-factor );
+
+	@include when-at {
+		@include button-shadow(  $state: hovered );
+		@include button-shading( $state: hovered );
+	}
+	@include when-active {
+		@include button-shadow(  $state: depressed );
+		@include button-shading( $state: depressed );
+	}
+	@include when-disabled {
+		@include whenever {
+			@include low-contrast-coloring;
+			@include no-shadow;
+		}
+	}
+}

@@ -1,0 +1,58 @@
+@import "compass/reset";
+
+// @ include declare-base-theme;
+// @ include declare-theme( $default-theme );
+
+$current-inverse: false !global;
+$current-secondary: false !global;
+$current-theme: $default-theme !global;
+
+body {
+	-webkit-font-smoothing: antialiased;//subpixel-antialiased;//
+
+	-webkit-tap-highlight-color: rgba( white, 0 );
+	// This prevents the clicking links and whatnot from changing the color of the controls being tapped.
+	// This is particularly relevant for iOS.
+
+	// // A better alternative: by default elements on the page aren't selectable:
+	// @extend .#{ $class-not-selectable };
+	// // but, elements one would semantically expect to be texty are:
+	// a, span, p, h1, h2, h3, h4, h5, h6, .#{ $class-button }, .#{ $class-flat-button }, .#{ $class-hybrid-button } {
+	// 	@extend .#{ $class-selectable };		
+	// }
+
+	// font-family: $default-font-family;
+
+	// Personal preference; may comment/uncomment at will, but perhaps copy/pastable sections should be made copy/pastable only when copying/pasting is intended.
+	// Again though, this is mostly helpful on iOS when users may not know they're long-clicking when they are, and then a copy popup puts them off - especially for web-appy sites.
+	
+	cursor: default;
+	
+	* {
+		// This will prevent the little dotted areas from showing up around links particularly on IE browsers, but elsewhere as well.
+		outline: none;
+	}
+}
+
+// small { @extend .#{ $class-small-text }; }
+// b { @extend .#{ $class-bold }; }}
+// i, em { @extend .#{ $class-italic }; }
+// u { @extend .#{ $class-underscored }; }
+
+// select {
+// 	margin: 0;
+// }
+
+// input, textarea, keygen, select, button {
+// 	padding       : initial;
+// 	text-transform: inherit;
+// }
+// input, textarea, keygen, select, button, caption, th, td {
+// 	font-weight: inherit;
+// }
+
+// @each $tag in ( p, h6, h5, h4, h3, h2, h1 ) {
+// 	#{ $tag } {
+// 		@extend .#{ $tag };
+// 	}
+// }

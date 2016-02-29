@@ -1,0 +1,29 @@
+<div>
+
+	<div
+		c-centered-div
+		mode     ="whole-width"
+		ng-if    ="showLeft"
+		class    ="absolute tl c-animate opaque transitions"
+		ng-style ="{ height: containerHeight }"
+	>
+		<div
+			class    ="link h2 line-height-sized whole-rounded less margin blue text-coloring flat-button text-center fa fa-arrow-left"
+			ng-click ="onLeftClick()"
+		></div>
+	</div>
+
+	<div
+		c-centered-div
+		mode     ="whole-width"
+		ng-if    ="showRight"
+		class    ="absolute tr c-animate opaque transitions"
+		ng-style ="{ height: containerHeight }"
+	>
+		<div
+			class    ="link h2 line-height-sized whole-rounded less margin blue text-coloring flat-button text-center fa fa-arrow-right"
+			ng-click ="onRightClick()"
+		></div>
+	</div>
+
+</div>
