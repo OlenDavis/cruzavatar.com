@@ -180,6 +180,7 @@ $default-theme: make-default-theme((
 		),
 	)),
 	shadow: map-merge( $default-style-spec-shadow, ( with-when-hovered: true ) ),
+	transparent-border: map-merge( $default-style-spec-transparent-border, ( with-when-hovered: true ) ),
 	large-text: map-merge( $default-style-spec-large-text, ( with-when-tablet: true ) ),
 	wrap: map-merge( $default-style-spec-wrap, ( with-children-only: true ) ),
 	bordered: $default-style-spec-bordered,
@@ -195,6 +196,7 @@ $blue-theme: make-theme((
 		coloring: $default-style-spec-coloring,
 		sheer-coloring: $default-style-spec-sheer-coloring,
 		flat-button: $default-style-spec-flat-button,
+		bordered: map-merge( $default-style-spec-bordered, ( with-thick-concatenated: true, with-heavy-concatenated: true ) ),
 	),
 )) !global;
 		// text-input           : $default-style-spec-text-input,
