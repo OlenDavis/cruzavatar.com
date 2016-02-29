@@ -21,7 +21,7 @@
 		<div
 			c-slide
 			ng-repeat ="testimonial in testimonials"
-			class     ="more-tb-padded way-more-lr-padded"
+			class     ="more-tb-padded way-more-lr-padded less-lr-padded-when-tablet"
 		>
 			<div class="table"><div class="table-row">
 
@@ -34,12 +34,12 @@
 
 				<div class="table-cell valign-center l-padded whole-width">
 					
-					<div class="uppercase less-wide light-weight">
+					<div class="small-text-when-mobile uppercase less-wide light-weight">
 						A Testimonial from <span class="bold">{{ testimonial.who }}</span><sup>*</sup>
 					</div>
 					
 					<span
-						class        ="h3 light-weight"
+						class        ="h3 h5-when-tablet light-weight"
 						ng-bind-html ="testimonial.message"
 					></span>
 
