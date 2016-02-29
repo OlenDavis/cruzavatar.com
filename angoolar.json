@@ -1,7 +1,7 @@
 {
 	"name"             : "CruzAvatar",
 	"prefix"           : "c",
-	"environment"      : "development",
+	"environment"      : "production",
 	"liveReloadPort"   : "35729",
 	"buildDir"         : "build",
 	"builtDir"         : "built",
@@ -11,17 +11,17 @@
 	"applicationConfig": {
 		"development"               : {
 			"type"               : "development",
-			"defaultScheme"      : "http://",
-			"apiDomain"          : "localhost",
-			"staticFileDomain"   : "localhost",
+			"defaultScheme"      : "",
+			"apiDomain"          : "",
+			"staticFileDomain"   : "",
 			"staticFileDirectory": "",
 			"staticFileSuffix"   : ""
 		},
 		"production": {
 			"type"               : "production",
-			"defaultScheme"      : "http://",
-			"apiDomain"          : "cruzavatar.com",
-			"staticFileDomain"   : "cruzavatar.com",
+			"defaultScheme"      : "",
+			"apiDomain"          : "",
+			"staticFileDomain"   : "",
 			"staticFileDirectory": "",
 			"staticFileSuffix"   : ""
 		}

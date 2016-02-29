@@ -360,8 +360,8 @@ module.exports = ( grunt ) ->
 							packageJson.applicationConfig[ packageJson.environment ].defaultScheme
 						}#{
 							packageJson.applicationConfig[ packageJson.environment ].staticFileDomain
-						}#{
-							if packageJson.applicationConfig[ packageJson.environment ].staticFileDirectory then '/' + packageJson.applicationConfig[ packageJson.environment ].staticFileDirectory else ''
+						}/#{
+							packageJson.applicationConfig[ packageJson.environment ].staticFileDirectory
 						}/#{
 							packageJson.templatesDir
 						}/#{

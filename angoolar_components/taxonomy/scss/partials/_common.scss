@@ -115,11 +115,15 @@ $default-theme: make-default-theme((
 	name       : 'default',
 	extends    : 'body',
 	borders    : make-borders(( styles: ( dashed ), color: black )),
+	colorings  : make-colorings(( link-colors: $blue-secondary-colors )),
 	style-specs: make-default-style-specs((
 		specific-value: (
 			width: (
 				( class-name: 'page', value: 850px ),
 				( class-name: 'avatar', value: 400px ),
+			),
+			height: (
+				( class-name: 'large-thumbnail', value: 5em ),
 			),
 			min-width : (
 				( class-name: 'page', value: 850px ),
@@ -176,6 +180,8 @@ $default-theme: make-default-theme((
 		),
 	)),
 	shadow: map-merge( $default-style-spec-shadow, ( with-when-hovered: true ) ),
+	large-text: map-merge( $default-style-spec-large-text, ( with-when-tablet: true ) ),
+	wrap: map-merge( $default-style-spec-wrap, ( with-children-only: true ) ),
 	bordered: $default-style-spec-bordered,
 )) !global;
 
@@ -183,6 +189,7 @@ $blue-theme: make-theme((
 	name            : 'blue',
 	secondary-colors: $blue-secondary-colors,
 	theme-spec      : make-theme-spec(( with-when-hovered: true )),
+	colorings  : make-colorings(( link-colors: $red-secondary-colors )),
 	style-specs     : (
 		text-coloring: $default-style-spec-text-coloring,
 		coloring: $default-style-spec-coloring,
@@ -211,6 +218,7 @@ $red-theme: make-theme((
 	name            : 'red',
 	secondary-colors: $red-secondary-colors,
 	theme-spec      : make-theme-spec(( with-when-hovered: true, with-when-active: true, with-modifier-class-fallbacks: true )),
+	colorings  : make-colorings(( link-colors: $blue-secondary-colors )),
 	style-specs     : (
 		text-coloring: $default-style-spec-text-coloring,
 		coloring: $default-style-spec-coloring,

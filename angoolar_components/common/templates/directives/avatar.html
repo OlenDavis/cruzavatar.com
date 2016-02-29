@@ -5,21 +5,22 @@
 		class ="c-animate wipe-max-height relative"
 	>
 
-		<div class="h1 light-weight text-center less-b-margin">
-			{{ AvatarController.messages[ AvatarController.messageIndex ] }}
-		</div>
+		<div
+			class        ="h1 light-weight text-center less-b-margin"
+			ng-bind-html ="AvatarController.messages[ AvatarController.messageIndex ]"
+		></div>
 
-		<div class="h3 light-weight text-center">
+		<div class="bold uppercase less-wide red-text-coloring text-center">
 			Now {{ $root.isBrowser.Mobile ? 'Long' : 'Right' }}-click &amp; Save Away!
 		</div>
 
 		<img
-			class  ="block whole-max-width lr-auto-margin b-margin rounded deep-shadow shadow-when-hovered transitions"
+			class  ="block whole-max-width lr-auto-margin b-margin rounded thick dashed bordered"
 			ng-src ="{{ AvatarController.generatedDataUrl }}"
 		/>
 
-		<div class="h3 light-weight text-center">
-			Or Make Another!
+		<div class="bold uppercase less-wide blue-text-coloring text-center">
+			Or Switch Things Up &amp; Make Another!
 		</div>
 
 	</div>
@@ -28,7 +29,7 @@
 		ng-if ="! AvatarController.selectedFileDataUrl"
 		class ="c-animate wipe-max-height h3 light-weight"
 	>
-		First, Pick a File:
+		First, Choose a Picture:
 	</div>
 
 	<input
@@ -50,7 +51,9 @@
 			Generate It{{ AvatarController.ofSelectedFileDataUrl != AvatarController.selectedFileDataUrl ? '' : ' Again' }}!
 		</a>
 
-		({{ $root.isBrowser.Mobile ? 'tap' : 'click' }}-n-drag to move stuff around)
+		<div class="text-right light-weight italic">
+			({{ $root.isBrowser.Mobile ? 'tap' : 'click' }}-n-drag to move stuff around)
+		</div>
 
 		<div
 			c-fixed-proportion-div

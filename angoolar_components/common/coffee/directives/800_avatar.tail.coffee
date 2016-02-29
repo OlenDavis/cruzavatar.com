@@ -8,9 +8,9 @@ angoolar.addDirective class Avatar extends angoolar.BaseTemplatedDirective
 		$_name: 'AvatarController'
 
 		messages: [
-			'Genuine, Ted-Approved'
-			'"That\'s \'uge!" - Trump'
-			"Rubio's amazed.\nCan't even take it back."
+			'Genuine, Ted-Approved<sup>*</sup>'
+			'"This is \'uge!" - Trump<sup>*</sup>'
+			"Rubio's amazed.<sup>*</sup>\nCan't even take it back."
 		]
 
 		indexByDataUrl: {}

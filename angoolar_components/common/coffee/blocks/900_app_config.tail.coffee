@@ -13,7 +13,6 @@ angoolar.addConfigBlock class AppConfig extends angoolar.BaseBlock
 
 		@$sceDelegateProvider.resourceUrlWhitelist [
 			'self'
-			"#{ angoolar.staticFilePath }**"
 			/^(https?:)?\/\/www\.facebook\.com\/.*/
 			/^(https?:)?\/\/twitter\.com\/.*/
 			/^(https?:)?\/\/www\.pinterest\.com\/.*/

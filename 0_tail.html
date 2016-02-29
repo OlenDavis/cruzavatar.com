@@ -1,3 +1,79 @@
+
+	<div
+		ng-init="testimonials = [ {
+			image  : '/images/maharushy-approved.png',
+			who    : 'Maharushy',
+			message: &quot;Guaranteed to get you noticed at the cutting edge of social media 99.7% of the time.&quot;,
+		}, {
+			image  : '/images/blown-away.png',
+			who    : 'The Big &quot;D&quot;',
+			message: &quot;I'm absolutely blown away by--you won't believe how great your avatar will be. I've made a lot of avatars, and this was by far the best avatar generating experience. Believe me.&quot;,
+		}, {
+			image  : '/images/goldblums-in-love.gif',
+			who    : 'Malcolm',
+			message: &quot;Words don't. Describe, well...perfection.&quot;,
+		} ]"
+		c-slider
+		simple-style         ="true"
+		auto-increment-delay ="10000"
+		class                ="no-overflow way-way-more-t-margin"
+	>
+		<div
+			c-slide
+			ng-repeat ="testimonial in testimonials"
+			class     ="more-tb-padded way-more-lr-padded"
+		>
+			<div class="table"><div class="table-row">
+
+				<div class="table-cell valign-center">
+					<img
+						ng-src ="{{ testimonial.image }}"
+						class  ="large-thumbnail-height inline-block rounded shallow-shadow"
+					/>
+				</div>
+
+				<div class="table-cell valign-center l-padded whole-width">
+					
+					<div class="uppercase less-wide light-weight">
+						A Testimonial from <span class="bold">{{ testimonial.who }}</span><sup>*</sup>
+					</div>
+					
+					<span
+						class        ="h3 light-weight"
+						ng-bind-html ="testimonial.message"
+					></span>
+
+				</div>
+
+			</div></div>
+		</div>
+	</div>
+
+</div>
+
+<div class="whole-width-scaffold shallow-inset-shadow lr-padded border-box way-more-tb-padded text-right blue-sheer-coloring">
+	<div class="typical-scaffold">
+		<sup>*</sup>Not affiliated with the Ted Cruz campaign.
+		<span class="small-text">Or Trump.
+			<span class="small-text">Or really anybody, Rubio.
+				<span class="small-text">Tweet me <a
+					href   ="https://twitter.com/tedcruzavatar"
+					target ="_blank"
+					class  ="rounded default-coloring link-coloring less-lr-padded"
+				>@tedcruzavatar</a> or <a
+					href  ="mailto:tedcruzavatar@gmail.com"
+					class ="rounded default-coloring link-coloring less-lr-padded"
+				>email</a> if stuck in the 90s.
+					<span class="small-text">Or don't.
+						<span class="small-text">Whatever.
+						</span>
+					</span>	
+				</span>	
+			</span>	
+		</span>
+		<br/>
+		GO CRUZ!!
+	</div>
 </div>
 
 <!-- build:script tail -->
